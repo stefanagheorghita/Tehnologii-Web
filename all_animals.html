@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+    <div class="navigation_bar">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#animals">Our Animals</a></li>
+            <li><a href="#visit">Plan your visit</a></li>
+            <li><a href="#activities">Activities & Events</a></li>
+            <li><a href="#about">About us</a></li>
+            <li><a href="#contact">Contact us</a></li>
+            <li><a href="#help">Help</a></li>
+          </ul>
+    </div>
+    <div class="custom-form" >
+    </div>
+    <div class="title_animals">Our Animals</div>
+    <div class="subtitle_animals">Visit your favourite animals and discover previously unknown species -the exciting world of Zoo  never ceases to amaze!</div>
+    <div class="two-buttons">
+        <div class="button-container"> <a href="animals.html"  class="button-image">
+            <img src="images/R.png" alt="Button">
+            <div class="button-text">Explore the zoo</div> </a>
+        </div>
+        <div class="button-container">
+          <a href="all_animals.html" class="button-image" >
+            <img src="images/paw.png" alt="Button" >
+          
+          <div class="button-text">Meet our animals</div></a>
+        
+        </div>
+    </div>
+    <section class="animals">
+        <div class="title">
+            <div class="line"></div>
+                <h1>These are our animals</h1>
+            <div class="line"></div>
+        </div>
+        <div class="content">
+                <div class="filter-menu">
+                    <h3>Filter by:</h3>
+                    <form>
+                        <label for="category">Category:</label>
+                        <select id="category" name="category">
+                        <option value="cat1">Category 1</option>
+                        <option value="cat2">Category 2</option>
+                        <option value="cat3">Category 3</option>
+                        </select>
+                    <label for="zone">Region:</label>
+                    <select id="zone" name="zone">
+                        <option value="zone1">Zone 1</option>
+                        <option value="zone2">Zone 2</option>
+                        <option value="zone3">Zone 3</option>
+                    </select>
+                    <label for="category">Climate conditions:</label>
+                    <select id="climate" name="climate">
+                        <option value="cat1">Category 1</option>
+                        <option value="cat2">Category 2</option>
+                        <option value="cat3">Category 3</option>
+                    </select>
+                    <label for="endangered">Endangered:</label>
+                    <input type="checkbox" id="endangered" name="endangered">
+                    <button type="submit">Filter</button>
+                    </form>
+                </div>
+                
+                <div class="filter-toggle">
+                    <span class="icon">&#x2756;</span>
+                </div>
+                
+                <script> 
+      const filterToggle = document.querySelector(".filter-toggle");
+const filterMenu = document.querySelector(".filter-menu");
+
+// Add an event listener to the toggle button
+filterToggle.addEventListener("click", () => {
+  // Toggle the "open" class for the filter menu
+  filterMenu.classList.toggle("open");
+  filterMenu.setAttribute("aria-expanded", filterMenu.classList.contains("open"));
+});
+                                </script>
+                
+                <div class="about">
+                    
+                        <div class="row">
+
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>
+                            </div>
+                            
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>
+                            </div>
+                            
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div>
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div> 
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div> 
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div> 
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div>
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div> 
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div>
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div> 
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div>
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div> 
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div>
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div>
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div>
+
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div>
+
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div>
+                            <div class="about-col">
+                                <img src="images/tiger.jpg" alt="Animal">
+                                <div class="layer">
+                                    <a href="Animal.html">Animal</a>
+                                </div>    
+                            </div>
+                            
+                        </div>
+                    
+                    </div>
+            </div>
+            </section>
+    <div class="footer_section">
+        <div class="section_1">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#animals">Our Animals</a></li>
+                <li><a href="#about">About us</a></li>
+                <li><a href="#contact">Contact us</a></li>
+                <li><a href="#help">Help</a></li>
+            </ul>
+        </div>
+        <div class="section_2">
+            <h4>Other Pages</h4>
+            <ul>
+                <li><a href="#privacy">Privacy & Policy</a></li>
+                <li><a href="#terms">Terms of Use</a></li>
+                <li><a href="#disclaimer">Disclaimer</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="section_3">
+            <h4>Contact Info</h4>
+            <ul>
+                <li>Lorem ipsum dolor sit amet</li>
+                <li>+1234567899</li>
+                <li>contact@domain.com</li>
+            </ul>
+        </div>
+        <div class="section_4">
+            <h4>Make a Reservation</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <button type="button">+1234567899</button>
+        </div>
+    </div>
+</body>
+</html>
