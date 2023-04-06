@@ -7,20 +7,26 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 <body>
-
-    <div class="navigation_bar">
-        <ul>
+    <header class="header">
+        <div class="navigation_bar">
+          <ul>
             <li><a href="#home">Home</a></li>
             <li><a href="#animals">Our Animals</a></li>
-            <li><a href="#visit">Plan your visit</a></li>
-            <li><a href="#activities">Activities & Events</a></li>
             <li><a href="#about">About us</a></li>
             <li><a href="#contact">Contact us</a></li>
             <li><a href="#help">Help</a></li>
           </ul>
-    </div>
+           
+
+        </div>
+        <div id="menu-btn" class="fas fa-bars">
+           
+        </div>
+            
+    </header>
     <div class="custom-form" >
     </div>
     <div class="title_animals">Our Animals</div>
@@ -77,16 +83,13 @@
                 </div>
                 
                 <script> 
-      const filterToggle = document.querySelector(".filter-toggle");
-const filterMenu = document.querySelector(".filter-menu");
-
-// Add an event listener to the toggle button
-filterToggle.addEventListener("click", () => {
-  // Toggle the "open" class for the filter menu
-  filterMenu.classList.toggle("open");
-  filterMenu.setAttribute("aria-expanded", filterMenu.classList.contains("open"));
-});
-                                </script>
+                    const filterToggle = document.querySelector(".filter-toggle");
+                    const filterMenu = document.querySelector(".filter-menu");
+                    filterToggle.addEventListener("click", () => {
+                        filterMenu.classList.toggle("open");
+                        filterMenu.setAttribute("aria-expanded", filterMenu.classList.contains("open"));
+                    });
+            </script>
                 
                 <div class="about">
                     
@@ -244,5 +247,16 @@ filterToggle.addEventListener("click", () => {
             <button type="button">+1234567899</button>
         </div>
     </div>
+
+    <script>
+        let navbar = document.querySelector(".header .navigation_bar");
+        let menuBtn = document.querySelector('#menu-btn');
+    
+        menuBtn.addEventListener('click', function() {
+        
+        navbar.classList.toggle('active');
+        menuBtn.classList.toggle("active");
+        });
+        </script>
 </body>
 </html>
