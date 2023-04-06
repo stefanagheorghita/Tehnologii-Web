@@ -30,10 +30,7 @@ body, html {
     display:flex;
     justify-content:center;
     align-items:center;
-    /*margin: 20px 90px;*/
-    /*position:absolute;*/
-    /*top:50px;*/
-    background-image: url("gradient.jpg");
+    background-image: url("images-landingpage/gradient.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
@@ -97,8 +94,6 @@ body, html {
     justify-content:center;
     align-items:center;
     padding-bottom:80px;
-    /*margin: 20px 0px;*/
-    /*top:50px;*/
 }
 
 .middle_section .section1 .written_section{
@@ -140,7 +135,6 @@ body, html {
     justify-content:center;
     align-items:center;
     padding: 80px 0px;
-    /*margin: 20px 0px;*/
     top:50px;
 }
 
@@ -174,8 +168,6 @@ body, html {
     display:flex;
     justify-content:center;
     align-items:center;
-    /*margin: 20px 0px;*/
-    /*top:50px;*/
     padding: 80px 0px;
 }
 
@@ -186,8 +178,6 @@ body, html {
     color:#f98605;
     margin-left:120px;
 }
-
-
 
 @media screen and (max-width: 880px) {
 
