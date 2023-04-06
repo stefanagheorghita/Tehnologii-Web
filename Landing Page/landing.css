@@ -8,13 +8,48 @@ body, html {
     height: auto;
 }
 
+.login-button{
+    position:absolute;
+    right:100px;
+    background-color: white;
+    border: none;
+    color: orange;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius:20px;
+    font-weight: 600;
+    margin-top:25px;
+    cursor:pointer;
+    z-index:2;
+}
+
 .first_section{
     display:flex;
     justify-content:center;
     align-items:center;
-    margin: 20px 90px;
-    position:absolute;
-    top:50px;
+    /*margin: 20px 90px;*/
+    /*position:absolute;*/
+    /*top:50px;*/
+    background-image: url("gradient.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    padding:50px 0px;
+}
+
+.first_section .image{
+    margin-left:30px;
+}
+
+.first_section .image img{
+    min-width:450px;
+}
+
+.first_section .title_zone{
+    margin-right:50px;
 }
 
 .image{
@@ -61,6 +96,7 @@ body, html {
     display:flex;
     justify-content:center;
     align-items:center;
+    padding-bottom:80px;
     /*margin: 20px 0px;*/
     /*top:50px;*/
 }
@@ -89,6 +125,7 @@ body, html {
 
 .image_section img{
     max-width:80%;
+    min-width:300px;
 }
 
 .section2{
@@ -102,7 +139,8 @@ body, html {
     display:flex;
     justify-content:center;
     align-items:center;
-    margin: 20px 0px;
+    padding: 80px 0px;
+    /*margin: 20px 0px;*/
     top:50px;
 }
 
@@ -131,6 +169,119 @@ body, html {
 .image_section img{
     max-width:80%;
 }
+
+.middle_section .section3{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    /*margin: 20px 0px;*/
+    /*top:50px;*/
+    padding: 80px 0px;
+}
+
+.middle_section .section3 .written_section{
+    width:50%;
+    padding-right:50px;
+    padding-left:50px;
+    color:#f98605;
+    margin-left:120px;
+}
+
+
+
+@media screen and (max-width: 880px) {
+
+    .first_section{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-direction:column;
+    }
+
+    .first_section .image{
+        display:flex;
+        justify-content: center;
+        align-items:center;
+        padding:0px;
+        margin:0px;
+        margin-top:30px;
+    }
+
+    .first_section .title_zone{
+        padding:0px;
+        margin:0px;
+        text-align: center;
+    }
+
+    .middle_section .section1{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-direction:column-reverse;
+    }
+
+    .middle_section .section1 .written_section{
+        padding:0px;
+        margin:0px;
+        text-align: center;
+    }
+
+    .middle_section .section1 .image_section{
+        display:flex;
+        justify-content: center;
+        align-items:center;
+        padding:0px;
+        margin:0px;
+    }
+
+    .middle_section .section2{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-direction: column;
+    }
+
+    .middle_section .section2 .written_section{
+        padding:0px;
+        margin:0px;
+        text-align: center;
+    }
+
+    .middle_section .section2 .image_section{
+        display:flex;
+        justify-content: center;
+        align-items:center;
+        padding:0px;
+        margin:0px;
+    }
+
+    .middle_section .section3{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-direction:column-reverse;
+    }
+
+    .middle_section .section3 .written_section{
+        padding:0px;
+        margin:0px;
+        text-align: center;
+    }
+
+    .middle_section .section3 .image_section{
+        display:flex;
+        justify-content: center;
+        align-items:center;
+        padding:0px;
+        margin:0px;
+    }
+       
+  }
+
+
+
+
+
 
 
 
