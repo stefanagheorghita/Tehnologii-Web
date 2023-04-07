@@ -10,7 +10,8 @@ section{
 }
 
 .contact{
-    background:#014a39;
+    /* background:#014a39; */
+    background: #ffa31a;
     height:100%;
     width:100%;
     min-height: 100vh;
@@ -25,7 +26,7 @@ section{
     width:720px;
     height:500px;
     border-radius: 20px;
-    box-shadow: 5px 5px 10px  #c7e4dd62;
+    box-shadow: 5px 5px 10px  #573205de;
 }
 
 .contact-form h1{
@@ -36,11 +37,11 @@ section{
 }
 
 span{
-    color:#d00808;
+    color:#003629;
 }
 
 .contact-form p{
-    color:#c6c9d8bf;
+    color:#03614b;
     letter-spacing:1px;
     line-height:26px;
     font-size:1.1rem;
@@ -72,7 +73,7 @@ span{
 
 .contact-form form .btn{
     display:inline-block;
-    background: #d00808;
+    background: #003629;
     font-size:1.1rem;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -85,8 +86,8 @@ span{
 }
 
 .contact-form form .btn:hover{
-    border: 2px solid #d00808;
-    background: transparent;
+    border: 2px solid #003629;
+    background:#03614b ;
     transform: scale(1.1);
 
 }
