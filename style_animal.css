@@ -1,0 +1,248 @@
+
+body{
+ 
+     margin:0;
+     height: 100%;
+     background-color:wheat;
+     min-height: 100vh;
+     width: 100%;
+     background-position: center;
+     background-size: cover;
+     position: relative;
+     
+ }
+ 
+   .custom-form {
+     background-image: url(images/lion.jpg);
+     background-size: cover;
+     background-position: center center;
+     /* border-top-left-radius: 20vw; */
+     /* border-top-right-radius: 20vw; */
+     border-bottom-left-radius: 30%;
+     border-bottom-right-radius: 60%;
+     overflow: hidden;
+     /* padding-bottom: 20px; */
+     position: relative;
+     height:35vw;
+     width:100%;
+     object-fit: cover;
+     z-index: -1;
+ 
+   }
+
+   .tb{
+    display:flex;
+    justify-content: space-between;
+   }
+
+   .button {
+    
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: 20px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px #888888;
+    float:right;
+    margin-right:20px;
+    margin-top:35px;
+  }
+
+  
+  .button2 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #008CBA;
+  }
+  
+  .button2:hover {
+    background-color: #008CBA;
+    color: white;
+  }
+  
+ 
+  .button3 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #d00808;
+  }
+  
+  .button3:hover {
+    background-color: #d00808;
+    color: white;
+  }
+  
+  @media screen and (max-width: 700px) {
+    .button {
+      font-size: 14px;
+      padding: 15px 25px;
+      margin-right: 10px;
+      margin-top: 20px;
+    }
+  }
+
+   .first-sec{
+    border: 5px solid rgba(219, 194, 147, 0.834);
+    box-shadow: 1px 2px 10px  #9a9696;
+    background-color:white;
+    background-size: cover;
+    background-position: center ;
+    max-width: 100vw;
+     /* display:flex;
+     justify-content: space-between; */
+    min-height:35vw;
+    margin:0px;
+    position: relative;
+    z-index: -2;
+    padding-left:2vw;
+    padding-right:2vw;
+    display: flex;
+    align-items: center;
+   }
+   .round-rect-box {
+    background-color:wheat;
+    border-radius: 20px;
+    border: 2px solid rgba(219, 194, 147, 0.834);
+    padding: 30px;
+    width: 500px;
+    height: 300px;
+    box-shadow: 5px 5px 10px #888888;
+    
+  }
+
+  @media only screen and (max-width: 600px) {
+    .first-sec{
+      width:90%;
+    }
+    .round-rect-box {
+      width: 90%;
+      height: auto;
+      max-width: 500px;
+      padding: 20px;
+    }
+  }
+  
+  .round-rect-box p {
+    margin: 5px 0;
+    font-size: 30px;
+    line-height: 1.5;
+  }
+  
+  .round-rect-box p strong {
+    font-weight: bold;
+    color:#ffa31a;
+  }
+  
+   h1{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 80px;
+    text-align: left;
+    margin-left: 50px;
+    margin-top:20px;
+    color:#ffa31a;
+   }
+
+   .text-line{
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+   }
+
+   .first-sec img{
+   
+    height:40vw;
+    padding-bottom:2vw;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    
+   }
+
+   @media screen and (max-width: 768px) {
+    .first-sec {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .first-sec img {
+      height:80%;
+      width: 80%;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+  }
+
+
+  .animal-info{
+    box-shadow: 5px 1px 15px  #9a9696;
+    background-color: wheat;
+    width: 100%;
+    height:100%;
+    z-index: -5;
+    display:flex;
+    flex-direction: row;
+    flex-wrap:nowrap;
+    justify-content: space-evenly;
+    
+  }
+
+  .info-box{
+    background-color:rgba(255, 239, 208, 0.977);
+    border-radius: 20px;
+    border: 2px solid rgba(219, 194, 147, 0.834);
+    padding: 30px;
+    width: 350px;
+    height: 600px;
+    box-shadow: 5px 5px 10px #888888;
+    transition: transform 0.2s;
+  }
+
+
+  .info-box:hover {
+    transform: scale(1.1);
+  }
+
+
+  .info-box-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.info-box-divider {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.info-box-text {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+
+
+
+
+
+
+  @media screen and (max-width: 1000px){
+    .animal-info{
+      flex-wrap:wrap;
+
+    }
+  }
+
+
+ 
+  
+
+  
