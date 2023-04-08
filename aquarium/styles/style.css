@@ -260,7 +260,6 @@ img {vertical-align: middle;
   
   align-items:flex-start;
   background-color:rgba(8, 0, 114, 0.95);
-  margin-top: 25px;
 }
 
 .footer_section ul{
@@ -365,7 +364,7 @@ label {
   }
 
   .header ul li a{
-    font-size: 16px;
+    font-size: 20px;
   }
 }
 
