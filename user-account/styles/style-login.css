@@ -208,3 +208,19 @@ body{
         padding: 2rem;
     }
 }
+
+.home-button {
+    display: inline-block;
+    background-color: coral;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 28%;
+    margin-right: 26%;
+  }
+  .home-button:hover {
+    background-color: orange;
+  }
