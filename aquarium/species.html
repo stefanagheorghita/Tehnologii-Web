@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Species</title>
+    <link rel="stylesheet" href="styles/style-species.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fasthand&family=Lato:wght@300&family=Pacifico&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">
+            <img src="images/fish.svg" alt="Logo">
+            <div class="logo-text">Aquarium</div>
+        </div>
+
+        <div class="nav-bar">
+          
+            <input type="checkbox" id="check">
+            <label for="check" class="burger-button">
+              <img src="images/aquarium.svg" alt="burger-nav-bar">
+            </label>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#animals">Our Animals</a></li>
+                <li><a href="#about">About us</a></li>
+                <li><a href="#contact">Contact us</a></li>
+                <li><a href="#help">Help</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+      const menuToggle = document.querySelector('#check');
+      const nav = document.querySelector('.header .nav-bar');
+      const body = document.querySelector('body');
+      
+      menuToggle.addEventListener('click', function() {
+          nav.classList.toggle('active');
+          if (menuToggle.checked) {
+              body.classList.add('disable-scroll');
+          } else {
+              body.classList.remove('disable-scroll');
+          }
+      });
+    </script>
+
+    <div class="title">
+        <h1>AQUARIUM ANIMALS</h1>
+    </div>
+    <br>
+    <div class="description">
+      <h5>Discover 1,000 fish and invertebrates from all the seas and overseas, including 38 large sharks, 200 jellyfish and 150 coral colonies.</h5>
+    </div>
+    <br>
+
+    <section class="container">
+        <div class="card">
+            <div class="card-image img-1"></div>
+            <h2>JELLYFISH</h2>
+            <p>
+                Their dance is fascinating, bewitching… Jellyfish are familiar to us and yet they still keep many secrets. The jellyfish is a creature of wonder, with its bell-shaped body pulsating gently as it moves through the water.
+            </p>
+            <a href="jellyfish.html">Discover</a>
+        </div>
+        <div class="card">
+            <div class="card-image img-2"></div>
+            <h2>OCTOPUS</h2>
+            <p>
+                The octopus is a playful and curious creature, with its tentacles exploring the world around it and its bulbous head bobbing along with each movement. Its shape and movements are like a living work of art.
+            </p>
+            <a href="octopus.html">Discover</a>
+        </div>
+        <div class="card">
+            <div class="card-image img-3"></div>
+            <h2>SHARK</h2>
+            <p>
+                A shark is a sleek and powerful predator, with rows of razor-sharp teeth and a determined gaze. Its movements through the water are graceful and fluid, like a dancer in the sea. Though feared by many, the shark is a beauty creature.
+            </p>
+            <a href="shark.html">Discover</a>
+        </div>
+        <div class="card">
+            <div class="card-image img-4"></div>
+            <h2>CORAL</h2>
+            <p>
+                Coral is a living tapestry of color and texture, a riot of hues and shapes that bring the ocean floor to life. Its tendrils sway in the current like the fronds of a delicate fern, and its vivid hues are like brushstrokes in a painting.
+            </p>
+            <a href="coral.html">Discover</a>
+        </div>
+    </section>
+    <br>
+    <div class="text">
+      <h5>Discover the fragile magic of the ocean, a unique journey to discover and protect the ocean.</h5>
+    </div>
+    <br>
+    <div class="two-buttons">
+      <div class="button-container">
+        <a href="aquarium.html" class="button-image" >
+          <img src="images/aquarium.png" alt="Button" >
+          <div class="button-text"><h5>Explore the aquarium</h5></div>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer_section">
+      <div class="section_1">
+          <h4>Quick Links</h4>
+          <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#animals">Our Animals</a></li>
+              <li><a href="#about">About us</a></li>
+              <li><a href="#contact">Contact us</a></li>
+              <li><a href="#help">Help</a></li>
+          </ul>
+      </div>
+      <div class="section_2">
+          <h4>Other Pages</h4>
+          <ul>
+              <li><a href="#privacy">Privacy & Policy</a></li>
+              <li><a href="#terms">Terms of Use</a></li>
+              <li><a href="#disclaimer">Disclaimer</a></li>
+              <li><a href="#faq">FAQ</a></li>
+          </ul>
+      </div>
+      <div class="section_3">
+          <h4>Contact Info</h4>
+          <ul>
+              <li>If something comes up, contact us using:</li>
+              <li>+1234567899</li>
+              <li>contact@domain.com</li>
+          </ul>
+      </div>
+      <div class="section_4">
+          <h4>Make a Reservation</h4>
+          <p>For reservations, contact us using:</p>
+          <button type="button">+1234567899</button>
+      </div>
+    </div>
+    
+</body>
+</html>
