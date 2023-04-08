@@ -206,15 +206,18 @@ img {vertical-align: middle;
   padding-right:2vw;
   width: 20%;
   margin:1vw;
- 
+}
+
+.button-container a{
+  text-decoration: none;
 }
 
 .button-image img{
   display: block;
   width: 10vw;
   height: 10vw;
-  align-items: center;
-  margin-left: 50px;
+  margin-left: 22%;
+  margin-right: 20%;
   margin-bottom: 10px;
 }
 
@@ -228,8 +231,9 @@ img {vertical-align: middle;
   right: 50%;
   transform: translateX(-50%);
   font-size: 2vw;
-  color: #7f5ec2;
+  color: black;
   text-align: center;
+  backdrop-filter: blur(10px);
 }
 
 .button-text h5{
@@ -238,7 +242,7 @@ img {vertical-align: middle;
 
 
 .button-container:hover .button-image {
-  filter: invert(50%);
+  transform: scale(1.2); 
 }
 
 .button-container:hover .button-text {
