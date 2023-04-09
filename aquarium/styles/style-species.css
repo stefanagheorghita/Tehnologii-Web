@@ -339,7 +339,7 @@ label {
     flex-wrap: wrap;
 }
 
-.card {
+.species-card {
     background: white;
     width: 280px;
     
@@ -372,11 +372,11 @@ label {
     background-image: url('../images/coral.jpg');
 }
 
-.card p {
+.species-card p {
     padding: 10px;
 }
 
-.card a {
+.species-card a {
     background-color: black;
     color: white;
     padding: 12px 20px;
@@ -388,7 +388,7 @@ label {
     text-decoration: none;
 }
 
-.card:hover {
+.species-card:hover {
     background-color: rgb(72, 61, 139);
     color: white;
     cursor: pointer;
@@ -396,6 +396,6 @@ label {
     transition: all 0.7s ease;
 }
 
-.card h2, p {
+.species-card h2, p {
     text-align: center;
 }
