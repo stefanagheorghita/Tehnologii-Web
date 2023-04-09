@@ -132,10 +132,6 @@
       color: black;
       
     }
-  
-    .slideshow-container {
-      z-index: 9998;
-    }
     
     #check:checked ~ ul{
       background: coral;
@@ -253,13 +249,13 @@
     margin: 0;
 }
 
-.container {
+.help-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
 }
 
-.card {
+.help-card {
     background: white;
     width: 350px;
     height: 350px;
@@ -304,12 +300,12 @@
     background-position: center;
 }
 
-.card p {
+.help-card p {
     padding: 10px;
 }
 
 
-.card:hover {
+.help-card:hover {
     background-color: ghostwhite;
     color: black;
     cursor: pointer;
@@ -318,7 +314,7 @@
     transition: 0.5s;
 }
 
-.card h2, p {
+.help-card h2, p {
     text-align: center;
 }
 
