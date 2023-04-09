@@ -275,7 +275,7 @@ label {
   font-family: 'Poppins', sans-serif;
 }
 
-.container{
+.animal-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -284,11 +284,11 @@ label {
   margin: 40px 20px 0 20px;
 }
 
-.container .heading{
+.animal-container .heading{
   width: 50%;
   padding-bottom: 50px;
 }
-.container .heading h3{
+.animal-container .heading h3{
   font-size: 3em;
   font-weight: bolder;
   padding-bottom: 10px;
@@ -296,35 +296,35 @@ label {
   color: rgba(245, 245, 200, 0.892);
 }
 
-.container .heading h3 span{
+.animal-container .heading h3 span{
   font-weight: 100;
 }
-.container .box{
+.animal-container .box{
  display: flex;
  flex-direction: row;
  justify-content: space-between;
 }
 
-.container .box .gallery{
+.animal-container .box .gallery{
   display: flex;
   flex-direction: column;
   width: 32.5%;
 }
 
-.container .box .gallery img{
+.animal-container .box .gallery img{
   width: 100%;
   padding-bottom: 15px;
   border-radius: 5px;
 }
 
-.container .btn{
+.animal-container .btn{
     margin: 40px 0 70px 0;
     background: #222;
     padding: 15px 40px ;
     border-radius: 5px;
   }
   
-  .container .btn a{
+  .animal-container .btn a{
    color: #fff;
    font-size: 1.2em;
    text-decoration: none;
@@ -333,11 +333,11 @@ label {
   }
 
 @media only screen and (max-width: 769px){
-    .container .box{
+    .animal-container .box{
    flex-direction: column;
   }
 
-.container .box .gallery{
+.animal-container .box .gallery{
   width: 100%;
 }
 
@@ -345,10 +345,10 @@ label {
 }
 
 @media only screen and (max-width: 643px){
-.container .heading{
+.animal-container .heading{
   width: 100%;
 }
-.container .heading h3{
+.animal-container .heading h3{
   font-size: 1em;
 
 }
