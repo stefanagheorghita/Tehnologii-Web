@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoo Plan</title>
+    <link rel="stylesheet" href="styles/plan-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fasthand&family=Lato:wght@300&family=Pacifico&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="images/zoo.png" alt="Logo">
+        </div>
+        <div class="nav-bar">
+            <input type="checkbox" id="check">
+            <label for="check" class="burger-button">
+              <img src="images/burger.png" alt="burger-nav-bar">
+            </label>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#animals">Our Animals</a></li>
+                <li><a href="#about">About us</a></li>
+                <li><a href="#contact">Contact us</a></li>
+                <li><a href="../help-page/help.html">Help</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+      const menuToggle = document.querySelector('#check');
+      const nav = document.querySelector('.header .nav-bar');
+      const body = document.querySelector('body');
+      
+      menuToggle.addEventListener('click', function() {
+          nav.classList.toggle('active');
+          if (menuToggle.checked) {
+              body.classList.add('disable-scroll');
+          } else {
+              body.classList.remove('disable-scroll');
+          }
+      });
+    </script>
+
+    <div class="set-title">
+        <h1>Zoo Plan</h1>
+    </div>
+    <br>
+    <div class="flex-container">
+        <div class="flex-item">
+          <img src="images/plan.jpg" alt="image">
+        </div>
+      </div>
+
+    <div class="footer_section">
+        <div class="section_1">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#animals">Our Animals</a></li>
+                <li><a href="#about">About us</a></li>
+                <li><a href="#contact">Contact us</a></li>
+                <li><a href="../help-page/help.html">Help</a></li>
+            </ul>
+        </div>
+        <div class="section_2">
+            <h4>Other Pages</h4>
+            <ul>
+                <li><a href="#privacy">Privacy & Policy</a></li>
+                <li><a href="#terms">Terms of Use</a></li>
+                <li><a href="#disclaimer">Disclaimer</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="section_3">
+            <h4>Contact Info</h4>
+            <ul>
+                <li>If something comes up, contact us using:</li>
+                <li>+1234567899</li>
+                <li>contact@domain.com</li>
+            </ul>
+        </div>
+        <div class="section_4">
+            <h4>Make a Reservation</h4>
+            <p>For reservations, contact us using:</p>
+            <button type="button">+1234567899</button>
+        </div>
+    </div>
+</body>
+</html>
