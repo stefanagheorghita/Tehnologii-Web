@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jellyfish</title>
+    <link rel="stylesheet" href="styles/style-shark.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fasthand&family=Lato:wght@300&family=Pacifico&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">
+            <img src="images/fish.svg" alt="Logo">
+            <div class="logo-text">Aquarium</div>
+        </div>
+
+        <div class="nav-bar">
+          
+            <input type="checkbox" id="check">
+            <label for="check" class="burger-button">
+              <img src="images/aquarium.svg" alt="burger-nav-bar">
+            </label>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#animals">Our Animals</a></li>
+                <li><a href="#about">About us</a></li>
+                <li><a href="#contact">Contact us</a></li>
+                <li><a href="#help">Help</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+      const menuToggle = document.querySelector('#check');
+      const nav = document.querySelector('.header .nav-bar');
+      const body = document.querySelector('body');
+      
+      menuToggle.addEventListener('click', function() {
+          nav.classList.toggle('active');
+          if (menuToggle.checked) {
+              body.classList.add('disable-scroll');
+          } else {
+              body.classList.remove('disable-scroll');
+          }
+      });
+    </script>
+
+
+<div class="title">
+    <h1>Jellyfish</h1>
+</div>
+<br>
+<div class="description">
+  <p>Jellyfish are a group of aquatic animals that belong to the phylum Cnidaria. They are known for their unique appearance, with a bell-shaped body and long, trailing tentacles. These tentacles are armed with stinging cells called nematocysts, which jellyfish use to capture prey and defend themselves against predators. Jellyfish can be found in oceans all around the world, from shallow reefs to the deep sea, and they come in a wide range of shapes and sizes.</p>
+  <br>
+  <p>TThere are over 2,000 species of jellyfish, and they play an important role in marine ecosystems. They are a source of food for many animals, including sea turtles, fish, and birds. Jellyfish also help to keep the ocean's food web in balance by eating small planktonic organisms and competing with other predators for resources. However, some species of jellyfish can have negative impacts on human activities, such as clogging fishing nets or causing painful stings. Despite their potential risks, jellyfish are fascinating creatures that continue to intrigue scientists and ocean enthusiasts alike.</p>
+</div>
+<br>
+
+
+<div class="container">
+    <div class="heading">
+      <h3>Photo <span>Gallery</span></h3>
+    </div>
+    <div class="box">
+      
+    <div class="gallery">
+        <img src="jellyfish-gallery/1.jpg" alt="img1">
+        <img src="jellyfish-gallery/2.jpg" alt="img2">
+        <img src="jellyfish-gallery/3.jpg" alt="img3">
+        <img src="jellyfish-gallery/4.jpg" alt="img4">
+        <img src="jellyfish-gallery/5.jpg" alt="img5">
+            
+    </div>
+
+    <div class="gallery">
+        <img src="jellyfish-gallery/6.jpg" alt="img6">
+        <img src="jellyfish-gallery/7.jpg" alt="img7">
+        <img src="jellyfish-gallery/8.jpg" alt="img8">
+        <img src="jellyfish-gallery/9.jpg" alt="img9">
+        <img src="jellyfish-gallery/10.jpg" alt="img10">     
+    </div>
+
+    <div class="gallery">
+        <img src="jellyfish-gallery/11.jpg" alt="img11">
+        <img src="jellyfish-gallery/12.jpg" alt="img12">
+        <img src="jellyfish-gallery/13.jpg" alt="img13">
+        <img src="jellyfish-gallery/14.jpg" alt="img14">
+        <img src="jellyfish-gallery/15.jpg" alt="img15">      
+    </div>
+
+</div>
+
+<div class="btn">
+    <a href="species.html">Back</a>
+</div>
+
+  </div>
+
+
+    <div class="footer_section">
+      <div class="section_1">
+          <h4>Quick Links</h4>
+          <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#animals">Our Animals</a></li>
+              <li><a href="#about">About us</a></li>
+              <li><a href="#contact">Contact us</a></li>
+              <li><a href="#help">Help</a></li>
+          </ul>
+      </div>
+      <div class="section_2">
+          <h4>Other Pages</h4>
+          <ul>
+              <li><a href="#privacy">Privacy & Policy</a></li>
+              <li><a href="#terms">Terms of Use</a></li>
+              <li><a href="#disclaimer">Disclaimer</a></li>
+              <li><a href="#faq">FAQ</a></li>
+          </ul>
+      </div>
+      <div class="section_3">
+          <h4>Contact Info</h4>
+          <ul>
+              <li>If something comes up, contact us using:</li>
+              <li>+1234567899</li>
+              <li>contact@domain.com</li>
+          </ul>
+      </div>
+      <div class="section_4">
+          <h4>Make a Reservation</h4>
+          <p>For reservations, contact us using:</p>
+          <button type="button">+1234567899</button>
+      </div>
+    </div>
+    
+</body>
+</html>
