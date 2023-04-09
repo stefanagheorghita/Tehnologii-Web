@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animals-general</title>
+    <title>Settings</title>
+    <link rel="stylesheet" href="styles/settings.css">
     <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="styles/style2.css">
-    <script src="script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="settings-script.js"></script>
 </head>
 
 <body>
-
     <header class="header">
         <div class="logo">
             <img src="images/zoo.png" alt="Logo">
@@ -58,56 +57,36 @@
         </div>
     </header>
 
-    <div class="custom-form">
-    </div>
-    <div class="title_animals">Our Animals</div>
-    <div class="subtitle_animals">Visit your favourite animals and discover previously unknown species -the exciting
-        world of Zoo never ceases to amaze!</div>
-    <div class="two-buttons">
-        <div class="button-container">
-            <a href="all_animals.html" class="button-image">
-                <img src="images/R.png" alt="Button">
-                <div class="button-text">Explore the zoo</div>
-            </a>
+    <div class="set-box">
+        <div>
+            <h1>
+                Settings
+            </h1>
         </div>
-        <div class="button-container">
-            <a href="all_animals.html" class="button-image">
-                <img src="images/paw.png" alt="Button">
-
-                <div class="button-text">Meet our animals</div>
-            </a>
-
+        <div>
+            <div>
+                <label for="togg-1">
+                    <span class="dark-mode-text">Dark mode</span>
+                    <input type="checkbox" id="togg-1">
+                    <div class="toggle-container">
+                        <span class="toggle"></span>
+                        <span class="toggle-c"></span>
+                    </div>
+                </label>
+            </div>
         </div>
+        <div class="profile-info">
+            <h1>Profile Information</h1>
+            <h2>Full Name</h2>
+            <p>Example Example <button class="btn">update</button></p>
+            <h2>Email</h2>
+            <p>example@example.com <button class="btn">update</button></p>
+            <h2>Password</h2>
+            <p>******** <button class="btn">Change</button></p>
+        </div>
+
     </div>
 
-    <section class="darker-section"><img src="images/amf.png" alt="Suricate">
-        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Egestas erat imperdiet sed euismod. Auctor elit sed vulputate mi. Adipiscing commodo
-            elit at imperdiet dui.
-            Ultricies mi quis hendrerit dolor magna. Neque vitae tempus quam pellentesque nec nam aliquam sem et.</h2>
-            <button class="button button1">Amphibians</button>
-    </section>
-    <section class="green-section"><img src="images/bird.png" alt="Tigri">
-        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Egestas erat imperdiet sed euismod. Auctor elit sed vulputate mi. Adipiscing commodo
-            elit at imperdiet dui.
-            Neque vitae tempus quam pellentesque nec nam aliquam sem et.</h2>
-            <button class="button button2">Birds</button>
-    </section>
-    <section class="darker-section"><img src="images/koal.png" alt="Koala">
-        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Egestas erat imperdiet sed euismod. Auctor elit sed vulputate mi. Adipiscing commodo
-            elit at imperdiet dui.
-            Ultricies mi quis hendrerit dolor magna. </h2>
-            <button class="button button1">Mammals</button>
-    </section>
-    <section class="green-section"><img src="images/cam.png" alt="Cameleon">
-        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Egestas erat imperdiet sed euismod. Auctor elit sed vulputate mi. Adipiscing commodo
-            elit at imperdiet dui.
-            Mi quis hendrerit dolor magna. Neque vitae tempus quam pellentesque nec nam aliquam sem et.</h2>
-            <button class="button button2 ">Reptiles</button>
-    </section>
 
     <div class="footer_section">
         <div class="section_1">
@@ -143,7 +122,6 @@
             <button type="button">+1234567899</button>
         </div>
     </div>
-
 </body>
 
 </html>
