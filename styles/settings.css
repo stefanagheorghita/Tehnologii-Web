@@ -1,7 +1,7 @@
 body,
 html {
   margin: 0;
-  background-image: url(gradient.jpg);
+  background-image: url(../images/gradient.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center ;
