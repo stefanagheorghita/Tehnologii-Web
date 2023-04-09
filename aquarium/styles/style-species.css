@@ -333,7 +333,7 @@ label {
     margin: 0;
 }
 
-.container {
+.species-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
