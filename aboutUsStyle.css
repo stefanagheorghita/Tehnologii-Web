@@ -67,7 +67,7 @@ html {
   display: flex;
   justify-content: space-around;
   background-color: #f6f6f6;
-  padding: 50px;
+  padding: 80px;
 }
 
 
@@ -141,7 +141,7 @@ html {
   color: #f98605;
   background-color: #f6f6f6;
   font-size: 25px;
-  padding-top: 20px;
+  padding-top: 100px;
 }
 
 .flip-cards-section .flip-card p {
