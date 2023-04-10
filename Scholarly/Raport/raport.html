@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Report</title>
+  <link rel="stylesheet" href="css/scholarly.css">
+  <!-- <link rel="stylesheet" href="css/scholarly.min.css"> -->
+  <script src="js/scholarly.min.js"></script>
+</head>
+
+<body vocab="http://schema.org/" typeof="schema:ScholarlyArticle" resource="#article">
+  <header>
+    <h1 property="headline">ZoM (Zoo Web Manager)</h1>
+  </header>
+  <div role="contentinfo">
+    <dl>
+      <dt>Autori</dt>
+      <dd vocab="http://schema.org/" typeof="Person" property="author">
+        <span property="name">Dobrica-Spiriac Roxana-Iuliana, grupa 2A1 (2B5)</span>
+        (<a href="mailto:roxanadobrica16@gmail.com" property="email" typeof="URL">roxanadobrica16@gmail.com</a>)
+      </dd>
+      <dd vocab="http://schema.org/" typeof="Person" property="author">
+        <span property="name">Gheorghita Stefana, grupa 2B5</span>
+        (<a href="mailto:gheorghitastefana@gmail.com" property="email" typeof="URL">gheorghitastefana@gmail.com</a>)
+      </dd>
+      <dd vocab="http://schema.org/" typeof="Person" property="author">
+        <span property="name">Pascu Antonia-Maria-Emanuela, grupa 2B5</span>
+        (<a href="mailto:pascu_antonia10@yahoo.com" property="email" typeof="URL">pascu_antonia10@yahoo.com</a>)
+      </dd>
+
+      <dt>Etapele dezvoltarii poiectului</dt>
+      <dd>
+        Etapele dezvoltarii proiectului si sarcinile fiecarui membru al echipei pot fi vizualizate pe <a
+          href="https://github.com/stefanagheorghita/Tehnologii-Web.git">GitHub</a>.
+      </dd>
+    </dl>
+  </div>
+  <section property="backstory" id="abstract" role="doc-abstract">
+    <h2 property="description">Abstract</h2>
+    <p>
+      Cerinta: Sa se implementeze o aplicatie Web menita a gestiona informatiile vizand o gradina zoologica. Se vor
+      facilita redarea si managementul datelor
+      despre animalele gazduite: denumire populara/stiintifica, descriere (de dorit, multilingva), origine, statut
+      (e.g., specie protejata, pe cale de disparitie,
+      daunatoare etc.), caracteristici (de exemplu, dependenta de clima, periculozitate, proprietati speciale), specii
+      inrudite, dusmani naturali, imagini de interes,
+      regim alimentar (vegetarian, carnivor, omnivor), mod de inmultire si altele. Se vor pune la dispozitie mecanisme
+      de cautare/filtrare/prezentare multi-criteriala
+      -- de pilda, afisarea tuturor mamiferelor cu blana de origine europeana ce pot fi dresate sau generarea unei liste
+      de pasari/taratoare capabile sa supravietuiasca in conditii desertice.
+      Datele vor putea fi importate/exportate via fisiere disponibile in formatele JSON si XML. Functionalitatile
+      esentiale se vor oferi si de catre un API REST/GraphQL.
+    </p>
+  </section>
+  <section id="functional" role="contentinfo">
+    <h2 property="description">Introduction</h2>
+    <p property="text">
+      Această aplicație web oferă utilizatorului o gama larga de informații despre animalele din grădina
+      zoologică, avand de asemenea si o sectiune dedicata acvariului din cadrul acesteia.
+      Platforma a fost dezvoltată pentru a fi ușor de utilizat,
+      astfel încât utilizatorul să poată naviga cu ușurință pe paginile aplicației pentru a găsi informațiile
+      despre animalele dorite. Utilizatorul poate să caute informații despre animale, adăuga anumite filtre
+      pentru a restrânge căutarea sau a cauta direct ce detalii doreste sau să adauge animalele preferate la lista de
+      favorite.<br>
+
+      Aplicația oferă, de asemenea, o secțiune dedicată rezervării de bilete pentru grădina zoologică,
+      astfel încât utilizatorul să poată să-și planifice vizita cu ușurință. Aceasta include totodata informații despre
+      programul
+      de funcționare al grădinii zoologice, punand la dispozitie atat o harta a gradinii zoologice, in care pot fi
+      vizualizate zonele in care se afla animalele,
+      precum si o harta cu locatia in care se afla gradina.<br>
+
+      Pentru a oferi o experiență personalizată, aplicația dispune de o funcție de schimbare a temei, iar Pentru a
+      asigura securitatea contului
+      utilizatorului, aplicația oferă posibilitatea de a-și schimba parola și
+      datele de cont în orice moment
+      <br>
+
+      Pe lângă acestea,
+      aplicația dispune și de o secțiune specială pentru administrator, care are acces la funcții avansate de gestionare
+      a datelor animalelor din grădină zoologică și acvariu. Aceasta include posibilitatea de a adăuga, șterge sau
+      modifica
+      informații despre animale.<br>
+
+      Pentru crearea aplicației, am folosit tehnologii web precum HTML și CSS, și am integrat o mică parte
+      de JavaScript pentru a oferi o experiență mai dinamică utilizatorilor.
+    </p>
+  </section>
+
+  <section id="structure" role="contentinfo">
+    <h3 property="description">Structure</h3>
+
+    <section id="landing-page" role="contentinfo">
+      <h4 property="description">[User] Landing page</h4>
+      <p property="text">
+        Landing page-ul acestei aplicatii web are o interfata atractiva si este accesibila pentru utilizatori. Aceasta
+        prezinta o introducere
+        generala despre aplicatie si si ofera informatii specifice despre
+        diversele functionalitati ale aplicatiei, astfel incat utilizatorii sa
+        poata intelege modul in care aceasta le poate fi de ajutor.
+        In partea de sus se afla butonul de login pentru cei care vor sa se autentifice, iar la partea cu introducerea
+        generala se afla un buton pentru
+        cei care vor sa navigheze in aplicatie fara sa se conecteze.
+      </p>
+    </section>
+
+    <section id="authentication" role="contentinfo">
+      <h4 property="description">[User] Login/Register/Forgot password </h4>
+      <p property="text">
+        Procesul de login presupune furnizarea numelui utilizatorului, astfel
+        incat sa isi poata rezerva bilete pentru gradina zoologica, sa poata adauga animalele preferate la favorite si
+        alte facilitati.
+        In cazul in care utilizatorul si-a uitat parola, se poate folosi functia de recuperare a parolei pentru a putea
+        accesa din nou contul.<br>
+
+        Procesul de register presupune crearea unui cont nou si furnizarea unor informatii precum numele, email-ul si
+        parola.<br>
+        In momentul in care utilizatorul isi creeaza un cont, acesta trebuie sa confirme parola furnizata,
+        pentru a se asigura ca a introdus corect toate datele necesare.
+
+        Ambele functionalitati de login si register sunt proiectate astfel incat sa fie cat mai usor de utilizat.<br>
+      </p>
+    </section>
+
+    <section id="homepage" role="contentinfo">
+      <h4 property="description">[User] Homepage</h4>
+      <p property="text">
+        Pe pagina de homepage, utilizatorul va gasi un meniu care va fi accesibil de asemenea din orice pagina a
+        aplicatiei,
+        pentru a facilita navigarea pe aplicatie. Totodata, utilizatorul va observa doua butoane care il pot duce
+        catre sectiunile cele mai importante ale aplicatiei: "Animalele din gradina zoo" si "Acvariul". Aceste butoane
+        sunt amplasate
+        in partea de sus a paginii, astfel incat utilizatorul sa le poata accesa usor si rapid.<br>
+
+        In partea de mijloc a paginii de homepage se afla o serie de sectiuni care ofera informatii utile
+        utilizatorului. Aici pot fi
+        gasite detalii despre programul gradinii zoologice, un link catre harta gradinii zoologice, precum si o sectiune
+        de "Stiati ca"
+        ce contine curiozitati despre animale si gradina zoologica, menite sa starnesca interesul si curiozitatea
+        utilizatorului.<br>
+
+        In partea de jos a paginii de homepage se afla o sectiune care contine doua imagini reprezentative pentru cele
+        doua
+        sectiuni principale ale aplicatiei (Gradina Zoologica si
+        Acvariul). Fiind cele mai importante sectiuni, acesta este
+        motivul pentru care am ales sa amplasam aceste fotografii in partea de jos a paginii de homepage, astfel incat
+        utilizatorul sa nu fie nevoit sa deruleze
+        pagina inapoi la inceput pentru a apasa pe acele butoane. Pagina de homepage este conceputa astfel
+        incat utilizatorul sa se poata orienta usor pe site si sa poata gasi informatiile de care are nevoie in mod
+        rapid si eficient.
+      </p>
+    </section>
+
+    <section id="program" role="contentinfo">
+      <h4 property="description">[User] Program page</h4>
+      <p property="text">
+        Pagina "Program", care poate fi accesata din homepage, cuprinde informatiile necesare utilizatorilor ce vor sa
+        viziteze gradina: programul pe zile al gradinii
+        si un formular pentru rezervarea biletelor. Formularul ofera posibilitatea a alegerii unei date in care se
+        va efectua vizita si a unui numar de bilete ce se doresc a fi rezervate.
+      </p>
+    </section>
+
+    <section id="zoo-map" role="contentinfo">
+      <h4 property="description">[User] Zoo Map</h4>
+      <p property="text">
+        Pagina cu harta gradinii zoologice este conceputa pentru a ajuta utilizatorii sa se orienteze si sa gaseasca
+        animalele din gradina zoo.
+        Animalele sunt reprezentate pe harta printr-un simbol specific, astfel incat utilizatorul sa poata gasi rapid
+        locul in care se afla animalul pe care il cauta.
+      </p>
+    </section>
+
+    <section id="animals" role="contentinfo">
+      <h4 property="description">[User] Animals page</h4>
+      <p property="text">
+        Pagina "animals.html" este o pagină web responsive, adică se poate afișa corect pe diferite dispozitive, cum ar
+        fi desktop-uri,
+        tablete și telefoane mobile. Aceasta conține o mică descriere despre site-ul dedicat animalelor, care poate fi
+        citită de utilizatori.
+        Pe pagină se găsesc două butoane importante: unul dintre ele duce la aceeași pagină web, ceea ce poate fi util
+        în cazul în care utilizatorul
+        dorește să reîncarce pagina, iar celălalt buton duce la o pagină în care sunt afișate toate animalele.<br>
+
+        Pagina are, de asemenea, diferite categorii de animale, afișate sub formă de secțiuni. Aceste categorii includ,
+        de exemplu,
+        mamifere, păsări, reptile și amfibieni. Fiecare secțiune conține linkuri care permit utilizatorilor să acceseze
+        direct acele
+        categorii de animale, astfel încât să poată naviga rapid pe site. Acest lucru face site-ul mai accesibil și mai
+        ușor de utilizat pentru vizitatori.<br>
+
+        În general, pagina "animals.html" este concepută astfel încât să faciliteze navigarea și accesul la informații
+        despre
+        diferitele tipuri de animale. De asemenea, design-ul și aranjarea informațiilor sunt optimizate pentru a fi ușor
+        de utilizat și de accesat pe orice dispozitiv.
+      </p>
+    </section>
+
+    <section id="all-animals" role="contentinfo">
+      <h4 property="description">[User] All animals page</h4>
+      <p property="text">
+        Pagina "all_animals.html", din care se poate ajunge din "animals.html", ofera o imagine asupra tuturor
+        animalelor din gradina zoo, oferind totodata o posibilitate de filtrare a acestora
+        prin intermediul meniului de filtrare pe mai multe categorii, dar si posibilitatea unei cautari personalizate.
+        Design-ul este unul simplu pentru a facilita accesul la informatii.
+      </p>
+    </section>
+
+    <section id="animal" role="contentinfo">
+      <h4 property="description">[User] Animal page</h4>
+      <p property="text">
+        Pagina "Animal.html" este o pagină web dedicată unui singur animal și conține informații detaliate și poze
+        referitoare la acesta.
+        Utilizatorii pot adăuga animalul la lista lor de favorite prin intermediul unei inimioare,
+        care se poate găsi pe pagină. De asemenea, există butoane de import și export care permit utilizatorilor să
+        salveze sau să împărtășească informațiile despre animal.
+        Pagina este concepută pentru a oferi informații detaliate despre un animal specific, cum ar fi habitatul, dieta,
+        comportamentul și alte informații relevante.
+        Utilizatorii pot folosi butonul de inimă pentru a adăuga animalul la lista lor de favorite, astfel încât să
+        poată să-l găsească mai ușor în viitor.
+      </p>
+    </section>
+
+    <section id="acvariu" role="contentinfo">
+      <h4 property="description">[User] Pagina pentru acvariu</h4>
+      <p property="text">
+        Pagina de acvariu începe cu o bară de navigare responsive, care poate fi accesată de pe orice dispozitiv, care
+        include linkuri catre unele dintre celelate pagini ale site-ului. Pagina este proiectată să ofere o experiență
+        vizuală
+        și interactivă atractivă pentru utilizatorii noștri.<br>
+        Titlul paginii este clar și concis, indicând obiectivul acesteia. Descrierea acvariului este scurtă, dar
+        destul de vagă pentru a suscita curiozitatea utilizatorilor și a-i încuraja să exploreze mai departe.
+        Galeria foto este proiectată să permită utilizatorilor să exploreze rapid o
+        selecție de imagini ce surprind viata in acvariu. Aceste imagini sunt afișate într-un format ușor de
+        navigat.<br>
+        Butonul de sub galeria foto conduce utilizatorii către o altă pagină web care prezintă
+        speciile existente în acvariul nostru. Acest buton este proiectat să fie
+        ușor de identificat și de utilizat pentru a încuraja utilizatorii să continue explorarea.
+      </p>
+    </section>
+    <section id="specii" role="contentinfo">
+      <h4 property="description">[User] Pagina cu speciile din acvariu</h4>
+      <p property="text">
+        Pagina Species începe cu o bară de navigare responsive, care poate fi accesată de pe orice dispozitiv, care
+        include
+        linkuri catre unele dintre celelate pagini ale site-ului.<br>
+        Sub bara de navigare, dupa titlu si o scurta descriere, există patru carduri, fiecare prezentând o specie
+        diferită de animale acvatice: meduza, rechin, coral și caracatița.<br>
+        Fiecare card include o imagine a speciei respective și o scurtă descriere care evidențiază unele dintre
+        caracteristicile sale distinctive
+        dar si un link ce conduce catre o pagina cu informatii mai detaliate despre aceasta.<br>
+        Sub cardurile speciilor, se află un buton care duce utilizatorul către pagina de Acvariu, unde aceștia pot găsi
+        o prezentare de ansamblu.
+      </p>
+
+    </section>
+    <section id="specie" role="contentinfo">
+      <h4 property="description">[User] Pagina unei singure specii</h4>
+      <p property="text">
+        Pagina dedicata speciei Meduza contine o bară de navigare responsive, care poate fi accesată de pe orice
+        dispozitiv, care include
+        linkuri catre unele dintre celelate pagini ale site-ului.<br>
+        Sub bara de navigare se afla cateva informatii de interes despre aceasta specie cat si o galerie cu poze
+        reprezentative a acesteia. Imediat dupa galeria foto se afla un buton ce va conduce utilizatorul inapoi
+        catre pagina ce prezinta unele dintre cele mai semnificative specii existente in acvariu.<br>
+        Exista pagini pentru mai multe specii existente in acvariu, cum ari fi: caracatita, coral si rechin.
+      </p>
+
+    </section>
+    <section id="settings" role="contentinfo">
+      <h4 property="description">[User] Settings</h4>
+      <p property="text">
+        Pagina de setari poate fi accesata din toate celelalte pagini, prin intermediul pictogramei cu utilizatorul,
+        ce se afla in bara de navigare, si ofera posibilitatea schimbarii temei de culoare,
+        dar si a revizurii informatiilor asociate contului, cum ar fi: nume, parola, adresa de e-mail.
+      </p>
+    </section>
+
+    <section id="contact-us" role="contentinfo">
+      <h4 property="description">[User] Contact us</h4>
+      <p property="text">
+        Aceasta pagina include un formular prin care utilizatorii pot contacta proprietarii gradinii zoo si le pot lasa
+        un mesaj.
+        Totodata, pe aceasta pagina se gasesc informatiile de baza de care utilizatorii pot avea nevoie: numar de
+        telefon, adresa de e-mail si locatia gradinii zoo.
+        Este prezenta si o harta, care faciliteaza gasirea locului pentru utilizatori.
+      </p>
+    </section>
+
+    <section id="help" role="contentinfo">
+      <h4 property="description">[User] Help page</h4>
+      <p property="text">
+        Pagina de help este concepută intr-un mod simplu pentru a ajuta utilizatorii să găsească informațiile și
+        opțiunile necesare pentru a utiliza aplicația noastră
+        cu ușurință.
+        Pagina este împărțită în patru sectiuni principale: My Account, Settings, Contact Us și GDPR. <br>
+
+        În secțiunea GDPR, utilizatorii pot găsi informații despre politica noastră de confidențialitate și despre
+        drepturile lor de protecție
+        a datelor. Aici, utilizatorii pot afla cum protejăm datele lor și cum pot solicita să își exercite drepturile
+        conform regulamentului GDPR.
+      </p>
+    </section>
+
+    <section id="about-us" role="contentinfo">
+      <h4 property="description">[User] About us</h4>
+      <p property="text">
+        Aceasta pagina include o secțiune cu fotografiile membrilor echipei, cat si o descriere a acestora, pentru ca
+        utilizatorii
+        să afle mai multe informații despre echipa din spatele aplicației.
+      </p>
+    </section>
+
+    <section id="admin-page" role="contentinfo">
+      <h4 property="description">[Admin] Admin page</h4>
+      <p property="text">
+        Pentru aceasta pagina am ales o interfață simplă, dar intuitivă si eficienta, care permite
+        accesul la funcționalitățile de administrare ale aplicației. La intrarea pe această pagină, administratorul va
+        vedea un meniu cu următoarele opțiuni: adauga un animal,
+        sterge un animal, modifica informatii, cauta un animal. De asemenea, pe aceasta pagina exista un buton care ii
+        permite utilizatorului sa
+        sa vada cum arata aplicatia pentru un utilizator obisnuit si sa experimenteze diferitele functionalitati si
+        caracteristici ale acesteia. Am ales acest aspect
+        deoarece este foarte util pentru a verifica daca aplicatia functioneaza corect si pentru a-i oferi
+        administratorului o perspectiva asupra experientei utilizatorului final.
+      </p>
+    </section>
+
+  </section>
+
+  <section id="technical" role="contentinfo">
+    <h2 property="description">Technical part</h2>
+    <p property="text">
+      The frontend part of the project is made using HTML, CSS, JavaScript.
+    </p>
+    <section id="diagrams" role="contentinfo">
+      <!-- review? -->
+      <h3 property="description">Diagrams</h3>
+      <section id="usecase" role="contentinfo">
+        <h4 property="description">Use-case</h4>
+        <figure vocab="http://schema.org/" typeof="ImageObject">
+          <img src="images/use_case.svg" alt="Use Case" property="contentUrl" class="diag">
+        </figure>
+      </section>
+      <section id="schemes" role="conentinfo">
+        <h3 property="description">Schemes</h3>
+        <h4 property="description">Homepage</h4>
+        <figure vocab="http://schema.org/" typeof="ImageObject">
+          <img src="images/homepage.jpg" alt="Home" property="contentUrl" class="poza">
+        </figure>
+        <h4 property="description">Landing page</h4>
+        <figure vocab="http://schema.org/" typeof="ImageObject">
+          <img src="images/landing.jpg" alt="Home" property="contentUrl" class="poza">
+        </figure>
+        <h4 property="description">Animal page</h4>
+        <figure vocab="http://schema.org/" typeof="ImageObject">
+          <img src="images/Animal.jpg" alt="Home" property="contentUrl" class="poza">
+        </figure>
+        <h4 property="description">Animal page</h4>
+        <figure vocab="http://schema.org/" typeof="ImageObject">
+          <img src="images/Animal.jpg" alt="Home" property="contentUrl" class="poza">
+        </figure>
+        <h4 property="description">Page with animal species</h4>
+        <figure vocab="http://schema.org/" typeof="ImageObject">
+          <img src="images/our-animals1.jpg" alt="Home" property="contentUrl" class="poza">
+        </figure>
+        <h4 property="description">Page with all the animals</h4>
+        <figure vocab="http://schema.org/" typeof="ImageObject">
+          <img src="images/our-animals2.jpg" alt="Home" property="contentUrl" class="poza">
+        </figure>
+        <h4 property="description">Aquarium page</h4>
+        <figure vocab="http://schema.org/" typeof="ImageObject">
+          <img src="images/acvariu.jpg" alt="Home" property="contentUrl" class="poza">
+        </figure>
+        <h4 property="description">Aquarium animals</h4>
+        <figure vocab="http://schema.org/" typeof="ImageObject">
+          <img src="images/acv.jpg" alt="Home" property="contentUrl" class="poza">
+        </figure>
+      </section>
+    </section>
+  </section>
+
+</body>
+
+</html>
