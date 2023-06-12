@@ -31,7 +31,8 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url("images/gradient.jpg");
+    /* background-image: url("images/gradient.jpg"); */
+    background-image: linear-gradient(#F9CB2C  ,#F58617 );
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
