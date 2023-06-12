@@ -1,0 +1,229 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.navigation_bar {
+    background-color: #003629;
+    padding: 20px;
+    position: absolute;
+    right: 0px;
+    justify-content: space-between;
+    top: 20px;
+    list-style-type: none;
+}
+
+.navigation_bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation_bar ul li {
+    font-size: 20px;
+    display: inline;
+}
+
+.navigation_bar a:link {
+    text-decoration: none;
+    color: white;
+    padding: 20px;
+}
+
+.navigation_bar a:visited {
+    color: white;
+}
+
+.navigation_bar li a:hover {
+    color: #ffa31a;
+}
+
+.welcome_section_and_profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 960px;
+    background-color: #ff8315;
+    border-radius: 10px;
+    margin:80px;
+}
+
+.welcome_section {
+    display: flex;
+    background-color: #ff8315;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+
+.welcome_section .button_cover {
+    background-color: white;
+    border: none;
+    color: #ff8315;
+    padding: 15px 42px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 17px;
+    font-weight: 600;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
+}
+
+.welcome_section .writting_section {
+    color: white;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.welcome_section .writting_section h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.welcome_section .writting_section p {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.profile {
+    background-color: white;
+    width: 45%;
+    border-radius: 10px;
+    margin-right: 40px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.profile h3 {
+    margin: 20px;
+}
+
+.profile .written_section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.profile .profile_photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.commands_section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 960px;
+    padding-bottom:50px;
+    margin:0 30px;
+}
+
+.commands_section>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /*width: calc(25% - 20px);*/
+    width:230px;
+    /*max-width: 200px;*/
+    /*height: 200px;*/
+    height:100px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.09);
+    transition: all 0.2s ease-in-out;
+    border-radius: 10px;
+    margin:20px;
+    padding:30px;
+}
+
+.commands_section>div img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.commands_section>div:not(:last-child) {
+    margin-right: 20px;
+}
+
+.commands_section p{
+    margin-top:10px;
+    font-weight: 600;
+    font-size:17px;
+}
+
+.commands_section img {
+    width: 30px;
+    margin-top:20px;
+}
+
+.welcome_section_and_profile img {
+    width: 50%;
+}
+
+.profile img {
+    width: 20%;
+}
+
+.profile p{
+    margin-top:0px;
+    padding-bottom:20px;
+}
+
+
+@media screen and (max-width: 860px){
+    .commands_section{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .welcome_section .writting_section{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        text-align:center;
+    }
+
+    .profile .written_section{
+        text-align: center;
+    }
+
+}
+
+@media screen and (max-width: 1020px) {
+    .welcome_section_and_profile{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column-reverse;
+    }
+
+    .welcome_section .writting_section{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile{
+        margin-top:30px;
+        margin-right:0px;
+    }
+
+}
