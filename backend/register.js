@@ -4,15 +4,32 @@ const path = require('path');
 const url = require('url');
 const querystring = require('querystring');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 
 const saltRounds = 10;
+
+// Connect to your MongoDB database
+mongoose.connect('mongodb://127.0.0.1:27017/web_db', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// Define a schema for the user collection
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+});
+
+// Create a mongoose model for the user collection
+const User = mongoose.model('User', userSchema);
 
 const server = http.createServer((req, res) => {
   const { pathname } = url.parse(req.url);
 
-  if (pathname === '/') {
+  if (pathname === '/register' && req.method === 'GET') {
     // Serve the HTML file
-    const htmlFilePath = path.join(__dirname, '..', 'user-account', 'signup.html');
+    const htmlFilePath = path.join(__dirname, '..', 'frontend', 'user-account', 'signup.html');
     fs.readFile(htmlFilePath, (err, data) => {
       if (err) {
         res.statusCode = 500;
@@ -35,15 +52,20 @@ const server = http.createServer((req, res) => {
 
       // Extract form data
       const name = formData.name;
+      console.log(name);
       const email = formData.email;
+      console.log(email);
       const password = formData.password;
+      console.log(password);
       const confirmPassword = formData.confirmPassword;
+      console.log(confirmPassword);
 
       // Check if passwords match
       if (password !== confirmPassword) {
+        alert('Passwords incorrect!');
         res.statusCode = 400;
-        res.setHeader('Content-Type', 'text/plain');
-        res.end('Passwords do not match');
+        res.setHeader('Content-Type', 'text/html');
+        res.end('<h1>Passwords do not match</h1>');
         return;
       }
 
@@ -51,23 +73,30 @@ const server = http.createServer((req, res) => {
       bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
         if (err) {
           res.statusCode = 500;
-          res.setHeader('Content-Type', 'text/plain');
-          res.end('Internal Server Error');
+          res.setHeader('Content-Type', 'text/html');
+          res.end('<h1>Internal Server Error</h1>');
           return;
         }
 
         // Save the user data and hashed password to the database
-        saveUserToDatabase(name, email, hashedPassword);
-
-        // Send a response indicating successful registration
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/plain');
-        res.end('Registration successful');
+        saveUserToDatabase(name, email, hashedPassword)
+          .then(() => {
+            // Send a response indicating successful registration
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/html');
+            res.end('<h1>Registration successful</h1>');
+          })
+          .catch((error) => {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'text/html');
+            res.end('<h1>Internal Server Error</h1>');
+            console.error('Error saving user:', error);
+          });
       });
     });
   } else if (pathname === '/styles/style-signup.css') {
     // Serve the CSS file
-    const cssFilePath = path.join(__dirname, '..', 'user-account', 'styles', 'style-signup.css');
+    const cssFilePath = path.join(__dirname, '..', 'frontend', 'user-account', 'styles', 'style-signup.css');
     fs.readFile(cssFilePath, (err, data) => {
       if (err) {
         res.statusCode = 500;
@@ -84,12 +113,16 @@ const server = http.createServer((req, res) => {
   }
 });
 
-function saveUserToDatabase(name, email, password) {
-  // Implement your code here to save the user data to the database
-  // This is just a placeholder function
-  console.log('Name:', name);
-  console.log('Email:', email);
-  console.log('Hashed Password:', password);
+function saveUserToDatabase(name, email, hashedPassword) {
+  // Create a new user instance
+  const user = new User({
+    name: name,
+    email: email,
+    password: hashedPassword,
+  });
+
+  // Save the user to the database using promises
+  return user.save();
 }
 
 server.listen(3000, () => {
