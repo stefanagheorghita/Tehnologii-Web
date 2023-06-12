@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coral</title>
+    <link rel="stylesheet" href="styles/style-shark.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fasthand&family=Lato:wght@300&family=Pacifico&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">
+            <img src="images/fish.svg" alt="Logo">
+            <div class="logo-text">Aquarium</div>
+        </div>
+
+        <div class="nav-bar">
+          
+            <input type="checkbox" id="check">
+            <label for="check" class="burger-button">
+              <img src="images/aquarium.svg" alt="burger-nav-bar">
+            </label>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../animals.html">Our Animals</a></li>
+                <li><a href="../aboutUs.html">About us</a></li>
+                <li><a href="../contact-us.html">Contact us</a></li>
+                <li><a href="../help-page/help.html">Help</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+      const menuToggle = document.querySelector('#check');
+      const nav = document.querySelector('.header .nav-bar');
+      const body = document.querySelector('body');
+      
+      menuToggle.addEventListener('click', function() {
+          nav.classList.toggle('active');
+          if (menuToggle.checked) {
+              body.classList.add('disable-scroll');
+          } else {
+              body.classList.remove('disable-scroll');
+          }
+      });
+    </script>
+
+
+<div class="title">
+    <h1>Coral</h1>
+</div>
+<br>
+<div class="description">
+  <p>Coral is a group of marine animals that belong to the phylum Cnidaria. They are known for their unique, hard exoskeletons, which form intricate and colorful structures in reefs around the world. Coral reefs are some of the most diverse and productive ecosystems on the planet, providing habitat for a wide range of fish and other marine creatures. Corals are also important for protecting coastlines from storm surges and erosion.</p>
+  <br>
+  <p>There are over 6,000 species of coral, ranging in size from tiny, solitary polyps to large, branching colonies. Coral polyps are simple creatures, but they form symbiotic relationships with tiny algae called zooxanthellae, which live inside their tissues and provide them with energy through photosynthesis. Coral reefs are threatened by a variety of factors, including overfishing, pollution, and ocean acidification, which can harm the delicate balance of the reef ecosystem. Conservation efforts, such as the establishment of marine protected areas and sustainable fishing practices, are crucial for protecting these valuable ecosystems for future generations.</p>
+</div>
+<br>
+
+
+<div class="animal-container">
+    <div class="heading">
+      <h3>Photo <span>Gallery</span></h3>
+    </div>
+    <div class="box">
+      
+    <div class="gallery">
+        <img src="coral-gallery/1.jpg" alt="img1">
+        <img src="coral-gallery/2.jpg" alt="img2">
+        <img src="coral-gallery/3.jpg" alt="img3">
+        <img src="coral-gallery/4.jpg" alt="img4">
+        <img src="coral-gallery/5.jpg" alt="img5">
+            
+    </div>
+
+    <div class="gallery">
+        <img src="coral-gallery/6.jpg" alt="img6">
+        <img src="coral-gallery/7.jpg" alt="img7">
+        <img src="coral-gallery/8.jpg" alt="img8">
+        <img src="coral-gallery/9.jpg" alt="img9">
+        <img src="coral-gallery/10.jpg" alt="img10">     
+    </div>
+
+    <div class="gallery">
+        <img src="coral-gallery/11.jpg" alt="img6">
+        <img src="coral-gallery/12.jpg" alt="img7">
+        <img src="coral-gallery/13.jpg" alt="img8">
+        <img src="coral-gallery/14.jpg" alt="img9">
+        <img src="coral-gallery/15.jpg" alt="img10">     
+    </div>
+
+</div>
+
+<div class="btn">
+    <a href="species.html">Back</a>
+</div>
+
+  </div>
+
+
+    <div class="footer_section">
+      <div class="section_1">
+          <h4>Quick Links</h4>
+          <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../animals.html">Our Animals</a></li>
+                <li><a href="../aboutUs.html">About us</a></li>
+                <li><a href="../contact-us.html">Contact us</a></li>
+                <li><a href="../help-page/help.html">Help</a></li>
+          </ul>
+      </div>
+      <div class="section_2">
+          <h4>Other Pages</h4>
+          <ul>
+              <li><a href="#privacy">Privacy & Policy</a></li>
+              <li><a href="#terms">Terms of Use</a></li>
+              <li><a href="#disclaimer">Disclaimer</a></li>
+              <li><a href="#faq">FAQ</a></li>
+          </ul>
+      </div>
+      <div class="section_3">
+          <h4>Contact Info</h4>
+          <ul>
+              <li>If something comes up, contact us using:</li>
+              <li>+1234567899</li>
+              <li>contact@domain.com</li>
+          </ul>
+      </div>
+      <div class="section_4">
+          <h4>Make a Reservation</h4>
+          <p>For reservations, contact us using:</p>
+          <button type="button">+1234567899</button>
+      </div>
+    </div>
+    
+</body>
+</html>

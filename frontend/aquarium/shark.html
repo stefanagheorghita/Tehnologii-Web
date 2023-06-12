@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shark</title>
+    <link rel="stylesheet" href="styles/style-shark.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fasthand&family=Lato:wght@300&family=Pacifico&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">
+            <img src="images/fish.svg" alt="Logo">
+            <div class="logo-text">Aquarium</div>
+        </div>
+
+        <div class="nav-bar">
+          
+            <input type="checkbox" id="check">
+            <label for="check" class="burger-button">
+              <img src="images/aquarium.svg" alt="burger-nav-bar">
+            </label>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../animals.html">Our Animals</a></li>
+                <li><a href="../aboutUs.html">About us</a></li>
+                <li><a href="../contact-us.html">Contact us</a></li>
+                <li><a href="../help-page/help.html">Help</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+      const menuToggle = document.querySelector('#check');
+      const nav = document.querySelector('.header .nav-bar');
+      const body = document.querySelector('body');
+      
+      menuToggle.addEventListener('click', function() {
+          nav.classList.toggle('active');
+          if (menuToggle.checked) {
+              body.classList.add('disable-scroll');
+          } else {
+              body.classList.remove('disable-scroll');
+          }
+      });
+    </script>
+
+
+<div class="title">
+    <h1>Shark</h1>
+</div>
+<br>
+<div class="description">
+  <p>Sharks are a group of fish that have been around for over 400 million years. They are found in oceans all around the world and range in size from the tiny pygmy shark, which is only about 8 inches long, to the massive whale shark, which can grow up to 40 feet in length. Sharks are known for their sharp teeth and powerful jaws, which they use to catch and eat their prey. However, not all sharks are carnivores – some species are filter feeders, meaning they feed on plankton and small organisms in the water.</p>
+  <br>
+  <p>There are over 500 species of sharks, and they come in a wide variety of shapes and sizes. Some of the most well-known species include the great white shark, the tiger shark, and the hammerhead shark. Sharks are an important part of the ocean ecosystem, helping to maintain the balance of marine life by controlling the populations of other fish and sea creatures. Unfortunately, many species of sharks are facing threats such as overfishing and habitat destruction, and some are now endangered. Despite their reputation as fierce predators, sharks are an important and fascinating part of the natural world.</p>
+</div>
+<br>
+
+
+<div class="animal-container">
+    <div class="heading">
+      <h3>Photo <span>Gallery</span></h3>
+    </div>
+    <div class="box">
+      
+    <div class="gallery">
+        <img src="shark-gallery/1.jpg" alt="img1">
+        <img src="shark-gallery/2.jpg" alt="img2">
+        <img src="shark-gallery/3.jpg" alt="img3">
+        <img src="shark-gallery/4.jpg" alt="img4">
+        <img src="shark-gallery/5.jpg" alt="img5">
+            
+    </div>
+
+    <div class="gallery">
+        <img src="shark-gallery/6.jpg" alt="img6">
+        <img src="shark-gallery/7.jpg" alt="img7">
+        <img src="shark-gallery/8.jpg" alt="img8">
+        <img src="shark-gallery/9.jpg" alt="img9">
+        <img src="shark-gallery/10.jpg" alt="img10">     
+    </div>
+
+    <div class="gallery">
+        <img src="shark-gallery/11.jpg" alt="img11">
+        <img src="shark-gallery/12.jpg" alt="img12">
+        <img src="shark-gallery/13.jpg" alt="img13">
+        <img src="shark-gallery/14.jpg" alt="img14">
+        <img src="shark-gallery/15.jpg" alt="img15">      
+    </div>
+
+</div>
+
+<div class="btn">
+    <a href="species.html">Back</a>
+</div>
+
+  </div>
+
+
+    <div class="footer_section">
+      <div class="section_1">
+          <h4>Quick Links</h4>
+          <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../animals.html">Our Animals</a></li>
+                <li><a href="../aboutUs.html">About us</a></li>
+                <li><a href="../contact-us.html">Contact us</a></li>
+                <li><a href="../help-page/help.html">Help</a></li>
+          </ul>
+      </div>
+      <div class="section_2">
+          <h4>Other Pages</h4>
+          <ul>
+              <li><a href="#privacy">Privacy & Policy</a></li>
+              <li><a href="#terms">Terms of Use</a></li>
+              <li><a href="#disclaimer">Disclaimer</a></li>
+              <li><a href="#faq">FAQ</a></li>
+          </ul>
+      </div>
+      <div class="section_3">
+          <h4>Contact Info</h4>
+          <ul>
+              <li>If something comes up, contact us using:</li>
+              <li>+1234567899</li>
+              <li>contact@domain.com</li>
+          </ul>
+      </div>
+      <div class="section_4">
+          <h4>Make a Reservation</h4>
+          <p>For reservations, contact us using:</p>
+          <button type="button">+1234567899</button>
+      </div>
+    </div>
+    
+</body>
+</html>
