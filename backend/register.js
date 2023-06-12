@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const saltRounds = 10;
 
 // Connect to your MongoDB database
-mongoose.connect('mongodb://localhost:27017/mydatabase', {
+mongoose.connect('mongodb://127.0.0.1:27017/web_db', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -52,12 +52,17 @@ const server = http.createServer((req, res) => {
 
       // Extract form data
       const name = formData.name;
+      console.log(name);
       const email = formData.email;
+      console.log(email);
       const password = formData.password;
+      console.log(password);
       const confirmPassword = formData.confirmPassword;
+      console.log(confirmPassword);
 
       // Check if passwords match
       if (password !== confirmPassword) {
+        alert('Passwords incorrect!');
         res.statusCode = 400;
         res.setHeader('Content-Type', 'text/html');
         res.end('<h1>Passwords do not match</h1>');
@@ -74,12 +79,19 @@ const server = http.createServer((req, res) => {
         }
 
         // Save the user data and hashed password to the database
-        saveUserToDatabase(name, email, hashedPassword);
-
-        // Send a response indicating successful registration
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/html');
-        res.end('<h1>Registration successful</h1>');
+        saveUserToDatabase(name, email, hashedPassword)
+          .then(() => {
+            // Send a response indicating successful registration
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/html');
+            res.end('<h1>Registration successful</h1>');
+          })
+          .catch((error) => {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'text/html');
+            res.end('<h1>Internal Server Error</h1>');
+            console.error('Error saving user:', error);
+          });
       });
     });
   } else if (pathname === '/styles/style-signup.css') {
@@ -109,14 +121,8 @@ function saveUserToDatabase(name, email, hashedPassword) {
     password: hashedPassword,
   });
 
-  // Save the user to the database
-  user.save((err) => {
-    if (err) {
-      console.error('Error saving user:', err);
-    } else {
-      console.log('User saved successfully');
-    }
-  });
+  // Save the user to the database using promises
+  return user.save();
 }
 
 server.listen(3000, () => {
