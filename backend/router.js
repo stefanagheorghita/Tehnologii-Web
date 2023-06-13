@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const { handleLandingPage, handleLoginPage,handleHomePage, handleStaticFile } = require('./handler');
+const { handleLandingPage, handleLoginPage, handleHomePage, handleRegisterPage, handleStaticFile } = require('./handler'); ////
 const { handleLoginRequest } = require('./login');
+const { handleRegisterRequest } = require('./register'); ////
 
 function router(req, res) {
   const url = req.url;
@@ -17,8 +18,14 @@ function router(req, res) {
   else if(url==='/home' || url==='/index.html' || url==='/index')
   {
     handleHomePage(req,res);
-  } 
-  else {
+  } else if (url === '/register' || url === '/user-account/signup.html' || url === '/signup.html') { /////
+    if (req.method === 'POST') {
+      handleRegisterRequest(req, res); 
+    } else {
+      handleRegisterPage(req, res);
+    }
+
+  } else {
     handleStaticFile(req, res);
   }
   
