@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const { handleLandingPage, handleLoginPage, handleHomePage, handleGeneralAnimalPage, handleAllAnimalPage,
         handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleHelpPage } = require('./handler');
+const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage } = require('./handler');
 const { handleLoginRequest } = require('./controllers/login');
+const { handleRegisterRequest } = require('./controllers/register'); // for register
 
 function router(req, res) {
   const url = req.url;
@@ -18,6 +20,13 @@ function router(req, res) {
   else if(url==='/home' || url==='/index.html' || url==='/index')
   {
     handleHomePage(req,res);
+  }  else if (url === '/register' || url === '/user-account/signup.html' || url === '/signup.html') { /////
+    if (req.method === 'POST') {
+      handleRegisterRequest(req, res); 
+    } else {
+      handleRegisterPage(req, res);
+    }
+
   } 
   else if (url === '/animals.html'  || url === '/animals') {
     handleGeneralAnimalPage(req, res);

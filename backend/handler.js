@@ -240,6 +240,23 @@ function handleStaticFile(req, res) {
   });
 }
 
+//for register page
+function handleRegisterPage(req, res) {
+  const filePath = '../frontend/user-account/signup.html';
+  fs.readFile(filePath, 'utf8', (err, content) => {
+    if (err) {
+      res.writeHead(404);
+      res.end('File not found');
+    } else {
+
+    const modifiedContent = includeAssets(content, filePath);
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(modifiedContent, 'utf-8');
+    }
+  });
+}
+///////////
+
 function getContentType(extension) {
   switch (extension) {
     case 'html':
@@ -287,6 +304,7 @@ module.exports = {
   handleAllAnimalPage,
   handleZooPlanPage,
   handleAboutUsPage,
+  handleRegisterPage, 
   handleHelpPage,
   handleStaticFile
 };
