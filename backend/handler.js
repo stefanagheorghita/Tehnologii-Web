@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { replaceImageUrls } = require('./util/imageUtils');
-const {includeCss}= require('./util/cssUtils')
+const {includeAssets}= require('./util/cssUtils')
+const { getBackgroundImageFromDatabase } = require('./util/fileFromDatabaseUtil');
 
 function handleLandingPage(req, res) {
   const filePath = '../frontend/landingpage.html';
@@ -12,7 +13,7 @@ function handleLandingPage(req, res) {
       res.end('Internal server error');
     } else {
 
-    const modifiedContent = includeCss(content, filePath);
+    const modifiedContent = includeAssets(content, filePath);
     replaceImageUrls(modifiedContent, (imgErr, modContent) => {
       if (imgErr) {
         console.log('eede');
@@ -29,29 +30,34 @@ function handleLandingPage(req, res) {
 }
 
 function handleHomePage(req, res) {
-    const filePath = '../frontend/index.html';
-   
-    fs.readFile(filePath, 'utf8', (err, content) => {
-      if (err) {
-        res.writeHead(500);
-        res.end('Internal server error');
-      } else {
-  
-      const modifiedContent = includeCss(content, filePath);
-      replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+  const filePath = '../frontend/index.html';
+
+  fs.readFile(filePath, 'utf8', (err, content) => {
+    if (err) {
+      res.writeHead(500);
+      res.end('Internal server error');
+    } else {
+      const modifiedContent = includeAssets(content, filePath);
+      replaceImageUrls(modifiedContent, async (imgErr, modContent) => {
         if (imgErr) {
           res.writeHead(500);
           res.end('Internal server error');
         } else {
-          res.writeHead(200, { 'Content-Type': 'text/html' });
-          res.end(modContent, 'utf-8');
+          try {
+            const imageId = '64884885df77d90a8234a7f6'; 
+            const backgroundImage = await getBackgroundImageFromDatabase(imageId);
+            const updatedContent = modContent.replace("background-image: url('images/tigru2.jpg')", `background-image: url('${backgroundImage}')`);
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(updatedContent, 'utf-8');
+          } catch (error) {
+            res.writeHead(500);
+            res.end('Internal server error');
+          }
         }
       });
-     
-      }
-    });
-  }
-  
+    }
+  });
+}
 
 function handleLoginPage(req, res) {
   const filePath = '../frontend/user-account/login.html';
@@ -61,12 +67,36 @@ function handleLoginPage(req, res) {
       res.end('File not found');
     } else {
 
-    const modifiedContent = includeCss(content, filePath);
+    const modifiedContent = includeAssets(content, filePath);
     res.writeHead(200, { 'Content-Type': 'text/html' });
       res.end(modifiedContent, 'utf-8');
     }
   });
 }
+
+function handleZooPlanPage(req, res) {
+  const filePath = '../frontend/zoo-plan/zoo-plan.html';
+ 
+  fs.readFile(filePath, 'utf8', (err, content) => {
+    if (err) {
+      res.writeHead(500);
+      res.end('Internal server error');
+    } else {
+
+    const modifiedContent = includeAssets(content, filePath);
+    replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+      if (imgErr) {
+        console.log('eede');
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(modContent, 'utf-8');
+      }
+    });   
+    }
+  });
+  }
 
 
 function handleStaticFile(req, res) {
@@ -128,12 +158,10 @@ function readCssFiles(cssFiles, callback) {
 }
 
 
-  
-
-
 module.exports = {
   handleLandingPage,
   handleLoginPage,
   handleHomePage,
+  handleZooPlanPage,
   handleStaticFile
 };
