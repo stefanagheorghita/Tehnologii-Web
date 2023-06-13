@@ -17,7 +17,6 @@ function handleLandingPage(req, res) {
     const modifiedContent = includeAssets(content, filePath);
     replaceImageUrls(modifiedContent, (imgErr, modContent) => {
       if (imgErr) {
-        console.log('eede');
         res.writeHead(500);
         res.end('Internal server error');
       } else {
@@ -29,6 +28,7 @@ function handleLandingPage(req, res) {
     }
   });
 }
+
 // for the home page
 function handleHomePage(req, res) {
   const filePath = '../frontend/index.html';
@@ -59,6 +59,7 @@ function handleHomePage(req, res) {
     }
   });
 }
+
 // for the login page
 function handleLoginPage(req, res) {
   const filePath = '../frontend/user-account/login.html';
@@ -74,6 +75,8 @@ function handleLoginPage(req, res) {
     }
   });
 }
+
+
 // for the categories page
 function handleGeneralAnimalPage(req, res) {
   const filePath = '../frontend/animals.html';
@@ -153,7 +156,6 @@ function handleZooPlanPage(req, res) {
     const modifiedContent = includeAssets(content, filePath);
     replaceImageUrls(modifiedContent, (imgErr, modContent) => {
       if (imgErr) {
-        console.log('eede');
         res.writeHead(500);
         res.end('Internal server error');
       } else {
@@ -165,6 +167,32 @@ function handleZooPlanPage(req, res) {
   });
   }
 
+  //for the help page
+  function handleHelpPage(req, res) {
+    const filePath = '../frontend/help-page/help.html';
+ 
+    fs.readFile(filePath, 'utf8', (err, content) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+
+      const modifiedContent = includeAssets(content, filePath);
+      replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+        if (imgErr) {
+          res.writeHead(500);
+          res.end('Internal server error');
+        } else {
+          res.writeHead(200, { 'Content-Type': 'text/html' });
+          res.end(modContent, 'utf-8');
+        }
+      });   
+      }
+    });
+  }
+
+
+  //for the about us page
   function handleAboutUsPage(req, res) {
     const filePath = '../frontend/aboutUs.html';
  
@@ -187,6 +215,55 @@ function handleZooPlanPage(req, res) {
     });   
     }
   });
+  }
+
+  //for the forgot password page
+  function handleForgotPasswordPage(req, res) {
+    const filePath = '../frontend/user-account/forgot.html';
+ 
+    fs.readFile(filePath, 'utf8', (err, content) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+
+      const modifiedContent = includeAssets(content, filePath);
+      replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+        if (imgErr) {
+          res.writeHead(500);
+          res.end('Internal server error');
+        } else {
+          res.writeHead(200, { 'Content-Type': 'text/html' });
+          res.end(modContent, 'utf-8');
+        }
+      });   
+      }
+    });
+  }
+
+  //Program page
+  function handleProgramPage(req, res) {
+    const filePath = '../frontend/program.html';
+ 
+    fs.readFile(filePath, 'utf8', (err, content) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+
+      const modifiedContent = includeAssets(content, filePath);
+      replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+        if (imgErr) {
+          res.writeHead(500);
+          res.end('Internal server error');
+        } else {
+          res.writeHead(200, { 'Content-Type': 'text/html' });
+          res.end(modContent, 'utf-8');
+        }
+      });   
+      }
+    });
+    
   }
 
 
@@ -296,8 +373,6 @@ function readCssFiles(cssFiles, callback) {
   });
 }
 
-
-
 module.exports = {
   handleLandingPage,
   handleLoginPage,
@@ -308,5 +383,9 @@ module.exports = {
   handleAboutUsPage,
   handleRegisterPage,
   handleSettingsPage, 
+  handleRegisterPage, 
+  handleHelpPage,
+  handleForgotPasswordPage,
+  handleProgramPage,
   handleStaticFile
 };

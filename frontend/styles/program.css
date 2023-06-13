@@ -25,10 +25,8 @@ h2{
 }
 
 
-
-
 body{
-  background-image:url(../images/gradient.jpg);
+  background-image: linear-gradient(to right, rgb(255, 183, 0) , rgb(255, 106, 0));
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center ;
@@ -122,10 +120,7 @@ input,textarea,select{
 
 
   .round-rect-box {
-    background-image:url(../images/gradient.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center ;
+    /*background-color: rgba(255, 255, 255, 0.8);*/
     border-radius: 20px;
     border: 2px solid rgba(219, 194, 147, 0.834);
     padding: 3vw;
