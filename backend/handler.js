@@ -195,7 +195,6 @@ function handleHelpPage(req, res) {
 //for the about us page
 function handleAboutUsPage(req, res) {
     const filePath = '../frontend/aboutUs.html';
-
     fs.readFile(filePath, 'utf8', (err, content) => {
         if (err) {
             res.writeHead(500);
@@ -240,6 +239,7 @@ function handleForgotPasswordPage(req, res) {
         }
     });
 }
+
 
 //Program page
 function handleProgramPage(req, res) {
@@ -307,50 +307,45 @@ function handleRegisterPage(req, res) {
 
 //for settings page
 function handleSettingsPage(req, res) {
-    const filePath = '../frontend/settings.html';
-    fs.readFile(filePath, 'utf8', (err, content) => {
-        if (err) {
-            res.writeHead(500);
-            res.end('Internal server error');
-        } else {
-            const modifiedContent = includeAssets(content, filePath);
-            replaceImageUrls(modifiedContent, async (imgErr, modContent) => {
-                if (imgErr) {
-                    res.writeHead(500);
-                    res.end('Internal server error');
-                } else {
-                    try {
-                        const imageId = '64889aeceac32cfbbcf8747d';
-                        const backgroundImage = await getBackgroundImageFromDatabase(imageId);
-                        const updatedContent = modContent.replace("background-image: url(../images/gradient.jpg)", `background-image: url('${backgroundImage}')`);
-                        res.writeHead(200, {'Content-Type': 'text/html'});
-                        res.end(updatedContent2, 'utf-8');
-                    } catch (error) {
-                        res.writeHead(500);
-                        res.end('Internal server error');
-                    }
-                }
-            });
-        }
+  const filePath = '../frontend/settings.html';
+  fs.readFile(filePath, 'utf8', (err, content) => {
+    if (err) {
+      res.writeHead(500);
+      res.end('Internal server error');
+    } else {
+
+    const modifiedContent = includeAssets(content, filePath);
+    replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+      if (imgErr) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(modContent, 'utf-8');
+      }
     });
+   
+    }
+  });
 }
 
 function getContentType(extension) {
-    switch (extension) {
-        case 'html':
-            return 'text/html';
-        case 'css':
-            return 'text/css';
-        case 'js':
-            return 'text/javascript';
-        case 'jpg':
-        case 'jpeg':
-            return 'image/jpeg';
-        case 'png':
-            return 'image/png';
-        default:
-            return 'application/octet-stream';
-    }
+  switch (extension) {
+    case 'html':
+      return 'text/html';
+    case 'css':
+      return 'text/css';
+    case 'js':
+      return 'text/javascript';
+    case 'jpg':
+      return 'image/jpg'
+    case 'jpeg':
+      return 'image/jpeg';
+    case 'png':
+      return 'image/png';
+    default:
+      return 'application/octet-stream';
+  }
 }
 
 function readCssFiles(cssFiles, callback) {
