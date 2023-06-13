@@ -165,6 +165,30 @@ function handleZooPlanPage(req, res) {
   });
   }
 
+  function handleAboutUsPage(req, res) {
+    const filePath = '../frontend/aboutUs.html';
+ 
+  fs.readFile(filePath, 'utf8', (err, content) => {
+    if (err) {
+      res.writeHead(500);
+      res.end('Internal server error');
+    } else {
+
+    const modifiedContent = includeAssets(content, filePath);
+    replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+      if (imgErr) {
+        console.log('eede');
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(modContent, 'utf-8');
+      }
+    });   
+    }
+  });
+  }
+
 
 
 function handleStaticFile(req, res) {
@@ -234,5 +258,6 @@ module.exports = {
   handleGeneralAnimalPage,
   handleAllAnimalPage,
   handleZooPlanPage,
+  handleAboutUsPage,
   handleStaticFile
 };
