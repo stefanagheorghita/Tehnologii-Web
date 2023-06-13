@@ -217,6 +217,30 @@ function handleZooPlanPage(req, res) {
   });
   }
 
+  //for the forgot password page
+  function handleForgotPasswordPage(req, res) {
+    const filePath = '../frontend/user-account/forgot.html';
+ 
+    fs.readFile(filePath, 'utf8', (err, content) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+
+      const modifiedContent = includeAssets(content, filePath);
+      replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+        if (imgErr) {
+          res.writeHead(500);
+          res.end('Internal server error');
+        } else {
+          res.writeHead(200, { 'Content-Type': 'text/html' });
+          res.end(modContent, 'utf-8');
+        }
+      });   
+      }
+    });
+  }
+
 
 
 function handleStaticFile(req, res) {
@@ -294,8 +318,6 @@ function readCssFiles(cssFiles, callback) {
   });
 }
 
-
-
 module.exports = {
   handleLandingPage,
   handleLoginPage,
@@ -306,5 +328,6 @@ module.exports = {
   handleAboutUsPage,
   handleRegisterPage, 
   handleHelpPage,
+  handleForgotPasswordPage,
   handleStaticFile
 };

@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage, handleHelpPage } = require('./handler');
+const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage, handleHelpPage, handleForgotPasswordPage } = require('./handler');
 const { handleLoginRequest } = require('./controllers/login');
 const { handleRegisterRequest } = require('./controllers/register'); // for register
+const { handleForgotPasswordRequest } = require('./controllers/forgot'); 
 
 function router(req, res) {
   const url = req.url;
@@ -24,7 +25,6 @@ function router(req, res) {
     } else {
       handleRegisterPage(req, res);
     }
-
   } 
   else if (url === '/animals.html'  || url === '/animals') {
     handleGeneralAnimalPage(req, res);
@@ -40,6 +40,13 @@ function router(req, res) {
   }
   else if (url === '/help.html' || url==='/help' || url==='/help-page/help.html') {
     handleHelpPage(req, res);
+  }
+  else if (url === '/user-account/forgot.html' || url === '/forgot.html' || url === '/forgot') {
+    if (req.method === 'POST') {
+      handleForgotPasswordRequest(req, res); 
+    } else {
+      handleForgotPasswordPage(req, res);
+    }
   }
   else {
     handleStaticFile(req, res);
