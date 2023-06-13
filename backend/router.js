@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { handleLandingPage, handleLoginPage, handleHomePage, handleGeneralAnimalPage, handleAllAnimalPage,
-        handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleHelpPage } = require('./handler');
-const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage } = require('./handler');
+const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage, handleHelpPage } = require('./handler');
 const { handleLoginRequest } = require('./controllers/login');
 const { handleRegisterRequest } = require('./controllers/register'); // for register
 
