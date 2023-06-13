@@ -4,6 +4,7 @@ const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPag
 const { handleLoginRequest } = require('./controllers/login');
 const { handleRegisterRequest } = require('./controllers/register'); // for register
 const { handleForgotPasswordRequest } = require('./controllers/forgot'); 
+const { handleProgramRequest } = require('./controllers/program');
 
 function router(req, res) {
   const url = req.url;
