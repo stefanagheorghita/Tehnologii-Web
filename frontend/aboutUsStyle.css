@@ -77,7 +77,7 @@ html {
 }
 
 .presentation_section {
-  background-image: url("images/gradient1.jpg");
+  background-image: linear-gradient(to right, rgba(255, 85, 0, 0.893) , rgba(255, 179, 0, 0.904));
   background-repeat: no-repeat;
   background-size: cover;
   padding: 30px 70px 50px 70px;

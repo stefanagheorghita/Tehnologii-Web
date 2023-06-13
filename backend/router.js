@@ -1,10 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-
-const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleRegisterPage, handleStaticFile } = require('./handler');
-
+const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage } = require('./handler');
 const { handleLoginRequest } = require('./login');
-const { handleRegisterRequest } = require('./register'); ////
 
 function router(req, res) {
   const url = req.url;
@@ -20,13 +17,6 @@ function router(req, res) {
   else if(url==='/home' || url==='/index.html' || url==='/index')
   {
     handleHomePage(req,res);
-  } else if (url === '/register' || url === '/user-account/signup.html' || url === '/signup.html') { /////
-    if (req.method === 'POST') {
-      handleRegisterRequest(req, res); 
-    } else {
-      handleRegisterPage(req, res);
-    }
-
   } 
   else if (url === '/animals.html'  || url === '/animals') {
     handleGeneralAnimalPage(req, res);
@@ -37,10 +27,12 @@ function router(req, res) {
   else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
     handleZooPlanPage(req, res); 
   }
+  else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
+    handleAboutUsPage(req, res);
+  }
   else {
     handleStaticFile(req, res);
   }
-  
 }
 
 module.exports = router;
