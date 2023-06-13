@@ -10,59 +10,104 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
-    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Roboto:wght@100;300&display=swap"
+          rel="stylesheet">
+    <title>Register</title>
 </head>
 <body>
-    <div class = "signup-page-container">
-        <div class = "signup-page">
-            <div class="signup-header">
-                <div class="title">
-                    <h1>Create new Account</h1>
-                </div>
-                <div class="signin-message">
-                    Already Registered? Log in <a href="login.html"><span class = "link">here</span></a>.
-                </div>
+<div class="signup-page-container">
+    <div class="signup-page">
+        <div class="signup-header">
+            <div class="title">
+                <h1>Create new Account</h1>
             </div>
-            <form class="signup-page-form" action="/register" method="POST">
-                <div class="enter-name">
-                    <div class="name">NAME</div>
-                    <input type="text" placeholder="Enter name" name="name" required autofocus>
-                </div>
-                <div class="enter-email">
-                    <div class="email">EMAIL</div>
-                    <input type="text" placeholder="Enter email" name="email" required>
-                </div>
-                <div class="enter-password">
-                    <div class="password">PASSWORD</div>
-                    <input type="password" placeholder="Enter password" name="password" required>
-                </div>
-                <div class="enter-dob">
-                    <div class="dob">CONFIRM PASSWORD</div>
-                    <input type="password" placeholder="Confirm password" name="confirmPassword" required>
-                </div>
-                <button class="signup-button" type="submit">Sign in</button>
-            </form>
-            <br>
-            <br>
-            <button onclick="window.location.href='../index.html'" class="home-button">Home Page</button>
+            <div class="signin-message">
+                Already Registered? Log in <a href="login.html"><span class="link">here</span></a>.
+            </div>
         </div>
+        <form class="signup-page-form" action="/register" method="POST">
+            <div class="enter-name">
+                <div class="name">NAME</div>
+                <input type="text" placeholder="Enter name" name="name" required autofocus>
+            </div>
+            <div class="enter-email">
+                <div class="email">EMAIL</div>
+                <input type="text" placeholder="Enter email" name="email" required>
+            </div>
+            <div class="enter-password">
+                <div class="password">PASSWORD</div>
+                <input type="password" placeholder="Enter password" name="password" required>
+            </div>
+            <div class="enter-dob">
+                <div class="dob">CONFIRM PASSWORD</div>
+                <input type="password" placeholder="Confirm password" name="confirmPassword" required>
+            </div>
+            <button class="signup-button" type="submit">Sign in</button>
+        </form>
+        <br>
+        <br>
+        <button onclick="window.location.href='../index.html'" class="home-button">Home Page</button>
     </div>
+</div>
 
-    <script>
-        // Client-side validation to check if passwords match
-        const form = document.querySelector('.signup-page-form');
-        const passwordInput = form.querySelector('input[name="password"]');
-        const confirmPasswordInput = form.querySelector('input[name="confirmPassword"]');
-        const passwordError = document.getElementById('password-error');
-    
-        form.addEventListener('submit', (event) => {
-          if (passwordInput.value !== confirmPasswordInput.value) {
-            event.preventDefault(); // Prevent form submission
-            passwordError.style.display = 'block'; // Show error message
-          }
-        });
-      </script>
+<script>
+    const form = document.querySelector('.signup-page-form');
+    const formData = new URLSearchParams();
+
+    const passwordInput = form.querySelector('input[name="password"]');
+    const confirmPasswordInput = form.querySelector('input[name="confirmPassword"]');
+    const passwordError = document.getElementById('password-error');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const emailInput = document.querySelector('input[name="email"]');
+        const email = emailInput.value;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+            alert("Invalid email address!");
+            emailInput.focus();
+            event.preventDefault();
+            return;
+        }
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            alert("Passwords don't match");
+            event.preventDefault();
+            return;
+            //passwordError.style.display = 'block'; // Show error message
+        }
+
+        formData.append('name', form.querySelector('input[name="name"]').value);
+        formData.append('email', form.querySelector('input[name="email"]').value);
+        formData.append('password', form.querySelector('input[name="password"]').value);
+        formData.append('confirmPassword', form.querySelector('input[name="confirmPassword"]').value);
+
+
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString(),
+            });
+
+            if (response.ok) {
+                alert('Account created successfully!');
+                window.location.href = '/login.html'; 
+            } else {
+                const data = await response.json();
+                const errorMessage = data.error;
+                alert(errorMessage);
+                window.location.href = '/signup.html';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        }
+
+    });
+</script>
 
 </body>
 </html>

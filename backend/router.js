@@ -16,7 +16,7 @@ function router(req, res) {
         handleLoginPage(req, res);
       }
   }
-  else if(url==='/home' || url==='/index.html' || url==='/index')
+  else if(url==='/home' || url==='/index.html' || url==='/index' || url==='../index.html')
   {
     handleHomePage(req,res);
   }  else if (url === '/register' || url === '/user-account/signup.html' || url === '/signup.html') { /////
