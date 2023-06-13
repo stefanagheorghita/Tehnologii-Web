@@ -9,7 +9,6 @@ img {
   margin-top: 160px;
   width: 100px;
   margin-left: 15px;
-  
 }
 
 .logo img{
@@ -34,6 +33,14 @@ img {
     width: 50px;
     float: right;
     margin-right:-60vw;
+  }
+}
+  @media screen and (max-width:350px) {
+  .header .logo img{
+    width: 50px;
+    float: right;
+    margin-right:-40vw;
+    
   }
   /* .header ul li a{
     font-size: 20px;

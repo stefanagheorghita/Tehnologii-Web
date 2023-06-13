@@ -595,6 +595,13 @@ body {
   font-size: 18px;
 }
 
+@media screen and (max-width: 400px) {
+  .search-cont {
+    width: 100%;
+  }
+}
+  
+
 
 /* button sections */
 .button {
