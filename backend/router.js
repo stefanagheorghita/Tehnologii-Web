@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage, handleHelpPage, handleForgotPasswordPage } = require('./handler');
+const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage, handleHelpPage, handleForgotPasswordPage, handleProgramPage } = require('./handler');
 const { handleLoginRequest } = require('./controllers/login');
 const { handleRegisterRequest } = require('./controllers/register'); // for register
 const { handleForgotPasswordRequest } = require('./controllers/forgot'); 
@@ -46,6 +46,13 @@ function router(req, res) {
       handleForgotPasswordRequest(req, res); 
     } else {
       handleForgotPasswordPage(req, res);
+    }
+  }
+  else if (url === '/program.html' || url === '/program') {
+    if (req.method === 'POST') {
+      handleProgramRequest(req, res); 
+    } else {
+      handleProgramPage(req, res);
     }
   }
   else {

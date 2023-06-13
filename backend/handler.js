@@ -241,6 +241,31 @@ function handleZooPlanPage(req, res) {
     });
   }
 
+  //Program page
+  function handleProgramPage(req, res) {
+    const filePath = '../frontend/program.html';
+ 
+    fs.readFile(filePath, 'utf8', (err, content) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+
+      const modifiedContent = includeAssets(content, filePath);
+      replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+        if (imgErr) {
+          res.writeHead(500);
+          res.end('Internal server error');
+        } else {
+          res.writeHead(200, { 'Content-Type': 'text/html' });
+          res.end(modContent, 'utf-8');
+        }
+      });   
+      }
+    });
+    
+  }
+
 
 
 function handleStaticFile(req, res) {
@@ -329,5 +354,6 @@ module.exports = {
   handleRegisterPage, 
   handleHelpPage,
   handleForgotPasswordPage,
+  handleProgramPage,
   handleStaticFile
 };
