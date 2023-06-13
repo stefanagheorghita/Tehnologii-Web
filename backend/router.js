@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile } = require('./handler');
+const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleStaticFile } = require('./handler');
 const { handleLoginRequest } = require('./login');
 
 function router(req, res) {
