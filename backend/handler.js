@@ -3,6 +3,8 @@ const path = require('path');
 const { replaceImageUrls } = require('./util/imageUtils');
 const {includeAssets}= require('./util/cssUtils')
 const { getBackgroundImageFromDatabase } = require('./util/fileFromDatabaseUtil');
+
+// for the landing page
 function handleLandingPage(req, res) {
   const filePath = '../frontend/landingpage.html';
  
@@ -27,7 +29,7 @@ function handleLandingPage(req, res) {
     }
   });
 }
-
+// for the home page
 function handleHomePage(req, res) {
   const filePath = '../frontend/index.html';
 
@@ -57,7 +59,7 @@ function handleHomePage(req, res) {
     }
   });
 }
-
+// for the login page
 function handleLoginPage(req, res) {
   const filePath = '../frontend/user-account/login.html';
   fs.readFile(filePath, 'utf8', (err, content) => {
@@ -72,6 +74,72 @@ function handleLoginPage(req, res) {
     }
   });
 }
+// for the categories page
+function handleGeneralAnimalPage(req, res) {
+  const filePath = '../frontend/animals.html';
+
+  fs.readFile(filePath, 'utf8', (err, content) => {
+    if (err) {
+      res.writeHead(500);
+      res.end('Internal server error');
+    } else {
+      const modifiedContent = includeAssets(content, filePath);
+      replaceImageUrls(modifiedContent, async (imgErr, modContent) => {
+        if (imgErr) {
+          res.writeHead(500);
+          res.end('Internal server error');
+        } else {
+          try {
+            const imageId = '64886109df77d90a8234a7f7'; 
+            const backgroundImage = await getBackgroundImageFromDatabase(imageId);
+            const updatedContent = modContent.replace("background-image: url(../images/gorilla.jpg)", `background-image: url('${backgroundImage}')`);
+            const imageId2 = '64886238df77d90a8234a7f8';
+            const backgroundImage2 = await getBackgroundImageFromDatabase(imageId2);
+            const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(updatedContent2, 'utf-8');
+          } catch (error) {
+            res.writeHead(500);
+            res.end('Internal server error');
+          }
+        }
+      });
+    }
+  });
+}
+
+function handleAllAnimalPage(req, res) {
+  const filePath = '../frontend/all_animals.html';
+  fs.readFile(filePath, 'utf8', (err, content) => {
+    if (err) {
+      res.writeHead(500);
+      res.end('Internal server error');
+    } else {
+      const modifiedContent = includeAssets(content, filePath);
+      replaceImageUrls(modifiedContent, async (imgErr, modContent) => {
+        if (imgErr) {
+          res.writeHead(500);
+          res.end('Internal server error');
+        } else {
+          try {
+            const imageId = '64886109df77d90a8234a7f7'; 
+            const backgroundImage = await getBackgroundImageFromDatabase(imageId);
+            const updatedContent = modContent.replace("background-image: url(../images/gorilla.jpg)", `background-image: url('${backgroundImage}')`);
+            const imageId2 = '64886238df77d90a8234a7f8';
+            const backgroundImage2 = await getBackgroundImageFromDatabase(imageId2);
+            const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(updatedContent2, 'utf-8');
+          } catch (error) {
+            res.writeHead(500);
+            res.end('Internal server error');
+          }
+        }
+      });
+    }
+  });
+}
+
 
 
 function handleStaticFile(req, res) {
@@ -133,12 +201,12 @@ function readCssFiles(cssFiles, callback) {
 }
 
 
-  
-
 
 module.exports = {
   handleLandingPage,
   handleLoginPage,
   handleHomePage,
+  handleGeneralAnimalPage,
+  handleAllAnimalPage,
   handleStaticFile
 };

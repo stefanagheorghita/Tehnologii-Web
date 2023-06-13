@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { handleLandingPage, handleLoginPage,handleHomePage, handleStaticFile } = require('./handler');
+const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleStaticFile } = require('./handler');
 const { handleLoginRequest } = require('./login');
 
 function router(req, res) {
@@ -18,6 +18,12 @@ function router(req, res) {
   {
     handleHomePage(req,res);
   } 
+  else if (url === '/animals.html'  || url === '/animals') {
+    handleGeneralAnimalPage(req, res);
+  }
+  else if (url === '/all_animals.html'  || url === '/all_animals') {
+      handleAllAnimalPage(req, res);
+  }
   else {
     handleStaticFile(req, res);
   }
