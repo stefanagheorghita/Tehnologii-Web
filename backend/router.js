@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const { handleLandingPage, handleLoginPage, handleHomePage, handleRegisterPage, handleStaticFile } = require('./handler'); ////
+
+const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleRegisterPage, handleZooPlanPage, handleStaticFile } = require('./handler');
+//const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleRegisterPage, handleStaticFile } = require('./handler');
+
 const { handleLoginRequest } = require('./login');
 const { handleRegisterRequest } = require('./register'); ////
 
@@ -25,7 +28,17 @@ function router(req, res) {
       handleRegisterPage(req, res);
     }
 
-  } else {
+  } 
+  else if (url === '/animals.html'  || url === '/animals') {
+    handleGeneralAnimalPage(req, res);
+  }
+  else if (url === '/all_animals.html'  || url === '/all_animals') {
+      handleAllAnimalPage(req, res);
+  }
+  else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
+    handleZooPlanPage(req, res); 
+  }
+  else {
     handleStaticFile(req, res);
   }
   
