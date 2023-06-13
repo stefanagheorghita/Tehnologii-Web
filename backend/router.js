@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage } = require('./handler');
+const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage, handleSettingsPage } = require('./handler');
 const { handleLoginRequest } = require('./controllers/login');
 const { handleRegisterRequest } = require('./controllers/register'); // for register
 
@@ -37,10 +37,34 @@ function router(req, res) {
   }
   else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
     handleAboutUsPage(req, res);
+  } else if (url === '/settings' && req.method === 'GET') {
+    handleSettingsPage(req, res);
+    /*if (pathname === '/styles/settings.css') {
+      const cssFilePath = path.join(__dirname, '..', 'frontend', 'styles', 'settings.css');
+      serveStaticFile(cssFilePath, 'text/css', res);
+    } else if (pathname === '/settings-script.js') {
+      const jsFilePath = path.join(__dirname, '..', 'frontend', 'settings-script.js');
+      serveStaticFile(jsFilePath, 'text/javascript', res);
+    }*/
+    
   }
   else {
     handleStaticFile(req, res);
   }
 }
+
+function serveStaticFile(filePath, contentType, res) {
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.end('Internal Server Error');
+    } else {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', contentType);
+      res.end(data);
+    }
+  });
+}
+
 
 module.exports = router;

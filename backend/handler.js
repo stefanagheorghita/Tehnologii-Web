@@ -227,7 +227,37 @@ function handleRegisterPage(req, res) {
     }
   });
 }
-///////////
+
+
+//for settings page
+function handleSettingsPage(req, res) {
+  const filePath = '../frontend/settings.html';
+  fs.readFile(filePath, 'utf8', (err, content) => {
+    if (err) {
+      res.writeHead(500);
+      res.end('Internal server error');
+    } else {
+      const modifiedContent = includeAssets(content, filePath);
+      replaceImageUrls(modifiedContent, async (imgErr, modContent) => {
+        if (imgErr) {
+          res.writeHead(500);
+          res.end('Internal server error');
+        } else {
+          try {
+            const imageId = '64889aeceac32cfbbcf8747d'; 
+            const backgroundImage = await getBackgroundImageFromDatabase(imageId);
+            const updatedContent = modContent.replace("background-image: url(../images/gradient.jpg)", `background-image: url('${backgroundImage}')`);
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(updatedContent2, 'utf-8');
+          } catch (error) {
+            res.writeHead(500);
+            res.end('Internal server error');
+          }
+        }
+      });
+    }
+  });
+}
 
 function getContentType(extension) {
   switch (extension) {
@@ -276,6 +306,7 @@ module.exports = {
   handleAllAnimalPage,
   handleZooPlanPage,
   handleAboutUsPage,
-  handleRegisterPage, 
+  handleRegisterPage,
+  handleSettingsPage, 
   handleStaticFile
 };
