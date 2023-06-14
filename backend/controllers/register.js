@@ -10,92 +10,86 @@ const saltRounds = 10;
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/web_db', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
 
 const userSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String,
+    name: String,
+    email: String,
+    password: String,
 });
 
 
 const User = mongoose.model('User', userSchema);
 
 async function handleRegisterRequest(req, res) {
-  if (req.method === 'POST') {
-    let body = '';
-    req.on('data', (chunk) => {
-      body += chunk.toString();
-    });
+    if (req.method === 'POST') {
+        let body = '';
+        req.on('data', (chunk) => {
+            body += chunk.toString();
+        });
 
-    req.on('end', async () => {
-      const formData = querystring.parse(body);
+        req.on('end', async () => {
+            const formData = querystring.parse(body);
 
-      
-      const name = formData.name;
-      const email = formData.email;
-      const password = formData.password;
-      const confirmPassword = formData.confirmPassword;
+            const name = formData.name;
+            const email = formData.email;
+            const password = formData.password;
+            const confirmPassword = formData.confirmPassword;
+            if (password !== confirmPassword) {
+                res.statusCode = 400;
+                res.setHeader('Content-Type', 'text/html');
+                res.end('<h1>Passwords do not match</h1>');
+                return;
+            }
 
-      
-      if (password !== confirmPassword) {
-        res.statusCode = 400;
-        res.setHeader('Content-Type', 'text/html');
-        res.end('<h1>Passwords do not match</h1>');
-        return;
-      }
+            try {
+                const existingUser = await User.findOne({email: email});
+                if (existingUser) {
+                    res.statusCode = 400;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({error: 'Email already exists'}));
+                    return;
+                }
 
-      try {
-        
-        const existingUser = await User.findOne({ email: email });
-        if (existingUser) {
-          res.statusCode = 400;
-          res.setHeader('Content-Type', 'text/html');
-          res.end('<h1>Email already exists</h1>');
-          return;
-        }
+                const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        
-        await saveUserToDatabase(name, email, hashedPassword);
+                await saveUserToDatabase(name, email, hashedPassword);
 
-        
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/html');
-        res.end('<h1>Registration successful</h1>');
-      } catch (error) {
-        res.statusCode = 500;
-        res.setHeader('Content-Type', 'text/html');
-        res.end('<h1>Internal Server Error</h1>');
-        console.error('Error saving user:', error);
-      }
-    });
-  } else {
-    res.statusCode = 404;
-    res.end('Not Found');
-  }
+
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'text/html');
+                res.end('<h1>Registration successful</h1>');
+            } catch (error) {
+                res.statusCode = 500;
+                res.setHeader('Content-Type', 'text/html');
+                res.end('<h1>Internal Server Error</h1>');
+                console.error('Error saving user:', error);
+            }
+        });
+    } else {
+        res.statusCode = 404;
+        res.end('Not Found');
+    }
 }
 
 
 function saveUserToDatabase(name, email, hashedPassword) {
-  
-  const user = new User({
-    name: name,
-    email: email,
-    password: hashedPassword,
-  });
 
-  
-  return user.save();
+    const user = new User({
+        name: name,
+        email: email,
+        password: hashedPassword,
+    });
+
+
+    return user.save();
 }
 
-module.exports = { handleRegisterRequest };
-
+module.exports = {handleRegisterRequest};
 
 
 /*

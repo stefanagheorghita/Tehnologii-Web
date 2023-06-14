@@ -19,9 +19,31 @@ let userIcon = document.getElementById("userIcon");
     
     function toggleMenu() {
         console.log("efgrtdhf");
-         subMenu.classList.toggle("open-menu");
-         
+        var token = localStorage.getItem('token') || getCookie('token');
+        if(token)
+         {subMenu.classList.toggle("open-menu");
+         document.getElementById('logoutLink').addEventListener('click', logout);}
+        else
+        {
+            window.location.href = "/login.html";
+        }
     }
   
-
 });
+
+function logout() {
+  document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    localStorage.removeItem('token');
+  window.location.href = 'landingpage.html';
+}
+
+function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(name + '=')) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+    return null;
+  }

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage, handleHelpPage, handleForgotPasswordPage, handleProgramPage } = require('./handler');
+
+const { handleLandingPage, handleLoginPage,handleHomePage,handleGeneralAnimalPage,handleAllAnimalPage, handleZooPlanPage, handleStaticFile, handleAboutUsPage, handleRegisterPage, handleHelpPage, /*handleForgotPasswordPage,*/ handleProgramPage, handleSettingsPage } = require('./handler');
 const { handleLoginRequest } = require('./controllers/login');
 const { handleRegisterRequest } = require('./controllers/register'); // for register
 const { handleForgotPasswordRequest } = require('./controllers/forgot'); 
@@ -17,7 +18,7 @@ function router(req, res) {
         handleLoginPage(req, res);
       }
   }
-  else if(url==='/home' || url==='/index.html' || url==='/index')
+  else if(url==='/home' || url==='/index.html' || url==='/index' || url==='../index.html')
   {
     handleHomePage(req,res);
   }  else if (url === '/register' || url === '/user-account/signup.html' || url === '/signup.html') { /////
@@ -38,27 +39,24 @@ function router(req, res) {
   }
   else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
     handleAboutUsPage(req, res);
-  } else if (url === '/settings' && req.method === 'GET') {
-    handleSettingsPage(req, res);
-    /*if (pathname === '/styles/settings.css') {
-      const cssFilePath = path.join(__dirname, '..', 'frontend', 'styles', 'settings.css');
-      serveStaticFile(cssFilePath, 'text/css', res);
-    } else if (pathname === '/settings-script.js') {
-      const jsFilePath = path.join(__dirname, '..', 'frontend', 'settings-script.js');
-      serveStaticFile(jsFilePath, 'text/javascript', res);
-    }*/
+  } else if (url === '/settings.html' || url==='/settings' || url==='/settings.html') {
+    //if (req.method === 'POST') {
+      //handleSettingsRequest(req, res); 
+    //} else {
+      handleSettingsPage(req, res);
+    //}
     
   }
   else if (url === '/help.html' || url==='/help' || url==='/help-page/help.html') {
     handleHelpPage(req, res);
   }
-  else if (url === '/user-account/forgot.html' || url === '/forgot.html' || url === '/forgot') {
+  /*else if (url === '/user-account/forgot.html' || url === '/forgot.html' || url === '/forgot') {
     if (req.method === 'POST') {
       handleForgotPasswordRequest(req, res); 
     } else {
       handleForgotPasswordPage(req, res);
     }
-  }
+  }*/
   else if (url === '/program.html' || url === '/program') {
     if (req.method === 'POST') {
       handleProgramRequest(req, res); 
@@ -71,7 +69,7 @@ function router(req, res) {
   }
 }
 
-function serveStaticFile(filePath, contentType, res) {
+/*function serveStaticFile(filePath, contentType, res) {
   fs.readFile(filePath, (err, data) => {
     if (err) {
       res.statusCode = 500;
@@ -82,7 +80,7 @@ function serveStaticFile(filePath, contentType, res) {
       res.end(data);
     }
   });
-}
+}*/
 
 
 module.exports = router;
