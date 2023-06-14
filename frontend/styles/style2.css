@@ -393,7 +393,10 @@ body {
   } */
 }
 
-@media screen and (max-width: 250px) {
+@media screen and (max-width: 290px) {
+  /* .row{
+    margin:
+  } */
   .about-col {
     /* flex-basis: calc(100% - 70px); */
     width: 150px;

@@ -1,6 +1,4 @@
 const fs = require('fs');
-const path = require('path');
-const {getAnimals} = require('./animals/animalsDatabase');
 const {
     handleLandingPage,
     handleLoginPage,
@@ -41,9 +39,16 @@ function router(req, res) {
         }
     } else if (url === '/animals.html' || url === '/animals') {
         handleGeneralAnimalPage(req, res);
-    } else if (url === '/all_animals.html' || url === '/all_animals' || url === '/all-animals.html' || url === '/all-animals') {
-        handleAllAnimalPage(req, res);
-    } else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
+    } else if (url.startsWith('/all-animals') || url.startsWith('/all_animals')) {
+        const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
+        const queryParams = new URLSearchParams(queryString);
+        const criteria = {};
+        for (const [key, value] of queryParams) {
+          criteria[key] = value;
+        }
+        handleAllAnimalPage(req, res, Object.keys(criteria).length > 0 ? criteria : null);
+      } 
+       else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
         handleZooPlanPage(req, res);
     } else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
         handleAboutUsPage(req, res);

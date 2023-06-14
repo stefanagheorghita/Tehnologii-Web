@@ -10,9 +10,10 @@ function replaceImageUrls(htmlContent, callback) {
         return new Promise((resolve, reject) => {
             fs.readFile(imagePath, (err, imageData) => {
                 if (err) {
-                    console.error(err);
-                    console.log('sadfg');
-                    reject(err);
+                    const placeholderImageUrl = 'https://pro2-bar-s3-cdn-cf6.myportfolio.com/c728a553-9706-473c-adca-fa2ea3652db5/a124d74e-ff6c-4949-aa4f-ea4d43b71224_rw_600.jpg?h=69b24e904907dd396c0ce0af04d66f84';
+                    htmlContent = htmlContent.replace(`src="${imageUrl}"`, `src="${placeholderImageUrl}"`);
+                    
+                    resolve();
                 } else {
                     const mimeType = path.extname(imageUrl).replace('.', '');
                     const base64Content = Buffer.from(imageData).toString('base64');

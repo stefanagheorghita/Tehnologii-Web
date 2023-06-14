@@ -125,7 +125,7 @@ function handleGeneralAnimalPage(req, res) {
 
 
 //for the all animals page
-function handleAllAnimalPage(req, res) {
+function handleAllAnimalPage(req, res,criteria) {
     const filePath = '../frontend/all_animals.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
@@ -141,9 +141,8 @@ function handleAllAnimalPage(req, res) {
             const imageId2 = '64886238df77d90a8234a7f8';
             const backgroundImage2 = await getBackgroundImageFromDatabase(imageId2);
             const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
-
             try {
-                const animals = await getAnimals();
+                const animals = await getAnimals(criteria);
 
                 const animalCards = animals.map((animal) => {
                     const animalUrl = `/Animal?id=${animal._id}`;
