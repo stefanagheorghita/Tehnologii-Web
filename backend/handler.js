@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const {replaceImageUrls} = require('./util/imageUtils');
-const {includeAssets} = require('./util/cssUtils')
-const {getBackgroundImageFromDatabase} = require('./util/fileFromDatabaseUtil');
-const {getAnimals} = require('./animals/animalsDatabase');
+const { replaceImageUrls } = require('./util/imageUtils');
+const { includeAssets } = require('./util/cssUtils')
+const { getBackgroundImageFromDatabase } = require('./util/fileFromDatabaseUtil');
+const { getAnimals } = require('./animals/animalsDatabase');
+const { getAnimalByIdFromDatabase } = require('./animals/animalsByIdDatabase');
 
 // for the landing page
 function handleLandingPage(req, res) {
@@ -21,7 +22,7 @@ function handleLandingPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -60,7 +61,7 @@ function handleHomePage(req, res) {
                         const imageId = '64884885df77d90a8234a7f6';
                         const backgroundImage = await getBackgroundImageFromDatabase(imageId);
                         const updatedContent = modContent.replace("background-image: url('images/tigru2.jpg')", `background-image: url('${backgroundImage}')`);
-                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(updatedContent, 'utf-8');
                     } catch (error) {
                         res.writeHead(500);
@@ -82,7 +83,7 @@ function handleLoginPage(req, res) {
         } else {
 
             const modifiedContent = includeAssets(content, filePath);
-            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end(modifiedContent, 'utf-8');
         }
     });
@@ -111,7 +112,7 @@ function handleGeneralAnimalPage(req, res) {
                         const imageId2 = '64886238df77d90a8234a7f8';
                         const backgroundImage2 = await getBackgroundImageFromDatabase(imageId2);
                         const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
-                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(updatedContent2, 'utf-8');
                     } catch (error) {
                         res.writeHead(500);
@@ -163,7 +164,7 @@ function handleAllAnimalPage(req, res,criteria) {
                         res.writeHead(500);
                         res.end('Internal server error');
                     } else {
-                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(finalContent, 'utf-8');
                     }
                 });
@@ -176,10 +177,13 @@ function handleAllAnimalPage(req, res,criteria) {
 }
 
 
+//for the one animal page
+
 function handleOneAnimalPage(req, res, id) {
     const filePath = '../frontend/Animal.html';
-    fs.readFile(filePath, 'utf8', (err, content) => {
+    fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
+            console.log("eroare");
             res.writeHead(500);
             res.end('Internal server error');
         } else {
@@ -190,11 +194,17 @@ function handleOneAnimalPage(req, res, id) {
                     res.end('Internal server error');
                 } else {
                     try {
-                        // const imageId = '64884885df77d90a8234a7f6';
-                        //  const backgroundImage = await getBackgroundImageFromDatabase(imageId);
-                        //  const updatedContent = modContent.replace("background-image: url('images/tigru2.jpg')", `background-image: url('${backgroundImage}')`);
-                        res.writeHead(200, {'Content-Type': 'text/html'});
-                        res.end(modContent, 'utf-8');
+                        const animal = await getAnimalByIdFromDatabase(id);
+
+                        const updatedContent = modContent
+                            .replace('Lion', animal.name)
+                            .replace('Scientific name:', `<strong>Scientific name:</strong> ${animal.scientificName}`)
+                            .replace('Animal group:', `<strong>Animal group:</strong> ${animal.group}`)
+                            .replace('Diet:', `<strong>Diet:</strong> ${animal.diet}`)
+                            .replace('Lifespan:', `<strong>Lifespan:</strong> ${animal.lifespan}`);
+
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
+                        res.end(updatedContent, 'utf-8');
                     } catch (error) {
                         res.writeHead(500);
                         res.end('Internal server error');
@@ -222,7 +232,7 @@ function handleZooPlanPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -246,7 +256,7 @@ function handleHelpPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -271,7 +281,7 @@ function handleAboutUsPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -295,7 +305,7 @@ function handleForgotPasswordPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -320,7 +330,7 @@ function handleProgramPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -345,7 +355,7 @@ function handleStaticFile(req, res) {
                 res.end('Internal server error');
             }
         } else {
-            res.writeHead(200, {'Content-Type': contentType});
+            res.writeHead(200, { 'Content-Type': contentType });
             res.end(content, 'utf-8');
         }
     });
@@ -361,7 +371,7 @@ function handleRegisterPage(req, res) {
         } else {
 
             const modifiedContent = includeAssets(content, filePath);
-            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end(modifiedContent, 'utf-8');
         }
     });
@@ -383,7 +393,7 @@ function handleSettingsPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
