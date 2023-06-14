@@ -35,7 +35,7 @@ async function handleForgotPasswordRequest(req, res) {
     res.statusCode = 500;
     res.end('Failed to send email');
   }
-}*/
+}
 
 /*const http = require('http');
 const fs = require('fs');
