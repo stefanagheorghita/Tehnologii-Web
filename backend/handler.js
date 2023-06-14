@@ -3,6 +3,7 @@ const path = require('path');
 const {replaceImageUrls} = require('./util/imageUtils');
 const {includeAssets} = require('./util/cssUtils')
 const {getBackgroundImageFromDatabase} = require('./util/fileFromDatabaseUtil');
+const {getAnimals} = require('./animals/animalsDatabase');
 
 // for the landing page
 function handleLandingPage(req, res) {
@@ -39,7 +40,7 @@ function handleHomePage(req, res) {
     //   for (const cookie of cookies) {
 
     //     if (cookie.trim().startsWith('token=')) {
-          
+
     //       console.log('Token cookie found:');
     //     }}}
     const filePath = '../frontend/index.html';
@@ -122,8 +123,62 @@ function handleGeneralAnimalPage(req, res) {
     });
 }
 
+
+//for the all animals page
 function handleAllAnimalPage(req, res) {
     const filePath = '../frontend/all_animals.html';
+    fs.readFile(filePath, 'utf8', async (err, content) => {
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
+            const modifiedContent = includeAssets(content, filePath);
+
+            const imageId = '64886109df77d90a8234a7f7';
+            const backgroundImage = await getBackgroundImageFromDatabase(imageId);
+            const updatedContent = modifiedContent.replace("background-image: url(../images/gorilla.jpg)", `background-image: url('${backgroundImage}')`);
+
+            const imageId2 = '64886238df77d90a8234a7f8';
+            const backgroundImage2 = await getBackgroundImageFromDatabase(imageId2);
+            const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
+
+            try {
+                const animals = await getAnimals();
+
+                const animalCards = animals.map((animal) => {
+                    const animalUrl = `/Animal?id=${animal._id}`;
+                    return `
+              <div class="about-col">
+                <img src="${animal.image}" alt="${animal.name}">
+                <div class="layer">
+                    <a href="${animalUrl}">${animal.name}</a>
+                </div>
+              </div>
+            `;
+                });
+
+                const updatedContent3 = updatedContent2.replace('<!-- AnimalCards -->', animalCards.join(''));
+
+                replaceImageUrls(updatedContent3, async (imgErr, finalContent) => {
+                    if (imgErr) {
+                        res.writeHead(500);
+                        res.end('Internal server error');
+                    } else {
+                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.end(finalContent, 'utf-8');
+                    }
+                });
+            } catch (error) {
+                res.writeHead(500);
+                res.end('Internal server error');
+            }
+        }
+    });
+}
+
+
+function handleOneAnimalPage(req, res, id) {
+    const filePath = '../frontend/Animal.html';
     fs.readFile(filePath, 'utf8', (err, content) => {
         if (err) {
             res.writeHead(500);
@@ -136,14 +191,11 @@ function handleAllAnimalPage(req, res) {
                     res.end('Internal server error');
                 } else {
                     try {
-                        const imageId = '64886109df77d90a8234a7f7';
-                        const backgroundImage = await getBackgroundImageFromDatabase(imageId);
-                        const updatedContent = modContent.replace("background-image: url(../images/gorilla.jpg)", `background-image: url('${backgroundImage}')`);
-                        const imageId2 = '64886238df77d90a8234a7f8';
-                        const backgroundImage2 = await getBackgroundImageFromDatabase(imageId2);
-                        const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
+                        // const imageId = '64884885df77d90a8234a7f6';
+                        //  const backgroundImage = await getBackgroundImageFromDatabase(imageId);
+                        //  const updatedContent = modContent.replace("background-image: url('images/tigru2.jpg')", `background-image: url('${backgroundImage}')`);
                         res.writeHead(200, {'Content-Type': 'text/html'});
-                        res.end(updatedContent2, 'utf-8');
+                        res.end(modContent, 'utf-8');
                     } catch (error) {
                         res.writeHead(500);
                         res.end('Internal server error');
@@ -153,6 +205,7 @@ function handleAllAnimalPage(req, res) {
         }
     });
 }
+
 
 //for the zoo plan page
 function handleZooPlanPage(req, res) {
@@ -318,45 +371,45 @@ function handleRegisterPage(req, res) {
 
 //for settings page
 function handleSettingsPage(req, res) {
-  const filePath = '../frontend/settings.html';
-  fs.readFile(filePath, 'utf8', (err, content) => {
-    if (err) {
-      res.writeHead(500);
-      res.end('Internal server error');
-    } else {
+    const filePath = '../frontend/settings.html';
+    fs.readFile(filePath, 'utf8', (err, content) => {
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
 
-    const modifiedContent = includeAssets(content, filePath);
-    replaceImageUrls(modifiedContent, (imgErr, modContent) => {
-      if (imgErr) {
-        res.writeHead(500);
-        res.end('Internal server error');
-      } else {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end(modContent, 'utf-8');
-      }
+            const modifiedContent = includeAssets(content, filePath);
+            replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+                if (imgErr) {
+                    res.writeHead(500);
+                    res.end('Internal server error');
+                } else {
+                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.end(modContent, 'utf-8');
+                }
+            });
+
+        }
     });
-   
-    }
-  });
 }
 
 function getContentType(extension) {
-  switch (extension) {
-    case 'html':
-      return 'text/html';
-    case 'css':
-      return 'text/css';
-    case 'js':
-      return 'text/javascript';
-    case 'jpg':
-      return 'image/jpg'
-    case 'jpeg':
-      return 'image/jpeg';
-    case 'png':
-      return 'image/png';
-    default:
-      return 'application/octet-stream';
-  }
+    switch (extension) {
+        case 'html':
+            return 'text/html';
+        case 'css':
+            return 'text/css';
+        case 'js':
+            return 'text/javascript';
+        case 'jpg':
+            return 'image/jpg'
+        case 'jpeg':
+            return 'image/jpeg';
+        case 'png':
+            return 'image/png';
+        default:
+            return 'application/octet-stream';
+    }
 }
 
 function readCssFiles(cssFiles, callback) {
@@ -392,5 +445,6 @@ module.exports = {
     handleHelpPage,
     handleForgotPasswordPage,
     handleProgramPage,
+    handleOneAnimalPage,
     handleStaticFile
 };

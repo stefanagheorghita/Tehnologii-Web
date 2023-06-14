@@ -1,7 +1,7 @@
 const {MongoClient, ObjectId} = require('mongodb');
-const { get } = require('mongoose');
+const {get} = require('mongoose');
 const imageCache = {};
-const { getClient } = require('./db');
+const {getClient} = require('./db');
 
 
 async function getBackgroundImageFromDatabase(imageId) {
@@ -9,15 +9,12 @@ async function getBackgroundImageFromDatabase(imageId) {
         return imageCache[imageId];
     }
 
-    const uri = 'mongodb://127.0.0.1:27017';
     const dbName = 'web_db';
 
     const client = getClient();
 
     try {
         await client.connect();
-        console.log('Connected to the database');
-
         const collection = client.db(dbName).collection('backgroundImages');
         const image = await collection.findOne({_id: new ObjectId(imageId)});
         if (image) {
