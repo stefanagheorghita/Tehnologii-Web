@@ -1,10 +1,9 @@
-const querystring = require('querystring');
-const {MongoClient} = require('mongodb');
+
 const bcrypt = require('bcrypt');
 const uri = 'mongodb://127.0.0.1:27017';
 const dbName = 'web_db';
 const jwt = require('jsonwebtoken');
-
+const {getClient} = require('../util/db');
 
 async function handleLoginRequest(req, res) {
 
@@ -18,7 +17,7 @@ async function handleLoginRequest(req, res) {
             const data = JSON.parse(body);
             const email = data.email;
             const password = data.password;
-            const client = new MongoClient(uri);
+            const client = getClient();
 
             try {
                 await client.connect();

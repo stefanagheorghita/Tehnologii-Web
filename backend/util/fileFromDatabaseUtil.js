@@ -1,5 +1,8 @@
 const {MongoClient, ObjectId} = require('mongodb');
+const { get } = require('mongoose');
 const imageCache = {};
+const { getClient } = require('./db');
+
 
 async function getBackgroundImageFromDatabase(imageId) {
     if (imageCache[imageId]) {
@@ -9,7 +12,7 @@ async function getBackgroundImageFromDatabase(imageId) {
     const uri = 'mongodb://127.0.0.1:27017';
     const dbName = 'web_db';
 
-    const client = new MongoClient(uri);
+    const client = getClient();
 
     try {
         await client.connect();
