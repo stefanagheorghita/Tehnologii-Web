@@ -1,32 +1,79 @@
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const nodemailer = require('nodemailer');
+
+// Create a nodemailer transporter with your email service provider configuration
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'zoowebmanager@gmail.com',
+    pass: 'zoowebmanager',
+  },
+});
+
+async function handleForgotPasswordRequest(req, res) {
+  // Get the email address from the form data
+  const email = req.body.email;
+
+  // Compose the email message
+  const mailOptions = {
+    from: 'zoowebmanager@gmail.com',
+    to: email,
+    subject: 'Password Reset',
+    text: 'Here is your new password: XYZ123',
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
+    res.statusCode = 200;
+    res.end('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.statusCode = 500;
+    res.end('Failed to send email');
+  }
+}*/
+
 /*const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { exec } = require('child_process');
 
-const server = http.createServer((req, res) => {
-    if (req.url === '/forgot') {
-        const htmlFilePath = path.join(__dirname, '..', 'frontend', 'user-account', 'forgot.html');
+async function handleForgotPasswordRequest(req, res) {
+  let body = '';
 
-        fs.readFile(htmlFilePath, 'utf8', (err, content) => {
-            if (err) {
-                console.error(err);
-                res.statusCode = 500;
-                res.end('Internal Server Error');
-            } else {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'text/html');
-                res.end(content);
-            }
-        });
-    } else if (req.method === 'POST' && req.url === '/send-email') {
-        // Handle the email sending logic
-        // ... (code for sending email)
-    } else {
-        res.statusCode = 404;
-        res.end('Not Found');
+  // Read the request body data
+  req.on('data', chunk => {
+    body += chunk.toString();
+  });
+
+  // Parse the request body data
+  req.on('end', async () => {
+    // Parse the body as URL-encoded format
+    const parsedBody = new URLSearchParams(body);
+    const email = parsedBody.get('email');
+    const subject = 'Password Reset';
+    const message = 'Here is your new password: XYZ123';
+
+    // Compose the command to send email using the 'mail' command-line utility
+    const command = `echo "${message}" | mail -s "${subject}" ${email}`;
+
+    try {
+      // Execute the command
+      console.log('Command:', command);
+      await exec(command);
+      console.log('Email sent successfully');
+      res.statusCode = 200;
+      res.end('Email sent successfully');
+    } catch (error) {
+      console.error('Error sending email:', error);
+      res.statusCode = 500;
+      res.end('Failed to send email');
     }
-});
+  });
+}*/
 
-const port = 3000;
-server.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});*/
+
