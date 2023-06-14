@@ -18,6 +18,7 @@ const {handleLoginRequest} = require('./controllers/login');
 const {handleRegisterRequest} = require('./controllers/register'); // for register
 const {handleForgotPasswordRequest} = require('./controllers/forgot');
 const {handleProgramRequest} = require('./controllers/program');
+const {handleSettingsRequest} = require('./controllers/settings');
 
 function router(req, res) {
     const url = req.url;
@@ -53,11 +54,11 @@ function router(req, res) {
     } else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
         handleAboutUsPage(req, res);
     } else if (url === '/settings.html' || url === '/settings' || url === '/settings.html') {
-        //if (req.method === 'POST') {
-        //handleSettingsRequest(req, res);
-        //} else {
+        if (req.method === 'POST') {
+        handleSettingsRequest(req, res);
+        } else {
         handleSettingsPage(req, res);
-        //}
+        }
 
     } else if (url === '/help.html' || url === '/help' || url === '/help-page/help.html') {
         handleHelpPage(req, res);
