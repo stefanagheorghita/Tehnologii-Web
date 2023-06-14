@@ -3,6 +3,8 @@ const {MongoClient} = require('mongodb');
 const bcrypt = require('bcrypt');
 const uri = 'mongodb://127.0.0.1:27017';
 const dbName = 'web_db';
+const jwt = require('jsonwebtoken');
+
 
 async function handleLoginRequest(req, res) {
 
@@ -28,8 +30,13 @@ async function handleLoginRequest(req, res) {
                     const passwordMatch = await bcrypt.compare(password, user.password);
 
                     if (passwordMatch) {
+                        const token = jwt.sign({ email: user.email }, secretKey);
+
                         console.log('Login successful');
-                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.writeHead(200, {
+                            'Content-Type': 'text/html',
+                            'Set-Cookie': `token=${token}; HttpOnly`,
+                          });
                         res.write('<h1>Login successful!</h1>');
                         res.end();
                     } else {
