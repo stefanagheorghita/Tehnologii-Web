@@ -5,6 +5,8 @@ const { includeAssets } = require('./util/cssUtils')
 const { getBackgroundImageFromDatabase } = require('./util/fileFromDatabaseUtil');
 const { getAnimals } = require('./animals/animalsDatabase');
 const { getAnimalByIdFromDatabase } = require('./animals/animalsByIdDatabase');
+const { getDietByIdFromDatabase } = require('./util/dietUtils');
+const { ObjectId } = require('mongodb');
 
 // for the landing page
 function handleLandingPage(req, res) {
@@ -195,17 +197,18 @@ function handleOneAnimalPage(req, res, id) {
                 } else {
                     try {
                         const animal = await getAnimalByIdFromDatabase(id);
-
+                        const diet = await getDietByIdFromDatabase(animal.diet_id);
                         const updatedContent = modContent
-                            .replace('Lion', animal.name)
-                            .replace('Scientific name:', `<strong>Scientific name:</strong> ${animal.scientificName}`)
-                            .replace('Animal group:', `<strong>Animal group:</strong> ${animal.group}`)
-                            .replace('Diet:', `<strong>Diet:</strong> ${animal.diet}`)
-                            .replace('Lifespan:', `<strong>Lifespan:</strong> ${animal.lifespan}`);
+                            .replace('Title Animal', animal.name)
+                            .replace('exampleName', `${animal.name}`)
+                            .replace('exampleGroup', `${animal.group}`)
+                            .replace('exampleDiet', `${diet}`)
+                            .replace('exampleLifespan', `${animal.lifespan}`);
 
                         res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(updatedContent, 'utf-8');
                     } catch (error) {
+                        console.log( err);
                         res.writeHead(500);
                         res.end('Internal server error');
                     }
@@ -214,6 +217,7 @@ function handleOneAnimalPage(req, res, id) {
         }
     });
 }
+
 
 
 //for the zoo plan page
