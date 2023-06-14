@@ -128,7 +128,7 @@ function handleGeneralAnimalPage(req, res) {
 
 
 //for the all animals page
-function handleAllAnimalPage(req, res,criteria) {
+function handleAllAnimalPage(req, res, criteria) {
     const filePath = '../frontend/all_animals.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
@@ -185,7 +185,6 @@ function handleOneAnimalPage(req, res, id) {
     const filePath = '../frontend/Animal.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
-            console.log("eroare");
             res.writeHead(500);
             res.end('Internal server error');
         } else {
@@ -208,7 +207,6 @@ function handleOneAnimalPage(req, res, id) {
                         res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(updatedContent, 'utf-8');
                     } catch (error) {
-                        console.log( err);
                         res.writeHead(500);
                         res.end('Internal server error');
                     }
