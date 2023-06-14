@@ -93,7 +93,7 @@
                     var token = xhr.getResponseHeader("Authorization");
                     localStorage.setItem("token", token);
                     const expirationDate = new Date();
-            expirationDate.setTime(expirationDate.getTime() + 30 * 60 * 1000); 
+            expirationDate.setTime(Date.now().getTime() + 30 * 60 * 1000); 
 
             document.cookie = `token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
                     window.location.href = "/index.html";
