@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="settings-script.js"></script>
+    <script src="script.js"></script>
 </head>
 
 <body>
@@ -58,7 +59,7 @@
     </header>
 
     <div class="set-box">
-        <div>
+        <!--<div>
             <h1>
                 Settings
             </h1>
@@ -74,7 +75,25 @@
                     </div>
                 </label>
             </div>
-        </div>
+        </div> -->
+        <div>
+            <h1>Settings</h1>
+          </div>
+          <div>
+            <form id="settingsForm" action="/settings" method="POST">
+              <div>
+                <label for="darkModeToggle">
+                    <span class="dark-mode-text">Dark mode</span>
+                    <input type="checkbox" id="darkModeToggle" name="darkModeToggle">
+                    <div class="toggle-container">
+                        <span class="toggle"></span>
+                        <span class="toggle-c"></span>
+                    </div>
+                </label>
+              </div>
+            </form>
+          </div>
+          
         <div class="profile-info">
             <h1>Profile Information</h1>
             <h2>Full Name</h2>

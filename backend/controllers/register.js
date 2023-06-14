@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
+    mode: Boolean
 });
 
 
@@ -83,6 +84,7 @@ function saveUserToDatabase(name, email, hashedPassword) {
         name: name,
         email: email,
         password: hashedPassword,
+        mode: false,
     });
 
 
