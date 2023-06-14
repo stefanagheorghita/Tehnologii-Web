@@ -31,6 +31,17 @@ function handleLandingPage(req, res) {
 
 // for the home page
 function handleHomePage(req, res) {
+    // const cookieHeader = req.headers.cookie;
+
+    // if (cookieHeader) {
+    //   const cookies = cookieHeader.split(';');
+
+    //   for (const cookie of cookies) {
+
+    //     if (cookie.trim().startsWith('token=')) {
+          
+    //       console.log('Token cookie found:');
+    //     }}}
     const filePath = '../frontend/index.html';
 
     fs.readFile(filePath, 'utf8', (err, content) => {

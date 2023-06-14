@@ -30,6 +30,7 @@ async function handleLoginRequest(req, res) {
                     const passwordMatch = await bcrypt.compare(password, user.password);
 
                     if (passwordMatch) {
+                        const secretKey = 'your_secret_key_here';
                         const token = jwt.sign({ email: user.email }, secretKey);
 
                         console.log('Login successful');
