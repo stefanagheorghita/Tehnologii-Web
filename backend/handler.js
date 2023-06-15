@@ -5,8 +5,13 @@ const { includeAssets } = require('./util/cssUtils')
 const { getBackgroundImageFromDatabase } = require('./util/fileFromDatabaseUtil');
 const { getAnimals } = require('./animals/animalsDatabase');
 const { getAnimalByIdFromDatabase } = require('./animals/animalsByIdDatabase');
-const { getDietByIdFromDatabase } = require('./util/dietUtils');
-const { ObjectId } = require('mongodb');
+const { getDietByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getStatusByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getClimaByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getReproductionByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getTypeByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getCoveringByIdFromDatabase} = require('./util/infoDatabaseUtil');
+
 
 // for the landing page
 function handleLandingPage(req, res) {
@@ -197,10 +202,16 @@ function handleOneAnimalPage(req, res, id) {
                     try {
                         const animal = await getAnimalByIdFromDatabase(id);
                         const diet = await getDietByIdFromDatabase(animal.diet_id);
+                        const status = await getStatusByIdFromDatabase(animal.status_id);
+                        const clima = await getClimaByIdFromDatabase(animal.clima_id);
+                        const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
+                        const type = await getTypeByIdFromDatabase(animal.type_id);
+                        const covering = await getCoveringByIdFromDatabase(animal.covering_id);
+                        //const danger = await getDangerByIdFromDatabase(animal.danger_id);
                         const updatedContent = modContent
                             .replace('Title Animal', animal.name)
                             .replace('exampleName', `${animal.name}`)
-                            .replace('exampleGroup', `${animal.group}`)
+                            .replace('exampleGroup', `${type}`)
                             .replace('exampleDiet', `${diet}`)
                             .replace('exampleLifespan', `${animal.lifespan}`);
 
