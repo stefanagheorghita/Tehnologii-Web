@@ -14,12 +14,12 @@ const {
     handleOneAnimalPage,
     handleSettingsPage
 } = require('./handler');
-const { handleLoginRequest } = require('./controllers/login');
-const { handleRegisterRequest } = require('./controllers/register'); // for register
-const { handleForgotPasswordRequest } = require('./controllers/forgot');
-const { handleProgramRequest } = require('./controllers/program');
-const { handleSettingsRequest } = require('./controllers/settings');
-//const { handleCriteriaRequest } = require('./animals/criteria');
+const {handleLoginRequest} = require('./controllers/login');
+const {handleRegisterRequest} = require('./controllers/register'); // for register
+const {handleForgotPasswordRequest} = require('./controllers/forgot');
+const {handleProgramRequest} = require('./controllers/program');
+const {handleSettingsRequest} = require('./controllers/settings');
+const { handleCriteriaRequest } = require('./animals/criteria');
 
 function router(req, res) {
     const url = req.url;
@@ -47,34 +47,32 @@ function router(req, res) {
         const criteria = {};
         
         for (const [key, value] of queryParams) {
-            criteria[key] = value;
-        }
             if (value.includes('%')) {
               criteria[key] = value.split('%'); 
             } else {
               criteria[key] = value;
             }
-          
+          }
           for (const [key, value] of queryParams) {
             if (value.includes(',')) {
-              criteria[key] = value.split(','); // Split the value by ',' and convert each element to ObjectId
+              criteria[key] = value.split(','); 
             } else {
-              criteria[key] =value; // Convert the single value to ObjectId
+              criteria[key] =value; 
             }
           }
         
           console.log(criteria);
         handleAllAnimalPage(req, res, Object.keys(criteria).length > 0 ? criteria : null);
-    }
-    else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
+      } 
+       else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
         handleZooPlanPage(req, res);
     } else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
         handleAboutUsPage(req, res);
     } else if (url === '/settings.html' || url === '/settings' || url === '/settings.html') {
         if (req.method === 'POST') {
-
-            handleSettingsRequest(req, res);
-
+           
+                handleSettingsRequest(req, res);
+              
         } else {
             handleSettingsPage(req, res);
         }
@@ -113,7 +111,7 @@ function router(req, res) {
 //     req.on('data', (chunk) => {
 //       body += chunk;
 //     });
-
+  
 //     req.on('end', () => {
 //       req.body = JSON.parse(body);
 //       next();
