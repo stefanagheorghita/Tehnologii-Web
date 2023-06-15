@@ -19,8 +19,9 @@ const {handleRegisterRequest} = require('./controllers/register'); // for regist
 const {handleForgotPasswordRequest} = require('./controllers/forgot');
 const {handleProgramRequest} = require('./controllers/program');
 const {handleSettingsRequest} = require('./controllers/settings');
-const { handleCriteriaRequest } = require('./animals/criteria');
-const {exportJson,exportXml} =require('./animals/export');
+const {handleCriteriaRequest} = require('./animals/criteria');
+const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
+
 function router(req, res) {
     const url = req.url;
     if (url === '/' || url === '/landingpage.html' || url === '/landingpage') {
@@ -42,47 +43,45 @@ function router(req, res) {
     } else if (url === '/animals.html' || url === '/animals') {
         handleGeneralAnimalPage(req, res);
     } else if (url.startsWith('/all-animals') || url.startsWith('/all_animals')) {
-        if(url.startsWith('/all-animals/search-animal'))
-        {
+        if (url.startsWith('/all-animals/search-animal')) {
             const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
             const queryParams = new URLSearchParams(queryString);
             const criteria = {};
             console.log(queryParams);
-            const searchTerm = queryParams.get('term'); 
-            handleAllAnimalPage(req,res,null,searchTerm);
+            const searchTerm = queryParams.get('term');
+            handleAllAnimalPage(req, res, null, searchTerm);
+        } else {
+            const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
+            const queryParams = new URLSearchParams(queryString);
+            const criteria = {};
+
+            for (const [key, value] of queryParams) {
+                if (value.includes('%')) {
+                    criteria[key] = value.split('%');
+                } else {
+                    criteria[key] = value;
+                }
+            }
+            for (const [key, value] of queryParams) {
+                if (value.includes(',')) {
+                    criteria[key] = value.split(',');
+                } else {
+                    criteria[key] = value;
+                }
+            }
+
+            console.log(criteria);
+            handleAllAnimalPage(req, res, Object.keys(criteria).length > 0 ? criteria : null, null);
         }
-        else{
-        const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
-        const queryParams = new URLSearchParams(queryString);
-        const criteria = {};
-        
-        for (const [key, value] of queryParams) {
-            if (value.includes('%')) {
-              criteria[key] = value.split('%'); 
-            } else {
-              criteria[key] = value;
-            }
-          }
-          for (const [key, value] of queryParams) {
-            if (value.includes(',')) {
-              criteria[key] = value.split(','); 
-            } else {
-              criteria[key] =value; 
-            }
-          }
-        
-          console.log(criteria);
-        handleAllAnimalPage(req, res, Object.keys(criteria).length > 0 ? criteria : null,null);}
-      } 
-       else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
+    } else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
         handleZooPlanPage(req, res);
     } else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
         handleAboutUsPage(req, res);
     } else if (url === '/settings.html' || url === '/settings' || url === '/settings.html') {
         if (req.method === 'POST') {
-           
-                handleSettingsRequest(req, res);
-              
+
+            handleSettingsRequest(req, res);
+
         } else {
             handleSettingsPage(req, res);
         }
@@ -104,28 +103,44 @@ function router(req, res) {
             handleProgramPage(req, res);
         }
     } else if (url.startsWith('/Animal')) {
-        // Extract the animal ID from the query parameters
         const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');
         handleOneAnimalPage(req, res, animalId);
-    }
-    else if (url.startsWith('/criteria')) {
+    } else if (url.startsWith('/criteria')) {
         handleCriteriaRequest(req, res);
-    }
-    else if (url.startsWith('/animal/')) {
+    } else if (url.startsWith('/animal/')) {
         const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');
-      
-        if (url.startsWith('/animal/json')) {
-            exportJson(animalId,req,res);
-        
-        } else if (url.startsWith('/animal/xml')) {
-            exportXml(animalId,req,res);
-        }else {
-            res.writeHead(404, { 'Content-Type': 'text/plain' });
-            res.end('404 Not Found');
-          }
 
-    }
-    else {
+        if (url.startsWith('/animal/json')) {
+            exportJson(animalId, req, res);
+
+        } else if (url.startsWith('/animal/xml')) {
+            exportXml(animalId, req, res);
+        } else {
+            res.writeHead(404, {'Content-Type': 'text/plain'});
+            res.end('404 Not Found');
+        }
+
+    } else if (url.startsWith('/json') || url.startsWith('/xml') || url.startsWith('/csv')) {
+        const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
+        const queryParams = new URLSearchParams(queryString);
+        const criteria = {};
+
+        for (const [key, value] of queryParams) {
+            if (value.includes('%')) {
+                criteria[key] = value.split('%');
+            } else {
+                criteria[key] = value;
+            }
+        }
+        for (const [key, value] of queryParams) {
+            if (value.includes(',')) {
+                criteria[key] = value.split(',');
+            } else {
+                criteria[key] = value;
+            }
+        }
+        moreAnimalsExport(criteria, req, res);
+    } else {
         handleStaticFile(req, res);
     }
 }
@@ -135,7 +150,7 @@ function router(req, res) {
 //     req.on('data', (chunk) => {
 //       body += chunk;
 //     });
-  
+
 //     req.on('end', () => {
 //       req.body = JSON.parse(body);
 //       next();

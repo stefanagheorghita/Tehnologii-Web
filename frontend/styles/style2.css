@@ -655,3 +655,76 @@ body {
 .button1:hover {
   box-shadow: 0 12px 16px 0 rgba(224, 202, 202, 0.59), 0 17px 50px 0 rgba(249, 242, 242, 0.432);
 }
+
+.buttons{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.button {
+
+  border-radius: 10px;
+  border: none;
+  color: white;
+  padding: 20px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  box-shadow: 5px 5px 10px #888888;
+  float: right;
+  margin-right: 20px;
+  margin-top: 35px;
+}
+
+
+.button5 {
+  background-color: white;
+  color: black;
+  border: 2px solid #008CBA;
+}
+
+.button5:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
+.button6 {
+  background-color: white;
+  color: black;
+  border: 2px solid #d00808;
+}
+
+.button6:hover {
+  background-color: #d00808;
+  color: white;
+}
+
+.button7 {
+  background-color: white;
+  color: black;
+  border: 2px solid #6f08d0;
+}
+
+.button7:hover {
+  background-color: #6f08d0;
+  color: white;
+}
+
+@media screen and (max-width: 375px) {
+  .button {
+    width: 90%;
+    margin-bottom: 0.2px;
+  }
+  .buttons{
+    flex-direction: column;
+  }
+}
+  

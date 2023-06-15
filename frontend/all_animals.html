@@ -91,6 +91,7 @@
             </a>
         </div>
     </div>
+
     <div class="content">
         <div class="filter-menu" id="filterForm">
             <h3>Filter by:</h3>
@@ -115,7 +116,7 @@
                 <button type="submit">Filter</button>
             </form>
         </div>
-        
+
 
         <div class="filter-toggle">
             <span class="icon">&#x2756;</span>
@@ -139,6 +140,11 @@
             </div>
 
         </div>
+    </div>
+    <div class="buttons">
+        <button class=" button button5" id="xmlButton">XML</button>
+        <button class="button button6" id="jsonButton">JSON</button>
+        <button class="button button7" id="csvButton">CSV</button>
     </div>
 </section>
 <div class="footer_section">
@@ -176,213 +182,264 @@
     </div>
 </div>
 <script>
-//functie request caut animale
-async function searchAnimals(searchTerm) {
-  try {
- 
-    const response = await fetch(`all-animals/search-animals?term=${encodeURIComponent(searchTerm)}`);
-    if (response.ok) {
-        console.log('este bine');
-      const data = await response.text();
-      return data;
-    } else {
-      throw new Error('Request failed');
-    }
-  } catch (error) {
-    console.log('si aici nu e bine');
-    console.error('Error searching animals:', error);
-    throw error;
-  }
-}
+    jsonButton.addEventListener('click', requestJSON);
+    //xmlButton.addEventListener('click', requestXML);
+    //csvButton.addEventListener('click', requestCSV);
 
+    function requestJSON() {
 
-//cerere criterii filtrare server
-function handleCriteriaRequest() {
-   
-  const xhr = new XMLHttpRequest();
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        const criteriaData = JSON.parse(xhr.responseText);
-        
-        populateSelectOptions('type', criteriaData.types);
-        populateSelectOptions('climate', criteriaData.climates);
-        populateSelectOptions('diet', criteriaData.diets);
-        populateSelectOptions('reproduction', criteriaData.reproduction);
-        populateCheckboxOptions('origin', criteriaData.origins);
-        populateSelectOptions('status', criteriaData.statuses);
-        populateSelectOptions('cover', criteriaData.covers);
-        attachCheckboxEventListeners();
-      } else {
-        console.error('Error fetching criteria data:', xhr.status);
-      }
-    }
-  };
-
-  xhr.open('GET', '/criteria');
-  xhr.send();
-}
-
-
-//pune criteriile
-function populateSelectOptions(selectId, optionsData) {
-  const select = document.getElementById(selectId);
-  const noValueOption = document.createElement('option');
-  noValueOption.value = '';
-  noValueOption.textContent = 'Choose an option'; 
-  select.appendChild(noValueOption);
-
-  optionsData.forEach((option) => {
-    const optionElement = document.createElement('option');
-    optionElement.value = option._id;
-    optionElement.textContent = option.name;
-    select.appendChild(optionElement);
-  });
-
-}
-
-
-function attachCheckboxEventListeners() {
-  const checkboxes = document.querySelectorAll('input[name="origin[]"]');
-  checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener('change', handleCheckboxChange);
-  });
-}
-
-function populateCheckboxOptions(checkboxGroupId, optionsData) {
-  const checkboxGroup = document.getElementById(checkboxGroupId);
-
-  optionsData.forEach((option) => {
-    const checkboxContainer = document.createElement('div');
-    checkboxContainer.classList.add('checkbox-container');
-
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.name = checkboxGroupId + '[]'; 
-    checkbox.value = option._id;
-    checkbox.id = `${checkboxGroupId}-${option._id}`;
-
-    const label = document.createElement('label');
-    label.setAttribute('for', `${checkboxGroupId}-${option._id}`);
-    label.textContent = option.name;
-    label.classList.add('origin-label');
-    checkboxContainer.appendChild(checkbox);
-    checkboxContainer.appendChild(label);
-    checkboxGroup.appendChild(checkboxContainer);
-  });
-}
-
-const selectedCheckboxValues = []; 
-
-//schimb cand am ales ceva
-function handleCheckboxChange(event) {
-  const checkbox = event.target;
-  const checkboxValue = checkbox.value.trim();
-
-  if (checkbox.checked) {
-    
-    console.log(`Checkbox with value ${checkboxValue} is checked.`);
-    selectedCheckboxValues.push(checkboxValue); 
-  } else {
-    console.log(`Checkbox with value ${checkboxValue} is unchecked.`);
-    const index = selectedCheckboxValues.indexOf(checkboxValue);
-    if (index !== -1) {
-      selectedCheckboxValues.splice(index, 1); 
-    }
-  }
-}
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.querySelector('.search input');
-  //pentru cautare
-  searchInput.addEventListener('input', function(event) {
-    console.log('Search term:', event.target.value);
-    const searchTerm = event.target.value.trim();
-    searchAnimals(searchTerm)
-      .then(results => {
-        console.log('Search Results:', results);
-        const parser = new DOMParser();
-      const newDocument = parser.parseFromString(results, 'text/html');
-      const newContent = newDocument.querySelector('.about .row').innerHTML;
-      document.querySelector('.about .row').innerHTML = newContent;
-      const url = `all-animals/search-animals?term=${encodeURIComponent(value)}`;
-      history.pushState(null, '', url);
-      })
-      .catch(error => {
-        console.error('Error searching animals:', error);
-      });
-  });
-
-  //pentru filtrare
-    document.querySelector('form button[type="submit"]').addEventListener('click', function(event) {
-    event.preventDefault();
-    const criteria = {
-      type: getValueIfNotEmpty('type'),
-      origin: getSelectedValues('origin'),
-      clima: getValueIfNotEmpty('climate'),
-      diet: getValueIfNotEmpty('diet'),
-      reproduction: getValueIfNotEmpty('reproduction'),
-      covering: getValueIfNotEmpty('cover'),
-        status: getValueIfNotEmpty('status'),
-      //endangered: document.getElementById('endangered').checked
-    };
-
-    let url = '/all-animals?';
-    Object.entries(criteria).forEach(([key, value]) => {
-      if (value !== null) {
-        url += `${key}=${encodeURIComponent(value)}&`;
-      }
-    });
-    url = url.replace(/&$/, '');
-
-   
-    fetch(url)
-      .then(function(response) {
-        if (response.ok) {
-          return response.text();
-        } else {
-          throw new Error('Request failed');
+        const currentUrlParams = new URLSearchParams(window.location.search);
+        const targetUrl = new URL('http://localhost:3000/json');
+        for (const [key, value] of currentUrlParams.entries()) {
+            targetUrl.searchParams.append(key, value);
         }
-      })
-      
-      .then(function(data) {
-        const parser = new DOMParser();
-      const newDocument = parser.parseFromString(data, 'text/html');
-      const newContent = newDocument.querySelector('.about .row').innerHTML;
-      document.querySelector('.about .row').innerHTML = newContent;
-      history.pushState(null, '', url);
-      })
-      .catch(function(error) {
 
-      });
-    //   window.location.href = url;
-  });
+        const finalUrl = targetUrl.toString();
+        fetch(finalUrl)
+            .then(response => response.json())
+            .then(data => {
 
-  function getValueIfNotEmpty(selectId) {
-    const select = document.getElementById(selectId);
-    const selectedValue = select.value.trim();
-    return selectedValue !== '' ? selectedValue : null;
-  }
+                const jsonBlob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
 
-  function getSelectedValues(checkboxGroupId) {
-  return selectedCheckboxValues.length > 0 ? selectedCheckboxValues : null;
-}
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(jsonBlob);
+                downloadLink.download = `animals.json`;
+
+                downloadLink.click();
+            })
+            .catch(error => {
+                console.error('Error requesting JSON:', error);
+            });
+    }
 
 
-  handleCriteriaRequest();
-const checkboxes = document.querySelectorAll('input[name="origin[]"]');
+    function requestXML() {
 
-checkboxes.forEach((checkbox) => {
-  checkbox.addEventListener('change', handleCheckboxChange);
-});
+        const animalId = getAnimalIdFromURL();
+        const url = `/animal/xml?id=${animalId}`;
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+
+                const xmlBlob = new Blob([data], {type: 'application/xml'});
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(xmlBlob);
+                downloadLink.download = `animal_${animalId}.xml`;
+
+                downloadLink.click();
+            })
+            .catch(error => {
+                console.error('Error requesting XML:', error);
+            });
+    }
 
 
-});
+    //functie request caut animale
+    async function searchAnimals(searchTerm) {
+        try {
+
+            const response = await fetch(`all-animals/search-animals?term=${encodeURIComponent(searchTerm)}`);
+            if (response.ok) {
+                const data = await response.text();
+                return data;
+            } else {
+                throw new Error('Request failed');
+            }
+        } catch (error) {
+            console.error('Error searching animals:', error);
+            throw error;
+        }
+    }
 
 
-</script>  
+    //cerere criterii filtrare server
+    function handleCriteriaRequest() {
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const criteriaData = JSON.parse(xhr.responseText);
+
+                    populateSelectOptions('type', criteriaData.types);
+                    populateSelectOptions('climate', criteriaData.climates);
+                    populateSelectOptions('diet', criteriaData.diets);
+                    populateSelectOptions('reproduction', criteriaData.reproduction);
+                    populateCheckboxOptions('origin', criteriaData.origins);
+                    populateSelectOptions('status', criteriaData.statuses);
+                    populateSelectOptions('cover', criteriaData.covers);
+                    attachCheckboxEventListeners();
+                } else {
+                    console.error('Error fetching criteria data:', xhr.status);
+                }
+            }
+        };
+
+        xhr.open('GET', '/criteria');
+        xhr.send();
+    }
+
+
+    //pune criteriile
+    function populateSelectOptions(selectId, optionsData) {
+        const select = document.getElementById(selectId);
+        const noValueOption = document.createElement('option');
+        noValueOption.value = '';
+        noValueOption.textContent = 'Choose an option';
+        select.appendChild(noValueOption);
+
+        optionsData.forEach((option) => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option._id;
+            optionElement.textContent = option.name;
+            select.appendChild(optionElement);
+        });
+
+    }
+
+
+    function attachCheckboxEventListeners() {
+        const checkboxes = document.querySelectorAll('input[name="origin[]"]');
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', handleCheckboxChange);
+        });
+    }
+
+    function populateCheckboxOptions(checkboxGroupId, optionsData) {
+        const checkboxGroup = document.getElementById(checkboxGroupId);
+
+        optionsData.forEach((option) => {
+            const checkboxContainer = document.createElement('div');
+            checkboxContainer.classList.add('checkbox-container');
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = checkboxGroupId + '[]';
+            checkbox.value = option._id;
+            checkbox.id = `${checkboxGroupId}-${option._id}`;
+
+            const label = document.createElement('label');
+            label.setAttribute('for', `${checkboxGroupId}-${option._id}`);
+            label.textContent = option.name;
+            label.classList.add('origin-label');
+            checkboxContainer.appendChild(checkbox);
+            checkboxContainer.appendChild(label);
+            checkboxGroup.appendChild(checkboxContainer);
+        });
+    }
+
+    const selectedCheckboxValues = [];
+
+    //schimb cand am ales ceva
+    function handleCheckboxChange(event) {
+        const checkbox = event.target;
+        const checkboxValue = checkbox.value.trim();
+
+        if (checkbox.checked) {
+
+            console.log(`Checkbox with value ${checkboxValue} is checked.`);
+            selectedCheckboxValues.push(checkboxValue);
+        } else {
+            console.log(`Checkbox with value ${checkboxValue} is unchecked.`);
+            const index = selectedCheckboxValues.indexOf(checkboxValue);
+            if (index !== -1) {
+                selectedCheckboxValues.splice(index, 1);
+            }
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.querySelector('.search input');
+        //pentru cautare
+        searchInput.addEventListener('input', function (event) {
+            console.log('Search term:', event.target.value);
+            const searchTerm = event.target.value.trim();
+            searchAnimals(searchTerm)
+                .then(results => {
+                    console.log('Search Results:', results);
+                    const parser = new DOMParser();
+                    const newDocument = parser.parseFromString(results, 'text/html');
+                    const newContent = newDocument.querySelector('.about .row').innerHTML;
+                    document.querySelector('.about .row').innerHTML = newContent;
+                    const url = `all-animals/search-animals?term=${encodeURIComponent(value)}`;
+                    history.pushState(null, '', url);
+                })
+                .catch(error => {
+                    console.error('Error searching animals:', error);
+                });
+        });
+
+        //pentru filtrare
+        document.querySelector('form button[type="submit"]').addEventListener('click', function (event) {
+            event.preventDefault();
+            const criteria = {
+                type: getValueIfNotEmpty('type'),
+                origin: getSelectedValues('origin'),
+                clima: getValueIfNotEmpty('climate'),
+                diet: getValueIfNotEmpty('diet'),
+                reproduction: getValueIfNotEmpty('reproduction'),
+                covering: getValueIfNotEmpty('cover'),
+                status: getValueIfNotEmpty('status'),
+                //endangered: document.getElementById('endangered').checked
+            };
+
+            let url = '/all-animals?';
+            Object.entries(criteria).forEach(([key, value]) => {
+                if (value !== null) {
+                    url += `${key}=${encodeURIComponent(value)}&`;
+                }
+            });
+            url = url.replace(/&$/, '');
+
+
+            fetch(url)
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Request failed');
+                    }
+                })
+
+                .then(function (data) {
+                    const parser = new DOMParser();
+                    const newDocument = parser.parseFromString(data, 'text/html');
+                    const newContent = newDocument.querySelector('.about .row').innerHTML;
+                    document.querySelector('.about .row').innerHTML = newContent;
+                    history.pushState(null, '', url);
+                })
+                .catch(function (error) {
+
+                });
+            //   window.location.href = url;
+        });
+
+        function getValueIfNotEmpty(selectId) {
+            const select = document.getElementById(selectId);
+            const selectedValue = select.value.trim();
+            return selectedValue !== '' ? selectedValue : null;
+        }
+
+        function getSelectedValues(checkboxGroupId) {
+            return selectedCheckboxValues.length > 0 ? selectedCheckboxValues : null;
+        }
+
+
+        handleCriteriaRequest();
+        const checkboxes = document.querySelectorAll('input[name="origin[]"]');
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', handleCheckboxChange);
+        });
+
+
+    });
+
+
+</script>
 </body>
 
 </html>

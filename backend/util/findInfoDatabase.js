@@ -97,7 +97,9 @@ async function getCoveringName(id) {
         const covering = await coveringCollection.findOne({_id: new ObjectId(id)});
         return covering.name;
     } catch (error) {
+        console.log('if' + id);
         console.error('Error retrieving covering name:', error);
+
         throw error;
     }
 }
@@ -105,27 +107,27 @@ async function getCoveringName(id) {
 async function getOriginNames(animalId) {
     const client = getClient();
     try {
-      await client.connect();
-      const db = client.db(dbName);
-      const animalOriginCollection = db.collection('animal_origin');
-      const originsCollection = db.collection('origin');
-  
-      const animalOriginQuery = { animal_id:new ObjectId( animalId)};
-      const animalOrigins = await animalOriginCollection.find(animalOriginQuery).toArray();
-      const originIds = animalOrigins.map((animalOrigin) => new ObjectId(animalOrigin.origin_id));
-      const originQuery = { _id: { $in: originIds } };
-      const originProjection = { name: 1 };
-      const originNames = await originsCollection.find(originQuery).project(originProjection).toArray();
-  
-      return originNames.map((origin) => origin.name);
+        await client.connect();
+        const db = client.db(dbName);
+        const animalOriginCollection = db.collection('animal_origin');
+        const originsCollection = db.collection('origin');
+
+        const animalOriginQuery = {animal_id: new ObjectId(animalId)};
+        const animalOrigins = await animalOriginCollection.find(animalOriginQuery).toArray();
+        const originIds = animalOrigins.map((animalOrigin) => new ObjectId(animalOrigin.origin_id));
+        const originQuery = {_id: {$in: originIds}};
+        const originProjection = {name: 1};
+        const originNames = await originsCollection.find(originQuery).project(originProjection).toArray();
+
+        return originNames.map((origin) => origin.name);
     } catch (error) {
-      console.error('Error retrieving origin names:', error);
-      throw error;
+        console.error('Error retrieving origin names:', error);
+        throw error;
     } finally {
-      client.close();
+
     }
-  }
-  
+}
+
 
 module.exports = {
     getStatusName,
