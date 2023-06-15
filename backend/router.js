@@ -19,6 +19,7 @@ const {handleRegisterRequest} = require('./controllers/register'); // for regist
 const {handleForgotPasswordRequest} = require('./controllers/forgot');
 const {handleProgramRequest} = require('./controllers/program');
 const {handleSettingsRequest} = require('./controllers/settings');
+const { handleCriteriaRequest } = require('./animals/criteria');
 
 function router(req, res) {
     const url = req.url;
@@ -55,9 +56,11 @@ function router(req, res) {
         handleAboutUsPage(req, res);
     } else if (url === '/settings.html' || url === '/settings' || url === '/settings.html') {
         if (req.method === 'POST') {
-        handleSettingsRequest(req, res);
+           
+                handleSettingsRequest(req, res);
+              
         } else {
-        handleSettingsPage(req, res);
+            handleSettingsPage(req, res);
         }
 
     } else if (url === '/help.html' || url === '/help' || url === '/help-page/help.html') {
@@ -80,10 +83,26 @@ function router(req, res) {
         // Extract the animal ID from the query parameters
         const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');
         handleOneAnimalPage(req, res, animalId);
-    } else {
+    }
+    else if (url.startsWith('/criteria')) {
+        handleCriteriaRequest(req, res);
+    }
+    else {
         handleStaticFile(req, res);
     }
 }
+
+// function bodyParser(req, res, next) {
+//     let body = '';
+//     req.on('data', (chunk) => {
+//       body += chunk;
+//     });
+  
+//     req.on('end', () => {
+//       req.body = JSON.parse(body);
+//       next();
+//     });
+//   }
 
 /*function serveStaticFile(filePath, contentType, res) {
   fs.readFile(filePath, (err, data) => {

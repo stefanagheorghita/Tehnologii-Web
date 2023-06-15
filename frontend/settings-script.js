@@ -1,13 +1,45 @@
-document.addEventListener("DOMContentLoaded", function() {
+/*document.addEventListener("DOMContentLoaded", function() {
+
+  // Get the value of the dark mode checkbox
+const darkModeToggle = document.getElementById('darkModeToggle').checked;
+
+// Prepare the data to be sent in the request body
+const data = {
+  darkModeToggle: darkModeToggle
+};
+
+console.log('Sending request with data:', data);
+
+fetch('/settings', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data)
+})
+  .then(response => {
+    if (response.ok) {
+      // Dark mode updated successfully
+      console.log('Dark mode updated successfully');
+    } else {
+      // Dark mode update failed
+      console.error('Dark mode update failed');
+    }
+  })
+  .catch(error => {
+    // Handle the error
+    console.error('Error updating dark mode:', error);
+  });*/
+
     
-  //pt pagina settings
+  /*//pt pagina settings
   const toggleSwitch = document.querySelector('#darkModeToggle');
     
   toggleSwitch.addEventListener('change', function () {
     console.log("luminaa");
     document.body.classList.toggle('dark-mode');
     document.getElementById('settingsForm').submit(); // Submit the form on checkbox change
-  });
+  });*/
     
 
 
@@ -47,4 +79,49 @@ document.addEventListener("DOMContentLoaded", function() {
     xhr.send(formData);
   }); */  
     
+////////});
+
+
+document.addEventListener('change', function() {
+  
+  function updateDarkModeSetting() {
+    
+    const darkModeToggle = document.getElementById('darkModeToggle').checked;
+    
+    console.log('asdcfg'+darkModeToggle);
+
+    
+    
+
+    const data = {
+      darkModeToggle: darkModeToggle
+    };
+  
+    fetch('/settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Dark mode updated successfully');
+          // document.getElementById('settingsForm').submit();
+        } else {
+          console.error('Dark mode update failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error updating dark mode:', error);
+      });
+    
+  }
+
+  
+  const toggleSwitch = document.querySelector('#darkModeToggle');
+  toggleSwitch.addEventListener('change', updateDarkModeSetting);
+
+  
+  updateDarkModeSetting();
 });
