@@ -19,6 +19,7 @@ const {handleRegisterRequest} = require('./controllers/register'); // for regist
 const {handleForgotPasswordRequest} = require('./controllers/forgot');
 const {handleProgramRequest} = require('./controllers/program');
 const {handleSettingsRequest} = require('./controllers/settings');
+const { handleCriteriaRequest } = require('./animals/criteria');
 
 function router(req, res) {
     const url = req.url;
@@ -80,7 +81,11 @@ function router(req, res) {
         // Extract the animal ID from the query parameters
         const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');
         handleOneAnimalPage(req, res, animalId);
-    } else {
+    }
+    else if (url.startsWith('/criteria')) {
+        handleCriteriaRequest(req, res);
+    }
+    else {
         handleStaticFile(req, res);
     }
 }
