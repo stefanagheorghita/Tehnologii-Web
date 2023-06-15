@@ -92,32 +92,30 @@
         </div>
     </div>
     <div class="content">
-        <div class="filter-menu">
+        <div class="filter-menu" id="filterForm">
             <h3>Filter by:</h3>
             <form>
-                <label for="category">Category:</label>
-                <select id="category" name="category">
-                    <option value="cat1">Category 1</option>
-                    <option value="cat2">Category 2</option>
-                    <option value="cat3">Category 3</option>
-                </select>
-                <label for="zone">Region:</label>
-                <select id="zone" name="zone">
-                    <option value="zone1">Zone 1</option>
-                    <option value="zone2">Zone 2</option>
-                    <option value="zone3">Zone 3</option>
-                </select>
-                <label for="category">Climate conditions:</label>
-                <select id="climate" name="climate">
-                    <option value="cat1">Category 1</option>
-                    <option value="cat2">Category 2</option>
-                    <option value="cat3">Category 3</option>
-                </select>
-                <label for="endangered">Endangered:</label>
-                <input type="checkbox" id="endangered" name="endangered">
+                <label for="type">Type:</label>
+                <select id="type" name="type"></select>
+                <label for="climate">Climate conditions:</label>
+                <select id="climate" name="climate"></select>
+                <label id="origin-label">Continent:</label>
+                <div id="origin" class="checkbox-group" aria-labelledby="origin-label"></div>
+
+                <label for="status">Status:</label>
+                <select id="status" name="status"></select>
+                <label for="diet">Diet:</label>
+                <select id="diet" name="diet"></select>
+                <label for="reproduction">Reproduction mode:</label>
+                <select id="reproduction" name="reproduction"></select>
+                <label for="cover">Covering:</label>
+                <select id="cover" name="cover"></select>
+                <!-- <label for="endangered">Endangered:</label>
+                <input type="checkbox" id="endangered" name="endangered"> -->
                 <button type="submit">Filter</button>
             </form>
         </div>
+        
 
         <div class="filter-toggle">
             <span class="icon">&#x2756;</span>
@@ -137,119 +135,6 @@
             <div class="row">
 
                 <!-- AnimalCards -->
-<!-- 
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div> -->
 
             </div>
 
@@ -290,7 +175,180 @@
         <button type="button">+1234567899</button>
     </div>
 </div>
+<script>
 
+
+
+
+function handleCriteriaRequest() {
+   
+  const xhr = new XMLHttpRequest();
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        const criteriaData = JSON.parse(xhr.responseText);
+        
+        populateSelectOptions('type', criteriaData.types);
+        populateSelectOptions('climate', criteriaData.climates);
+        populateSelectOptions('diet', criteriaData.diets);
+        populateSelectOptions('reproduction', criteriaData.reproduction);
+        populateCheckboxOptions('origin', criteriaData.origins);
+        populateSelectOptions('status', criteriaData.statuses);
+        populateSelectOptions('cover', criteriaData.covers);
+        attachCheckboxEventListeners();
+      } else {
+        console.error('Error fetching criteria data:', xhr.status);
+      }
+    }
+  };
+
+  xhr.open('GET', '/criteria');
+  xhr.send();
+}
+
+
+
+function populateSelectOptions(selectId, optionsData) {
+  const select = document.getElementById(selectId);
+  const noValueOption = document.createElement('option');
+  noValueOption.value = '';
+  noValueOption.textContent = 'Choose an option'; 
+  select.appendChild(noValueOption);
+
+  optionsData.forEach((option) => {
+    const optionElement = document.createElement('option');
+    optionElement.value = option._id;
+    optionElement.textContent = option.name;
+    select.appendChild(optionElement);
+  });
+
+}
+
+
+function attachCheckboxEventListeners() {
+  const checkboxes = document.querySelectorAll('input[name="origin[]"]');
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', handleCheckboxChange);
+  });
+}
+
+function populateCheckboxOptions(checkboxGroupId, optionsData) {
+  const checkboxGroup = document.getElementById(checkboxGroupId);
+
+  optionsData.forEach((option) => {
+    const checkboxContainer = document.createElement('div');
+    checkboxContainer.classList.add('checkbox-container');
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.name = checkboxGroupId + '[]'; 
+    checkbox.value = option._id;
+    checkbox.id = `${checkboxGroupId}-${option._id}`;
+
+    const label = document.createElement('label');
+    label.setAttribute('for', `${checkboxGroupId}-${option._id}`);
+    label.textContent = option.name;
+    label.classList.add('origin-label');
+    checkboxContainer.appendChild(checkbox);
+    checkboxContainer.appendChild(label);
+    checkboxGroup.appendChild(checkboxContainer);
+  });
+}
+
+const selectedCheckboxValues = []; 
+
+function handleCheckboxChange(event) {
+  const checkbox = event.target;
+  const checkboxValue = checkbox.value.trim();
+
+  if (checkbox.checked) {
+    
+    console.log(`Checkbox with value ${checkboxValue} is checked.`);
+    selectedCheckboxValues.push(checkboxValue); 
+  } else {
+    // Checkbox is unchecked
+    console.log(`Checkbox with value ${checkboxValue} is unchecked.`);
+    const index = selectedCheckboxValues.indexOf(checkboxValue);
+    if (index !== -1) {
+      selectedCheckboxValues.splice(index, 1); 
+    }
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    document.querySelector('form button[type="submit"]').addEventListener('click', function(event) {
+    event.preventDefault();
+console.log('send');
+    const criteria = {
+      type: getValueIfNotEmpty('type'),
+      origin: getSelectedValues('origin'),
+      clima: getValueIfNotEmpty('climate'),
+      diet: getValueIfNotEmpty('diet'),
+      reproduction: getValueIfNotEmpty('reproduction'),
+      covering: getValueIfNotEmpty('cover'),
+        status: getValueIfNotEmpty('status'),
+      //endangered: document.getElementById('endangered').checked
+    };
+
+    let url = '/all-animals?';
+    Object.entries(criteria).forEach(([key, value]) => {
+      if (value !== null) {
+        url += `${key}=${encodeURIComponent(value)}&`;
+      }
+    });
+    url = url.replace(/&$/, '');
+
+   
+    fetch(url)
+      .then(function(response) {
+        if (response.ok) {
+          return response.text();
+        } else {
+          throw new Error('Request failed');
+        }
+      })
+      
+      .then(function(data) {
+        const parser = new DOMParser();
+      const newDocument = parser.parseFromString(data, 'text/html');
+      const newContent = newDocument.querySelector('.about .row').innerHTML;
+      document.querySelector('.about .row').innerHTML = newContent;
+      history.pushState(null, '', url);
+      })
+      .catch(function(error) {
+        // Handle the error
+      });
+    //   window.location.href = url;
+  });
+
+  function getValueIfNotEmpty(selectId) {
+    const select = document.getElementById(selectId);
+    const selectedValue = select.value.trim();
+    return selectedValue !== '' ? selectedValue : null;
+  }
+
+  function getSelectedValues(checkboxGroupId) {
+  return selectedCheckboxValues.length > 0 ? selectedCheckboxValues : null;
+}
+
+
+  handleCriteriaRequest();
+  // Get all checkboxes with a specific name attribute
+const checkboxes = document.querySelectorAll('input[name="origin[]"]');
+
+// Attach event listener to each checkbox
+checkboxes.forEach((checkbox) => {
+  checkbox.addEventListener('change', handleCheckboxChange);
+});
+
+
+});
+
+
+</script>  
 </body>
 
 </html>

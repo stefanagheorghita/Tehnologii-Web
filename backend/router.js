@@ -45,9 +45,23 @@ function router(req, res) {
         const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
         const queryParams = new URLSearchParams(queryString);
         const criteria = {};
+        
         for (const [key, value] of queryParams) {
-          criteria[key] = value;
-        }
+            if (value.includes('%')) {
+              criteria[key] = value.split('%'); 
+            } else {
+              criteria[key] = value;
+            }
+          }
+          for (const [key, value] of queryParams) {
+            if (value.includes(',')) {
+              criteria[key] = value.split(','); // Split the value by ',' and convert each element to ObjectId
+            } else {
+              criteria[key] =value; // Convert the single value to ObjectId
+            }
+          }
+        
+          console.log(criteria);
         handleAllAnimalPage(req, res, Object.keys(criteria).length > 0 ? criteria : null);
       } 
        else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
