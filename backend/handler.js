@@ -141,6 +141,7 @@ function handleAllAnimalPage(req, res, criteria) {
             res.writeHead(500);
             res.end('Internal server error');
         } else {
+          
             const modifiedContent = includeAssets(content, filePath);
 
             const imageId = '64886109df77d90a8234a7f7';
@@ -152,8 +153,8 @@ function handleAllAnimalPage(req, res, criteria) {
             const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
             try {
                 const animals = await getAnimals(criteria);
-
                 const animalCards = animals.map((animal) => {
+        
                     const animalUrl = `/Animal?id=${animal._id}`;
                     return `
               <div class="about-col">
