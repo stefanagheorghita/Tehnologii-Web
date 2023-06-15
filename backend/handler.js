@@ -11,6 +11,7 @@ const { getClimaByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getReproductionByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getTypeByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getCoveringByIdFromDatabase} = require('./util/infoDatabaseUtil');
+const { getDangerByIdFromDatabase } = require('./util/infoDatabaseUtil');
 
 
 // for the landing page
@@ -208,17 +209,37 @@ function handleOneAnimalPage(req, res, id) {
                         const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
                         const type = await getTypeByIdFromDatabase(animal.type_id);
                         const covering = await getCoveringByIdFromDatabase(animal.covering_id);
-                        //const danger = await getDangerByIdFromDatabase(animal.danger_id);
+                        const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
+                        const imgTagPlaceholder = '<img src="images/animals_background/default_background.jpg" alt="animal background">';
+                        const imgTagReplacement = `<img src="${animal.background_image}" alt="animal background">`;
+                        console.log(imgTagPlaceholder);
+                        console.log(imgTagReplacement);
+            
                         const updatedContent = modContent
                             .replace('Title Animal', animal.name)
                             .replace('exampleName', `${animal.name}`)
                             .replace('exampleGroup', `${type}`)
+                            .replace('exampleClima', `${clima}`)
                             .replace('exampleDiet', `${diet}`)
-                            .replace('exampleLifespan', `${animal.lifespan}`);
+                            .replace('exampleLifespan', `${animal.lifespan}`)
+                            .replace('Information', animal.description)
+                            .replace('exampleStatus', status)
+                            .replace('exampleReproduction', reproduction)
+                            .replace('exampleCovering', covering)
+                            .replace('exampleLifestyle', animal.lifestyle)
+                            .replace('exampleDangerousness', danger)
+                            .replace('exampleRelatedSpecies', animal.related_species)
+                            .replace('exampleNaturalEnemies', animal.natural_enemies)
 
+                            //.replace(imgTagPlaceholder, imgTagReplacement);
+                            //.replace('images/animals_background/default_background.jpg', animal.background_image);
+                            //console.log(animal.background_image);
+                            //console.log(`${animal.background_image}`);
+                            
                         res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(updatedContent, 'utf-8');
                     } catch (error) {
+                        console.log(error);
                         res.writeHead(500);
                         res.end('Internal server error');
                     }
@@ -291,7 +312,6 @@ function handleAboutUsPage(req, res) {
             const modifiedContent = includeAssets(content, filePath);
             replaceImageUrls(modifiedContent, (imgErr, modContent) => {
                 if (imgErr) {
-                    console.log('eede');
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
