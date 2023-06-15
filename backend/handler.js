@@ -10,7 +10,7 @@ const { getStatusByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getClimaByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getReproductionByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getTypeByIdFromDatabase } = require('./util/infoDatabaseUtil');
-const { getCoveringByIdFromDatabase} = require('./util/infoDatabaseUtil');
+const { getCoveringByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getDangerByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { searchAnimals } = require('./animals/searchAnimals');
 
@@ -217,10 +217,10 @@ function handleOneAnimalPage(req, res, id) {
                         const type = await getTypeByIdFromDatabase(animal.type_id);
                         const covering = await getCoveringByIdFromDatabase(animal.covering_id);
                         const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
-                        const imgTagPlaceholder = '<img src="images/animals_background/default_background.jpg" alt="animal background">';
-                        const imgTagReplacement = `<img src="${animal.background_image}" alt="animal background">`;
-                        console.log(imgTagPlaceholder);
-                        console.log(imgTagReplacement);
+                        //const imgTagPlaceholder = '<img src="images/animals_background/default_background.jpg" alt="animal background">';
+                        //const imgTagReplacement = `<img src="${animal.background_image}" alt="animal background">`;
+                        //console.log(imgTagPlaceholder);
+                        //console.log(imgTagReplacement);
             
                         const updatedContent = modContent
                             .replace('Title Animal', animal.name)
@@ -237,6 +237,10 @@ function handleOneAnimalPage(req, res, id) {
                             .replace('exampleDangerousness', danger)
                             .replace('exampleRelatedSpecies', animal.related_species)
                             .replace('exampleNaturalEnemies', animal.natural_enemies)
+                            .replace('images/animals_background/default_background.jpg', animal.background_image)
+                            .replace('<img src="images/leut.png" alt="Lei">', `<img src="${animal.background_image}" alt="animal background">`)
+                            console.log(`${animal.round_image}`);
+                            console.log(animal.background_image);
 
                            // .replace(imgTagPlaceholder, imgTagReplacement);
                             .replace("images/animals_background/default_background.jpg", `${animal.background_image}`);
@@ -255,6 +259,62 @@ function handleOneAnimalPage(req, res, id) {
         }
     });
 }
+
+
+/*async function handleOneAnimalPage(req, res, id) {
+    const filePath = '../frontend/Animal.html';
+    fs.readFile(filePath, 'utf8', async (err, content) => {
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
+            const modifiedContent = includeAssets(content, filePath);
+            try {
+                const animal = await getAnimalByIdFromDatabase(id);
+                const diet = await getDietByIdFromDatabase(animal.diet_id);
+                const status = await getStatusByIdFromDatabase(animal.status_id);
+                const clima = await getClimaByIdFromDatabase(animal.clima_id);
+                const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
+                const type = await getTypeByIdFromDatabase(animal.type_id);
+                const covering = await getCoveringByIdFromDatabase(animal.covering_id);
+                const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
+                const animalBackgroundUrl = animal.background_image; // Replace with the actual property name from your animal object
+                console.log(animalBackgroundUrl);
+                const modifiedContent = includeAssets(content, filePath);
+                replaceImageUrls(modifiedContent, animalBackgroundUrl, async (imgErr, modContent) => {
+                    if (imgErr) {
+                        res.writeHead(500);
+                        res.end('Internal server error');
+                    } else {
+                        
+                        const updatedContent = modContent
+                            .replace('Title Animal', animal.name)
+                            .replace('exampleName', `${animal.name}`)
+                            .replace('exampleGroup', `${type}`)
+                            .replace('exampleClima', `${clima}`)
+                            .replace('exampleDiet', `${diet}`)
+                            .replace('exampleLifespan', `${animal.lifespan}`)
+                            .replace('Information', animal.description)
+                            .replace('exampleStatus', status)
+                            .replace('exampleReproduction', reproduction)
+                            .replace('exampleCovering', covering)
+                            .replace('exampleLifestyle', animal.lifestyle)
+                            .replace('exampleDangerousness', danger)
+                            .replace('exampleRelatedSpecies', animal.related_species)
+                            .replace('exampleNaturalEnemies', animal.natural_enemies);
+
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
+                        res.end(updatedContent, 'utf-8');
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+                res.writeHead(500);
+                res.end('Internal server error');
+            }
+        }
+    });
+}*/
 
 
 
