@@ -17,17 +17,18 @@ body {
   background-position: center center;
   /* border-top-left-radius: 20vw; */
   /* border-top-right-radius: 20vw; */
-  border-bottom-left-radius: 30%;
-  border-bottom-right-radius: 60%;
+  border-bottom-left-radius: 20%;
+  border-bottom-right-radius: 44%;
   overflow: hidden;
   /* padding-bottom: 20px; */
   position: relative;
-  height: 35vw;
+  height: 42vw;
   width: 100%;
   object-fit: cover;
   z-index: -1;
 
 }
+
 
 @media screen and (max-width: 900px) {
   .custom-form {
@@ -171,11 +172,13 @@ h1 {
 
 .first-sec img {
 
-  height: 40vw;
+  height: 27vw;
   padding-bottom: 2vw;
   margin-left: auto;
   margin-right: auto;
   vertical-align: middle;
+  overflow: auto !important;
+  border-radius: 20%;
 
 }
 

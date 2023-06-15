@@ -188,7 +188,7 @@ function handleAllAnimalPage(req, res, criteria) {
 
 //for the one animal page
 
-function handleOneAnimalPage(req, res, id) {
+/*function handleOneAnimalPage(req, res, id) {
     const filePath = '../frontend/Animal.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
@@ -251,10 +251,11 @@ function handleOneAnimalPage(req, res, id) {
             });
         }
     });
-}
+}*/
 
+//---------------------------------------------------------------------------------------
 
-/*async function handleOneAnimalPage(req, res, id) {
+async function handleOneAnimalPage(req, res, id) {
     const filePath = '../frontend/Animal.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
@@ -262,6 +263,7 @@ function handleOneAnimalPage(req, res, id) {
             res.end('Internal server error');
         } else {
             const modifiedContent = includeAssets(content, filePath);
+
             try {
                 const animal = await getAnimalByIdFromDatabase(id);
                 const diet = await getDietByIdFromDatabase(animal.diet_id);
@@ -271,33 +273,32 @@ function handleOneAnimalPage(req, res, id) {
                 const type = await getTypeByIdFromDatabase(animal.type_id);
                 const covering = await getCoveringByIdFromDatabase(animal.covering_id);
                 const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
-                const animalBackgroundUrl = animal.background_image; // Replace with the actual property name from your animal object
-                console.log(animalBackgroundUrl);
-                const modifiedContent = includeAssets(content, filePath);
-                replaceImageUrls(modifiedContent, animalBackgroundUrl, async (imgErr, modContent) => {
+
+                const updatedContent = modifiedContent
+                    .replace('Title Animal', animal.name)
+                    .replace('exampleName', animal.name)
+                    .replace('exampleGroup', type)
+                    .replace('exampleClima', clima)
+                    .replace('exampleDiet', diet)
+                    .replace('exampleLifespan', animal.lifespan)
+                    .replace('Information', animal.description)
+                    .replace('exampleStatus', status)
+                    .replace('exampleReproduction', reproduction)
+                    .replace('exampleCovering', covering)
+                    .replace('exampleLifestyle', animal.lifestyle)
+                    .replace('exampleDangerousness', danger)
+                    .replace('exampleRelatedSpecies', animal.related_species)
+                    .replace('exampleNaturalEnemies', animal.natural_enemies)
+                    .replace('images/animals_background/default_background.jpg', animal.background_image)
+                    .replace('images/leut.png', animal.round_image);
+
+                replaceImageUrls(updatedContent, async (imgErr, finalContent) => {
                     if (imgErr) {
                         res.writeHead(500);
                         res.end('Internal server error');
                     } else {
-                        
-                        const updatedContent = modContent
-                            .replace('Title Animal', animal.name)
-                            .replace('exampleName', `${animal.name}`)
-                            .replace('exampleGroup', `${type}`)
-                            .replace('exampleClima', `${clima}`)
-                            .replace('exampleDiet', `${diet}`)
-                            .replace('exampleLifespan', `${animal.lifespan}`)
-                            .replace('Information', animal.description)
-                            .replace('exampleStatus', status)
-                            .replace('exampleReproduction', reproduction)
-                            .replace('exampleCovering', covering)
-                            .replace('exampleLifestyle', animal.lifestyle)
-                            .replace('exampleDangerousness', danger)
-                            .replace('exampleRelatedSpecies', animal.related_species)
-                            .replace('exampleNaturalEnemies', animal.natural_enemies);
-
                         res.writeHead(200, { 'Content-Type': 'text/html' });
-                        res.end(updatedContent, 'utf-8');
+                        res.end(finalContent, 'utf-8');
                     }
                 });
             } catch (error) {
@@ -307,7 +308,9 @@ function handleOneAnimalPage(req, res, id) {
             }
         }
     });
-}*/
+}
+
+//--------------------------------------------------------------------------------------------
 
 
 
