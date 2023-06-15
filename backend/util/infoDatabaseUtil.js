@@ -93,7 +93,7 @@ async function getCoveringByIdFromDatabase(id) {
     }
 }
 
-/*async function getDangerByIdFromDatabase(id) {
+async function getDangerByIdFromDatabase(id) {
     const client = getClient();
     try {
         await client.connect();
@@ -106,7 +106,7 @@ async function getCoveringByIdFromDatabase(id) {
         console.error('Error retrieving dangerousness by ID:', error);
         throw error;
     }
-}*/
+}
 
 module.exports = { getDietByIdFromDatabase, 
                    getStatusByIdFromDatabase, 
@@ -114,5 +114,5 @@ module.exports = { getDietByIdFromDatabase,
                    getReproductionByIdFromDatabase,
                    getTypeByIdFromDatabase,
                    getCoveringByIdFromDatabase,
-                   //getDangerByIdFromDatabase
+                   getDangerByIdFromDatabase
                  };
