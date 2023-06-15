@@ -30,7 +30,7 @@ async function handleLoginRequest(req, res) {
 
                     if (passwordMatch) {
                         const secretKey = 'your_secret_key_here';
-                        const token = jwt.sign({ email: user.email }, secretKey);
+                        const token = jwt.sign({ userId: user._id, email: user.email }, secretKey); ////
 
                         console.log('Login successful');
                         res.writeHead(200, {

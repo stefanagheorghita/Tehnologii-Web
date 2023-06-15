@@ -1,65 +1,230 @@
 const { getClient } = require('../util/db');
-const url = require('url');
-const querystring = require('querystring');
+const jwt = require('jsonwebtoken');
+const dbName = 'web_db';
 
 
 
 async function handleSettingsRequest(req, res) {
-    try {
-      const { darkModeToggle } = req.body;
-      const sessionId = req.sessionId;
-  
-      
-      const user = await getUserBySessionId(sessionId);
-  
-      if (user) {
-        user.mode = darkModeToggle === 'true';
-        await updateUser(user);
-      }
-  
-      res.writeHead(302, { Location: '/settings' });
-      res.end();
-    } catch (error) {
-      console.log(error);
-  
-      res.writeHead(302, { Location: '/settings' });
-      res.end();
-    }
-  }
-  
-/*async function handleSettingsRequest(req, res) {
+  const client = getClient();
+
   try {
+    
+    await client.connect();
+    console.log('Connected to the database');
+
+    
+    const cookieHeader = req.headers.cookie;
+
+    
+    const token = parseCookie(cookieHeader, 'token');
+    const secretKey = 'your_secret_key_here';
+
+    
+    const decodedToken = jwt.verify(token, secretKey);
+    if (!decodedToken) {
+      console.log('Invalid token');
+      res.writeHead(401, { 'Content-Type': 'text/html' });
+      res.write('<h1>Invalid token</h1>');
+      res.end();
+      return;
+    }
+
+    
+    const userEmail = decodedToken.email;
+
+    const collection = client.db(dbName).collection('users');
+
+    
+    const user = await collection.findOne({ email: userEmail });
+
+    if (!user) {
+      console.log('User not found');
+      res.writeHead(404, { 'Content-Type': 'text/html' });
+      res.write('<h1>User not found</h1>');
+      res.end();
+      return;
+    }
+
     let body = '';
+
     req.on('data', (chunk) => {
-      body += chunk.toString();
+      body += chunk;
     });
 
     req.on('end', async () => {
-      const { darkModeToggle } = querystring.parse(body);
+      try {
+        const { darkModeToggle } = JSON.parse(body);
+        console.log('Dark mode toggle value:', darkModeToggle);
 
-      const client = getClient();
-      const database = client.db('web_db');
-      const usersCollection = database.collection('users');
+        
+        user.mode = darkModeToggle === true;
+        await collection.updateOne({ email: userEmail }, { $set: { mode: darkModeToggle } });
 
-      const user = await usersCollection.findOne({ _id: req.session.userId });
-
-      if (user) {
-        user.mode = darkModeToggle === 'true';
-        await usersCollection.updateOne({ _id: req.session.userId }, { $set: { mode: user.mode } });
+        console.log('Dark mode updated successfully');
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.write('<h1>Dark mode updated successfully</h1>');
+        res.end();
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end('Bad Request');
       }
-
-      res.writeHead(302, { Location: '/settings' });
-      res.end();
     });
   } catch (error) {
-    console.log(error);
-
-    res.writeHead(302, { Location: '/settings' });
+    console.error('Error updating dark mode:', error);
+    res.writeHead(500, { 'Content-Type': 'text/html' });
+    res.write('<h1>Internal Server Error</h1>');
     res.end();
+  } finally {
+    
+    // await client.close();
+    // console.log('Disconnected from the database');
+  }
+}
+
+  
+  
+  function parseCookie(cookieHeader, cookieName) {
+    if (cookieHeader) {
+      const cookies = cookieHeader.split(';');
+      for (const cookie of cookies) {
+        const [name, value] = cookie.trim().split('=');
+        if (name === cookieName) {
+          return value;
+        }
+      }
+    }
+    return undefined;
+  }
+  
+
+module.exports = { handleSettingsRequest };
+
+
+
+
+
+
+
+
+/*async function handleSettingsRequest(req, res) {
+  let client; // Declare the client variable outside the try block
+
+  try {
+    const { darkModeToggle } = req.body;
+
+    const token = req.headers.cookie.split('=')[1]; // Assuming the token is stored in a cookie named 'token'
+    const secretKey = 'your_secret_key_here';
+
+    console.log('Received token:', token);//
+
+
+    // Verify the JWT token
+    const decodedToken = jwt.verify(token, secretKey);
+
+    console.log('Decoded token:', decodedToken);
+
+    if (!decodedToken) {
+      console.log('Invalid token');
+      res.writeHead(401, { 'Content-Type': 'text/html' });
+      res.write('<h1>Invalid token</h1>');
+      res.end();
+      return;
+    }
+
+    const email = decodedToken.email;
+    client = getClient(); // Initialize the client variable
+    await client.connect();
+
+    const collection = client.db(dbName).collection('users');
+    const user = await collection.findOne({ email });
+
+    if (!user) {
+      console.log('User not found');
+      res.writeHead(404, { 'Content-Type': 'text/html' });
+      res.write('<h1>User not found</h1>');
+      res.end();
+      return;
+    }
+
+    user.mode = darkModeToggle === 'true';
+    await collection.updateOne({ email }, { $set: { mode: user.mode } });
+
+    console.log('Dark mode updated successfully');
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write('<h1>Dark mode updated successfully</h1>');
+    res.end();
+  } catch (error) {
+    console.error('Error updating dark mode:', error);
+    res.writeHead(500, { 'Content-Type': 'text/html' });
+    res.write('<h1>Internal Server Error</h1>');
+    res.end();
+  } finally {
+    if (client) {
+      await client.close();
+    }
   }
 }*/
 
-module.exports = { handleSettingsRequest };
+
+
+
+/*const { getClient } = require('../util/db');
+const jwt = require('jsonwebtoken');
+
+async function handleSettingsRequest(req, res) {
+  try {
+    const { darkModeToggle } = req.body;
+
+    const token = req.headers.cookie.split('=')[1]; // Assuming the token is stored in a cookie named 'token'
+    const secretKey = 'your_secret_key_here';
+
+    // Verify the JWT token
+    const decodedToken = jwt.verify(token, secretKey);
+
+    if (!decodedToken) {
+      console.log('Invalid token');
+      res.writeHead(401, { 'Content-Type': 'text/html' });
+      res.write('<h1>Invalid token</h1>');
+      res.end();
+      return;
+    }
+
+    const email = decodedToken.email;
+    const client = getClient();
+    await client.connect();
+
+    const collection = client.db(dbName).collection('users');
+    const user = await collection.findOne({ email });
+
+    if (!user) {
+      console.log('User not found');
+      res.writeHead(404, { 'Content-Type': 'text/html' });
+      res.write('<h1>User not found</h1>');
+      res.end();
+      return;
+    }
+
+    user.mode = darkModeToggle === 'true';
+    await collection.updateOne({ email }, { $set: { mode: user.mode } });
+
+    console.log('Dark mode updated successfully');
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write('<h1>Dark mode updated successfully</h1>');
+    res.end();
+  } catch (error) {
+    console.error('Error updating dark mode:', error);
+    res.writeHead(500, { 'Content-Type': 'text/html' });
+    res.write('<h1>Internal Server Error</h1>');
+    res.end();
+  } finally {
+    await client.close();
+  }
+}
+
+module.exports = { handleSettingsRequest };*/
+
+
 
 
 
