@@ -12,6 +12,7 @@ const { getReproductionByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getTypeByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getCoveringByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getDangerByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { searchAnimals } = require('./animals/searchAnimals');
 
 
 // for the landing page
@@ -134,7 +135,7 @@ function handleGeneralAnimalPage(req, res) {
 
 
 //for the all animals page
-function handleAllAnimalPage(req, res, criteria) {
+function handleAllAnimalPage(req, res, criteria,searchTerm) {
     const filePath = '../frontend/all_animals.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
@@ -152,7 +153,13 @@ function handleAllAnimalPage(req, res, criteria) {
             const backgroundImage2 = await getBackgroundImageFromDatabase(imageId2);
             const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
             try {
-                const animals = await getAnimals(criteria);
+                let animals;
+                if(searchTerm!==null)
+                {
+                    animals=await searchAnimals(searchTerm);
+                }
+                else{
+                 animals = await getAnimals(criteria);}
                 const animalCards = animals.map((animal) => {
         
                     const animalUrl = `/Animal?id=${animal._id}`;
@@ -235,8 +242,8 @@ function handleAllAnimalPage(req, res, criteria) {
                             console.log(`${animal.round_image}`);
                             console.log(animal.background_image);
 
-                            //.replace(imgTagPlaceholder, imgTagReplacement);
-                            //.replace('images/animals_background/default_background.jpg', animal.background_image);
+                           // .replace(imgTagPlaceholder, imgTagReplacement);
+                           // .replace("images/animals_background/default_background.jpg", `${animal.background_image}`);
                             //console.log(animal.background_image);
                             //console.log(`${animal.background_image}`);
                             

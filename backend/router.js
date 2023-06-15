@@ -20,7 +20,7 @@ const {handleForgotPasswordRequest} = require('./controllers/forgot');
 const {handleProgramRequest} = require('./controllers/program');
 const {handleSettingsRequest} = require('./controllers/settings');
 const { handleCriteriaRequest } = require('./animals/criteria');
-
+const { searchAnimals } = require('./animals/searchAnimals');
 function router(req, res) {
     const url = req.url;
     if (url === '/' || url === '/landingpage.html' || url === '/landingpage') {
@@ -42,6 +42,16 @@ function router(req, res) {
     } else if (url === '/animals.html' || url === '/animals') {
         handleGeneralAnimalPage(req, res);
     } else if (url.startsWith('/all-animals') || url.startsWith('/all_animals')) {
+        if(url.startsWith('/all-animals/search-animal'))
+        {
+            const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
+            const queryParams = new URLSearchParams(queryString);
+            const criteria = {};
+            console.log(queryParams);
+            const searchTerm = queryParams.get('term'); 
+            handleAllAnimalPage(req,res,null,searchTerm);
+        }
+        else{
         const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
         const queryParams = new URLSearchParams(queryString);
         const criteria = {};
@@ -62,7 +72,7 @@ function router(req, res) {
           }
         
           console.log(criteria);
-        handleAllAnimalPage(req, res, Object.keys(criteria).length > 0 ? criteria : null);
+        handleAllAnimalPage(req, res, Object.keys(criteria).length > 0 ? criteria : null,null);}
       } 
        else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
         handleZooPlanPage(req, res);
@@ -101,6 +111,31 @@ function router(req, res) {
     else if (url.startsWith('/criteria')) {
         handleCriteriaRequest(req, res);
     }
+//     else if(url.startsWith('/search-animal')) {
+//         const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
+//   const queryParams = new URLSearchParams(queryString);
+//   const criteria = {};
+//   console.log(queryParams);
+//   const searchTerm = queryParams.get('term'); 
+//   searchAnimals(searchTerm)
+//     .then(results => {
+//       const response = {
+//         status: 'success',
+//         data: results
+//       };
+//       res.writeHead(200, { 'Content-Type': 'application/json' });
+//       res.end(JSON.stringify(response));
+//     })
+//     .catch(error => {
+//       console.error('Error searching animals:', error);
+//       const response = {
+//         status: 'error',
+//         message: 'An error occurred while searching animals'
+//       };
+//       res.writeHead(500, { 'Content-Type': 'application/json' });
+//       res.end(JSON.stringify(response));
+//     });
+  //  }
     else {
         handleStaticFile(req, res);
     }

@@ -176,10 +176,27 @@
     </div>
 </div>
 <script>
+//functie request caut animale
+async function searchAnimals(searchTerm) {
+  try {
+ 
+    const response = await fetch(`all-animals/search-animals?term=${encodeURIComponent(searchTerm)}`);
+    if (response.ok) {
+        console.log('este bine');
+      const data = await response.text();
+      return data;
+    } else {
+      throw new Error('Request failed');
+    }
+  } catch (error) {
+    console.log('si aici nu e bine');
+    console.error('Error searching animals:', error);
+    throw error;
+  }
+}
 
 
-
-
+//cerere criterii filtrare server
 function handleCriteriaRequest() {
    
   const xhr = new XMLHttpRequest();
@@ -208,7 +225,7 @@ function handleCriteriaRequest() {
 }
 
 
-
+//pune criteriile
 function populateSelectOptions(selectId, optionsData) {
   const select = document.getElementById(selectId);
   const noValueOption = document.createElement('option');
@@ -258,6 +275,7 @@ function populateCheckboxOptions(checkboxGroupId, optionsData) {
 
 const selectedCheckboxValues = []; 
 
+//schimb cand am ales ceva
 function handleCheckboxChange(event) {
   const checkbox = event.target;
   const checkboxValue = checkbox.value.trim();
@@ -267,7 +285,6 @@ function handleCheckboxChange(event) {
     console.log(`Checkbox with value ${checkboxValue} is checked.`);
     selectedCheckboxValues.push(checkboxValue); 
   } else {
-    // Checkbox is unchecked
     console.log(`Checkbox with value ${checkboxValue} is unchecked.`);
     const index = selectedCheckboxValues.indexOf(checkboxValue);
     if (index !== -1) {
@@ -278,10 +295,29 @@ function handleCheckboxChange(event) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.querySelector('.search input');
+  //pentru cautare
+  searchInput.addEventListener('input', function(event) {
+    console.log('Search term:', event.target.value);
+    const searchTerm = event.target.value.trim();
+    searchAnimals(searchTerm)
+      .then(results => {
+        console.log('Search Results:', results);
+        const parser = new DOMParser();
+      const newDocument = parser.parseFromString(results, 'text/html');
+      const newContent = newDocument.querySelector('.about .row').innerHTML;
+      document.querySelector('.about .row').innerHTML = newContent;
+      const url = `all-animals/search-animals?term=${encodeURIComponent(value)}`;
+      history.pushState(null, '', url);
+      })
+      .catch(error => {
+        console.error('Error searching animals:', error);
+      });
+  });
 
+  //pentru filtrare
     document.querySelector('form button[type="submit"]').addEventListener('click', function(event) {
     event.preventDefault();
-console.log('send');
     const criteria = {
       type: getValueIfNotEmpty('type'),
       origin: getSelectedValues('origin'),
@@ -319,7 +355,7 @@ console.log('send');
       history.pushState(null, '', url);
       })
       .catch(function(error) {
-        // Handle the error
+
       });
     //   window.location.href = url;
   });
@@ -336,10 +372,8 @@ console.log('send');
 
 
   handleCriteriaRequest();
-  // Get all checkboxes with a specific name attribute
 const checkboxes = document.querySelectorAll('input[name="origin[]"]');
 
-// Attach event listener to each checkbox
 checkboxes.forEach((checkbox) => {
   checkbox.addEventListener('change', handleCheckboxChange);
 });
