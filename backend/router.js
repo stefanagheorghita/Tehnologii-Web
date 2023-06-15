@@ -56,9 +56,11 @@ function router(req, res) {
         handleAboutUsPage(req, res);
     } else if (url === '/settings.html' || url === '/settings' || url === '/settings.html') {
         if (req.method === 'POST') {
-        handleSettingsRequest(req, res);
+           
+                handleSettingsRequest(req, res);
+              
         } else {
-        handleSettingsPage(req, res);
+            handleSettingsPage(req, res);
         }
 
     } else if (url === '/help.html' || url === '/help' || url === '/help-page/help.html') {
@@ -89,6 +91,18 @@ function router(req, res) {
         handleStaticFile(req, res);
     }
 }
+
+// function bodyParser(req, res, next) {
+//     let body = '';
+//     req.on('data', (chunk) => {
+//       body += chunk;
+//     });
+  
+//     req.on('end', () => {
+//       req.body = JSON.parse(body);
+//       next();
+//     });
+//   }
 
 /*function serveStaticFile(filePath, contentType, res) {
   fs.readFile(filePath, (err, data) => {

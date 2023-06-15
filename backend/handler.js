@@ -5,6 +5,13 @@ const { includeAssets } = require('./util/cssUtils')
 const { getBackgroundImageFromDatabase } = require('./util/fileFromDatabaseUtil');
 const { getAnimals } = require('./animals/animalsDatabase');
 const { getAnimalByIdFromDatabase } = require('./animals/animalsByIdDatabase');
+const { getDietByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getStatusByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getClimaByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getReproductionByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getTypeByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getCoveringByIdFromDatabase} = require('./util/infoDatabaseUtil');
+
 
 // for the landing page
 function handleLandingPage(req, res) {
@@ -126,7 +133,7 @@ function handleGeneralAnimalPage(req, res) {
 
 
 //for the all animals page
-function handleAllAnimalPage(req, res,criteria) {
+function handleAllAnimalPage(req, res, criteria) {
     const filePath = '../frontend/all_animals.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
@@ -183,7 +190,6 @@ function handleOneAnimalPage(req, res, id) {
     const filePath = '../frontend/Animal.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
-            console.log("eroare");
             res.writeHead(500);
             res.end('Internal server error');
         } else {
@@ -195,13 +201,19 @@ function handleOneAnimalPage(req, res, id) {
                 } else {
                     try {
                         const animal = await getAnimalByIdFromDatabase(id);
-
+                        const diet = await getDietByIdFromDatabase(animal.diet_id);
+                        const status = await getStatusByIdFromDatabase(animal.status_id);
+                        const clima = await getClimaByIdFromDatabase(animal.clima_id);
+                        const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
+                        const type = await getTypeByIdFromDatabase(animal.type_id);
+                        const covering = await getCoveringByIdFromDatabase(animal.covering_id);
+                        //const danger = await getDangerByIdFromDatabase(animal.danger_id);
                         const updatedContent = modContent
-                            .replace('Lion', animal.name)
-                            .replace('Scientific name:', `<strong>Scientific name:</strong> ${animal.scientificName}`)
-                            .replace('Animal group:', `<strong>Animal group:</strong> ${animal.group}`)
-                            .replace('Diet:', `<strong>Diet:</strong> ${animal.diet}`)
-                            .replace('Lifespan:', `<strong>Lifespan:</strong> ${animal.lifespan}`);
+                            .replace('Title Animal', animal.name)
+                            .replace('exampleName', `${animal.name}`)
+                            .replace('exampleGroup', `${type}`)
+                            .replace('exampleDiet', `${diet}`)
+                            .replace('exampleLifespan', `${animal.lifespan}`);
 
                         res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(updatedContent, 'utf-8');
@@ -214,6 +226,7 @@ function handleOneAnimalPage(req, res, id) {
         }
     });
 }
+
 
 
 //for the zoo plan page
