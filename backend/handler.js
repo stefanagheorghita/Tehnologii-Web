@@ -243,7 +243,7 @@ function handleAllAnimalPage(req, res, criteria,searchTerm) {
                             console.log(animal.background_image);
 
                            // .replace(imgTagPlaceholder, imgTagReplacement);
-                            .replace("images/animals_background/default_background.jpg", `${animal.background_image}`);
+                           // .replace("images/animals_background/default_background.jpg", `${animal.background_image}`);
                             //console.log(animal.background_image);
                             //console.log(`${animal.background_image}`);
                             
