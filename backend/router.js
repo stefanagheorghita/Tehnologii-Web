@@ -20,7 +20,7 @@ const {handleForgotPasswordRequest} = require('./controllers/forgot');
 const {handleProgramRequest} = require('./controllers/program');
 const {handleSettingsRequest} = require('./controllers/settings');
 const { handleCriteriaRequest } = require('./animals/criteria');
-const { searchAnimals } = require('./animals/searchAnimals');
+const {exportJson,exportXml} =require('./animals/export');
 function router(req, res) {
     const url = req.url;
     if (url === '/' || url === '/landingpage.html' || url === '/landingpage') {
@@ -111,31 +111,20 @@ function router(req, res) {
     else if (url.startsWith('/criteria')) {
         handleCriteriaRequest(req, res);
     }
-//     else if(url.startsWith('/search-animal')) {
-//         const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
-//   const queryParams = new URLSearchParams(queryString);
-//   const criteria = {};
-//   console.log(queryParams);
-//   const searchTerm = queryParams.get('term'); 
-//   searchAnimals(searchTerm)
-//     .then(results => {
-//       const response = {
-//         status: 'success',
-//         data: results
-//       };
-//       res.writeHead(200, { 'Content-Type': 'application/json' });
-//       res.end(JSON.stringify(response));
-//     })
-//     .catch(error => {
-//       console.error('Error searching animals:', error);
-//       const response = {
-//         status: 'error',
-//         message: 'An error occurred while searching animals'
-//       };
-//       res.writeHead(500, { 'Content-Type': 'application/json' });
-//       res.end(JSON.stringify(response));
-//     });
-  //  }
+    else if (url.startsWith('/animal/')) {
+        const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');
+      
+        if (url.startsWith('/animal/json')) {
+            exportJson(animalId,req,res);
+        
+        } else if (url.startsWith('/animal/xml')) {
+            exportXml(animalId,req,res);
+        }else {
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('404 Not Found');
+          }
+
+    }
     else {
         handleStaticFile(req, res);
     }

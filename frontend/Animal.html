@@ -65,8 +65,8 @@
         <div id="heart-icon"><i class="fas fa-heart"></i></div>
     </div>
     <div class="ta">
-        <button class="button button3">JSON</button>
-        <button class="button button2">XML</button>
+        <button class="button button3" id="jsonButton">JSON</button>
+        <button class="button button2" id="xmlButton">XML</button>
     </div>
 
 </div>
@@ -99,13 +99,13 @@
         <h2 class="info-box-title">More characteristics</h2>
         <hr class="info-box-divider">
         <p class="info-box-text">
-            <p><strong>Status:</strong> exampleStatus</p>
-            <p><strong>Reproduction:</strong> exampleReproduction</p>
-            <p><strong>Lifestyle:</strong> exampleLifestyle</p>
-            <p><strong>Dangerousness:</strong> exampleDangerousness</p>
-            <p><strong>Covering:</strong> exampleCovering</p>
-            <p><strong>Related species:</strong> exampleRelatedSpecies</p>
-            <p><strong>Natural enemies:</strong> exampleNaturalEnemies</p>
+        <p><strong>Status:</strong> exampleStatus</p>
+        <p><strong>Reproduction:</strong> exampleReproduction</p>
+        <p><strong>Lifestyle:</strong> exampleLifestyle</p>
+        <p><strong>Dangerousness:</strong> exampleDangerousness</p>
+        <p><strong>Covering:</strong> exampleCovering</p>
+        <p><strong>Related species:</strong> exampleRelatedSpecies</p>
+        <p><strong>Natural enemies:</strong> exampleNaturalEnemies</p>
         </p>
     </div>
 </div>
@@ -145,6 +145,61 @@
         <button type="button">+1234567899</button>
     </div>
 </div>
+<script>
+    jsonButton.addEventListener('click', requestJSON);
+    xmlButton.addEventListener('click', requestXML);
+
+
+    function requestJSON() {
+
+        const animalId = getAnimalIdFromURL();
+        const url = `/animal/json?id=${animalId}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+
+                const jsonBlob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(jsonBlob);
+                downloadLink.download = `animal_${animalId}.json`;
+
+                downloadLink.click();
+            })
+            .catch(error => {
+                console.error('Error requesting JSON:', error);
+            });
+    }
+
+
+    function requestXML() {
+
+        const animalId = getAnimalIdFromURL();
+        const url = `/animal/xml?id=${animalId}`;
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+
+                const xmlBlob = new Blob([data], {type: 'application/xml'});
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(xmlBlob);
+                downloadLink.download = `animal_${animalId}.xml`;
+
+                downloadLink.click();
+            })
+            .catch(error => {
+                console.error('Error requesting XML:', error);
+            });
+    }
+
+    function getAnimalIdFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const animalId = urlParams.get('id');
+
+        return animalId;
+    }
+</script>
 </body>
 
 </html>
