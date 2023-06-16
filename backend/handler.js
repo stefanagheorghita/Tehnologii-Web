@@ -18,6 +18,42 @@ const { generateUsersTable } = require('./util/infoDatabaseUtil');
 const { generateAnimalsTable } = require('./util/infoDatabaseUtil');
 const { searchAnimals } = require('./animals/searchAnimals');
 
+////
+const { getClient } = require('./util/db');
+const jwt = require('jsonwebtoken');
+const dbName = 'web_db';
+const client = getClient();
+
+function renderPage(req, res, pageContent, mode) {
+    // Read the contents of the dark-theme.css file
+    fs.readFile('../frontend/dark-theme.css', 'utf8', (err, cssContent) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+        // Determine whether to include the dark-theme.css based on the mode value
+        const styleTag = mode ? `<style>${cssContent}</style>` : '';
+  
+        const html = `
+          <html>
+            <head>
+              ${styleTag}
+              <!-- Other stylesheets and meta tags -->
+            </head>
+            <body>
+              ${pageContent}
+            </body>
+          </html>
+        `;
+  
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.write(html);
+        res.end();
+      }
+    });
+  }
+////
+
 
 // for the landing page
 function handleLandingPage(req, res) {
@@ -574,6 +610,57 @@ function handleSettingsPage(req, res) {
         }
     });
 }
+// function handleSettingsPage(req, res) {
+//     const filePath = '../frontend/settings.html';
+//     fs.readFile(filePath, 'utf8', (err, content) => {
+//       if (err) {
+//         res.writeHead(500);
+//         res.end('Internal server error');
+//       } else {
+//         const modifiedContent = includeAssets(content, filePath);
+//         replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+//           if (imgErr) {
+//             res.writeHead(500);
+//             res.end('Internal server error');
+//           } else {
+//             // client.connect();
+//             // console.log('Connected to the database');
+
+//             // const cookieHeader = req.headers.cookie;
+//             // const token = parseCookie(cookieHeader, 'token');
+//             // const secretKey = 'your_secret_key_here';
+
+//             // const decodedToken = jwt.verify(token, secretKey);
+//             // if (!decodedToken) {
+//             //     console.log('Invalid token');
+//             //     res.writeHead(401, { 'Content-Type': 'text/html' });
+//             //     res.write('<h1>Invalid token</h1>');
+//             //     res.end();
+//             //     return;
+//             // }
+
+//             // const userEmail = decodedToken.email;
+
+//             // const collection = client.db(dbName).collection('users');
+
+//             // const user = collection.findOne({ email: userEmail });
+
+//             // if (!user) {
+//             //     console.log('User not found');
+//             //     res.writeHead(404, { 'Content-Type': 'text/html' });
+//             //     res.write('<h1>User not found</h1>');
+//             //     res.end();
+//             //     return;
+//             // }
+
+//             // const mode = user.mode || false; // Get the mode setting from user or set a default value
+//             renderPage(req, res, modContent, mode); // Render the page using the renderPage function
+//           }
+//         });
+//       }
+//     });
+//   }
+
 
 
 /*async function handleAdminPage(req, res) {

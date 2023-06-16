@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="settings-script.js"></script>
     <script src="script.js"></script>
+    
 </head>
 
 <body>
@@ -85,6 +86,7 @@
                 <label for="darkModeToggle">
                     <span class="dark-mode-text">Dark mode</span>
                     <input type="checkbox" id="darkModeToggle" name="darkModeToggle">
+                    <!--<script src="settings-script.js"></script>-->
                     <div class="toggle-container">
                         <span class="toggle"></span>
                         <span class="toggle-c"></span>
@@ -141,6 +143,12 @@
             <button type="button">+1234567899</button>
         </div>
     </div>
+    <script>
+        // Access the mode value from localStorage
+        const mode = localStorage.getItem('mode');
+        console.log('mode:', mode);
+    </script>
+    <script src="darkmode.js"></script>
 </body>
 
 </html>

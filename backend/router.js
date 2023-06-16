@@ -80,11 +80,14 @@ function router(req, res) {
         handleAboutUsPage(req, res);
     } else if (url === '/settings.html' || url === '/settings' || url === '/settings.html') {
         if (req.method === 'POST') {
-
-            handleSettingsRequest(req, res);
-
-        } else {
-            handleSettingsPage(req, res);
+           
+          handleSettingsRequest(req, res);
+              
+        } /*else if (req.method === 'GET'){
+          handleSettingsGetRequest(req, res)
+        }*/ else if (req.method) {
+          handleSettingsPage(req, res);
+          //handleSettingsRequest(req, res);
         }
 
     } else if (url === '/help.html' || url === '/help' || url === '/help-page/help.html') {
