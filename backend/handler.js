@@ -10,7 +10,9 @@ const { getStatusByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getClimaByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getReproductionByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getTypeByIdFromDatabase } = require('./util/infoDatabaseUtil');
-const { getCoveringByIdFromDatabase} = require('./util/infoDatabaseUtil');
+const { getCoveringByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { getDangerByIdFromDatabase } = require('./util/infoDatabaseUtil');
+const { searchAnimals } = require('./animals/searchAnimals');
 
 ////
 const { getClient } = require('./util/db');
@@ -169,13 +171,14 @@ function handleGeneralAnimalPage(req, res) {
 
 
 //for the all animals page
-function handleAllAnimalPage(req, res, criteria) {
+function handleAllAnimalPage(req, res, criteria,searchTerm) {
     const filePath = '../frontend/all_animals.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
             res.writeHead(500);
             res.end('Internal server error');
         } else {
+          
             const modifiedContent = includeAssets(content, filePath);
 
             const imageId = '64886109df77d90a8234a7f7';
@@ -186,9 +189,15 @@ function handleAllAnimalPage(req, res, criteria) {
             const backgroundImage2 = await getBackgroundImageFromDatabase(imageId2);
             const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
             try {
-                const animals = await getAnimals(criteria);
-
+                let animals;
+                if(searchTerm!==null)
+                {
+                    animals=await searchAnimals(searchTerm);
+                }
+                else{
+                 animals = await getAnimals(criteria);}
                 const animalCards = animals.map((animal) => {
+        
                     const animalUrl = `/Animal?id=${animal._id}`;
                     return `
               <div class="about-col">
@@ -222,7 +231,7 @@ function handleAllAnimalPage(req, res, criteria) {
 
 //for the one animal page
 
-function handleOneAnimalPage(req, res, id) {
+/*function handleOneAnimalPage(req, res, id) {
     const filePath = '../frontend/Animal.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
@@ -243,17 +252,41 @@ function handleOneAnimalPage(req, res, id) {
                         const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
                         const type = await getTypeByIdFromDatabase(animal.type_id);
                         const covering = await getCoveringByIdFromDatabase(animal.covering_id);
-                        //const danger = await getDangerByIdFromDatabase(animal.danger_id);
+                        const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
+                        //const imgTagPlaceholder = '<img src="images/animals_background/default_background.jpg" alt="animal background">';
+                        //const imgTagReplacement = `<img src="${animal.background_image}" alt="animal background">`;
+                        //console.log(imgTagPlaceholder);
+                        //console.log(imgTagReplacement);
+            
                         const updatedContent = modContent
                             .replace('Title Animal', animal.name)
                             .replace('exampleName', `${animal.name}`)
                             .replace('exampleGroup', `${type}`)
+                            .replace('exampleClima', `${clima}`)
                             .replace('exampleDiet', `${diet}`)
-                            .replace('exampleLifespan', `${animal.lifespan}`);
+                            .replace('exampleLifespan', `${animal.lifespan}`)
+                            .replace('Information', animal.description)
+                            .replace('exampleStatus', status)
+                            .replace('exampleReproduction', reproduction)
+                            .replace('exampleCovering', covering)
+                            .replace('exampleLifestyle', animal.lifestyle)
+                            .replace('exampleDangerousness', danger)
+                            .replace('exampleRelatedSpecies', animal.related_species)
+                            .replace('exampleNaturalEnemies', animal.natural_enemies)
+                            .replace('images/animals_background/default_background.jpg', animal.background_image)
+                            .replace('<img src="images/leut.png" alt="Lei">', `<img src="${animal.background_image}" alt="animal background">`)
+                            console.log(`${animal.round_image}`);
+                            console.log(animal.background_image);
 
+                           // .replace(imgTagPlaceholder, imgTagReplacement);
+                           // .replace("images/animals_background/default_background.jpg", `${animal.background_image}`);
+                            //console.log(animal.background_image);
+                            //console.log(`${animal.background_image}`);
+                            
                         res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(updatedContent, 'utf-8');
                     } catch (error) {
+                        console.log(error);
                         res.writeHead(500);
                         res.end('Internal server error');
                     }
@@ -261,8 +294,132 @@ function handleOneAnimalPage(req, res, id) {
             });
         }
     });
-}
+}*/
 
+//---------------------------------------------------------------------------------------
+
+/*async function handleOneAnimalPage(req, res, id) {
+    const filePath = '../frontend/Animal.html';
+    fs.readFile(filePath, 'utf8', async (err, content) => {
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
+            const modifiedContent = includeAssets(content, filePath);
+
+            try {
+                const animal = await getAnimalByIdFromDatabase(id);
+                const diet = await getDietByIdFromDatabase(animal.diet_id);
+                const status = await getStatusByIdFromDatabase(animal.status_id);
+                const clima = await getClimaByIdFromDatabase(animal.clima_id);
+                const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
+                const type = await getTypeByIdFromDatabase(animal.type_id);
+                const covering = await getCoveringByIdFromDatabase(animal.covering_id);
+                const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
+
+                const updatedContent = modifiedContent
+                    .replace('Title Animal', animal.name)
+                    .replace('exampleName', animal.name)
+                    .replace('exampleGroup', type)
+                    .replace('exampleClima', clima)
+                    .replace('exampleDiet', diet)
+                    .replace('exampleLifespan', animal.lifespan)
+                    .replace('Information', animal.description)
+                    .replace('exampleStatus', status)
+                    .replace('exampleReproduction', reproduction)
+                    .replace('exampleCovering', covering)
+                    .replace('exampleLifestyle', animal.lifestyle)
+                    .replace('exampleDangerousness', danger)
+                    .replace('exampleRelatedSpecies', animal.related_species)
+                    .replace('exampleNaturalEnemies', animal.natural_enemies)
+                    .replace('images/animals_background/default_background.jpg', animal.background_image)
+                    .replace('images/leut.png', animal.round_image);
+
+                replaceImageUrls(updatedContent, async (imgErr, finalContent) => {
+                    if (imgErr) {
+                        res.writeHead(500);
+                        res.end('Internal server error');
+                    } else {
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
+                        res.end(finalContent, 'utf-8');
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+                res.writeHead(500);
+                res.end('Internal server error');
+            }
+        }
+    });
+}*/
+
+//--------------------------------------------------------------------------------------------
+
+async function handleOneAnimalPage(req, res, id) {
+    const filePath = '../frontend/Animal.html';
+    fs.readFile(filePath, 'utf8', async (err, content) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+        const modifiedContent = includeAssets(content, filePath);
+  
+        try {
+          const animal = await getAnimalByIdFromDatabase(id);
+          const diet = await getDietByIdFromDatabase(animal.diet_id);
+          const status = await getStatusByIdFromDatabase(animal.status_id);
+          const clima = await getClimaByIdFromDatabase(animal.clima_id);
+          const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
+          const type = await getTypeByIdFromDatabase(animal.type_id);
+          const covering = await getCoveringByIdFromDatabase(animal.covering_id);
+          const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
+  
+          const updatedContent = modifiedContent
+            .replace('Title Animal', animal.name)
+            .replace('exampleName', animal.name)
+            .replace('exampleGroup', type)
+            .replace('exampleClima', clima)
+            .replace('exampleDiet', diet)
+            .replace('exampleLifespan', animal.lifespan)
+            .replace('Information', animal.description)
+            .replace('exampleStatus', status)
+            .replace('exampleReproduction', reproduction)
+            .replace('exampleCovering', covering)
+            .replace('exampleLifestyle', animal.lifestyle)
+            .replace('exampleDangerousness', danger)
+            .replace('exampleRelatedSpecies', animal.related_species)
+            .replace('exampleNaturalEnemies', animal.natural_enemies)
+            .replace('images/animals_background/default_background.jpg', animal.background_image)
+            .replace('images/leut.png', animal.round_image);
+  
+          const galleryImages = animal.gallery_images.split(',').map((image) => image.trim());
+  
+          const galleryImagesHTML = galleryImages
+            .map((image) => `<img src="${image}" alt="animal image" class="gallery-image">`)
+            .join('\n');
+  
+          const updatedContentWithGallery = updatedContent.replace(
+            '<img src="images/images_all_animals/no.jpg" alt="imagine animal" class="gallery-image">',
+            galleryImagesHTML
+          );
+  
+          replaceImageUrls(updatedContentWithGallery, async (imgErr, finalContent) => {
+            if (imgErr) {
+              res.writeHead(500);
+              res.end('Internal server error');
+            } else {
+              res.writeHead(200, { 'Content-Type': 'text/html' });
+              res.end(finalContent, 'utf-8');
+            }
+          });
+        } catch (error) {
+          console.log(error);
+          res.writeHead(500);
+          res.end('Internal server error');
+        }
+       }
+    });
+  }
 
 
 //for the zoo plan page
@@ -326,7 +483,6 @@ function handleAboutUsPage(req, res) {
             const modifiedContent = includeAssets(content, filePath);
             replaceImageUrls(modifiedContent, (imgErr, modContent) => {
                 if (imgErr) {
-                    console.log('eede');
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
@@ -502,6 +658,30 @@ function handleSettingsPage(req, res) {
 //   }
 
 
+function handleAdminPage(req, res) {
+    const filePath = '../frontend/admin2.html';
+
+    fs.readFile(filePath, 'utf8', (err, content) => {
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
+
+            const modifiedContent = includeAssets(content, filePath);
+            replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+                if (imgErr) {
+                    res.writeHead(500);
+                    res.end('Internal server error');
+                } else {
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.end(modContent, 'utf-8');
+                }
+            });
+        }
+    });
+
+}
+
 function getContentType(extension) {
     switch (extension) {
         case 'html':
@@ -555,5 +735,6 @@ module.exports = {
     handleForgotPasswordPage,
     handleProgramPage,
     handleOneAnimalPage,
+    handleAdminPage,
     handleStaticFile
 };

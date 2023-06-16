@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="admin2style.css">
+</head>
+
+<body>
+    <div class="page-admin">
+        <div class="left-menu">
+            <div class="menu">
+                <h3>See statistics</h3>
+                <div class="menu-statistics" onclick="togglePanels('statistics-panel', 'users-panel', 'animals-panel')">
+                    <img class="logo-statistics" src="images/statistics.jpg">
+                    <p class="menu-item">Statistics</p>
+                </div>
+                <h3>See application</h3>
+                <a href="index.html" class="link-style">
+                    <div class="menu-home">
+                        <img class="logo-admin-home" src="images/home-icon.png">
+                        <p class="menu-item">Homepage</p>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <h3>Moderation</h3>
+                <div class="menu-see-users" onclick="togglePanels('users-panel', 'statistics-panel', 'animals-panel')">
+                    <img class="logo-user" src="images/user-icon.png">
+                    <p class="menu-item">See all users</p>
+                </div>
+                <div class="menu-see-animals" onclick="togglePanels('animals-panel', 'statistics-panel', 'users-panel')">
+                    <img class="logo-animal" src="images/paw-orange.png">
+                    <p class="menu-item">See all animals</p>
+                </div>
+            </div>
+            <div>
+                <h3>User</h3>
+                <div class="menu-logout">
+                    <img class="logo-admin-logout" src="images/logout-admin.png">
+                    <p class="menu-item">Logout</p>
+                </div>
+            </div>
+        </div>
+        <div class="right-side">
+            <h1 class="title">ZoM Admin Control Center</h1>
+            <div id="statistics-panel" class="right-side-panel">
+                <h3>Statistics</h3>
+                <div class="information-boxes">
+                    <div class="box">
+                        <h3>Number of users</h3>
+                        <p>numUsers</p>
+                    </div>
+                    <div class="box">
+                        <h3>Number of animals</h3>
+                        <p>numAnimals</p>
+                    </div>
+                    <div class="box">
+                        <h3>Number of reservations</h3>
+                        <p>numReservations</p>
+                    </div>
+                </div>
+            </div>
+            <div id="users-panel" class="right-side-panel" style="display: none;">
+                <p>Here are the users.</p>
+            </div>
+            <div id="animals-panel" class="right-side-panel" style="display: none;">
+                <p>Here are the animals.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePanels(panelToShow, panelToHide1, panelToHide2) {
+            const showPanel = document.getElementById(panelToShow);
+            const hidePanel1 = document.getElementById(panelToHide1);
+            const hidePanel2 = document.getElementById(panelToHide2);
+
+            showPanel.style.display = 'block';
+            hidePanel1.style.display = 'none';
+            hidePanel2.style.display = 'none';
+        }
+
+        // Show statistics panel and information boxes by default
+        togglePanels('statistics-panel', 'users-panel', 'animals-panel');
+    </script>
+</body>
+
+</html>

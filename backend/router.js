@@ -12,15 +12,16 @@ const {
     handleHelpPage, /*handleForgotPasswordPage,*/
     handleProgramPage,
     handleOneAnimalPage,
-    handleSettingsPage
+    handleSettingsPage,
+    handleAdminPage,
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
 const {handleRegisterRequest} = require('./controllers/register'); // for register
 const {handleForgotPasswordRequest} = require('./controllers/forgot');
 const {handleProgramRequest} = require('./controllers/program');
-const {handleSettingsRequest/*, handleSettingsGetRequest*/} = require('./controllers/settings');
-//const {handleSettingsGetRequest} = require('./controllers/settings');
-//const { handleCriteriaRequest } = require('./animals/criteria');
+const {handleSettingsRequest} = require('./controllers/settings');
+const {handleCriteriaRequest} = require('./animals/criteria');
+const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
 
 function router(req, res) {
     const url = req.url;
@@ -43,15 +44,37 @@ function router(req, res) {
     } else if (url === '/animals.html' || url === '/animals') {
         handleGeneralAnimalPage(req, res);
     } else if (url.startsWith('/all-animals') || url.startsWith('/all_animals')) {
-        const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
-        const queryParams = new URLSearchParams(queryString);
-        const criteria = {};
-        for (const [key, value] of queryParams) {
-          criteria[key] = value;
+        if (url.startsWith('/all-animals/search-animal')) {
+            const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
+            const queryParams = new URLSearchParams(queryString);
+            const criteria = {};
+            console.log(queryParams);
+            const searchTerm = queryParams.get('term');
+            handleAllAnimalPage(req, res, null, searchTerm);
+        } else {
+            const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
+            const queryParams = new URLSearchParams(queryString);
+            const criteria = {};
+
+            for (const [key, value] of queryParams) {
+                if (value.includes('%')) {
+                    criteria[key] = value.split('%');
+                } else {
+                    criteria[key] = value;
+                }
+            }
+            for (const [key, value] of queryParams) {
+                if (value.includes(',')) {
+                    criteria[key] = value.split(',');
+                } else {
+                    criteria[key] = value;
+                }
+            }
+
+            console.log(criteria);
+            handleAllAnimalPage(req, res, Object.keys(criteria).length > 0 ? criteria : null, null);
         }
-        handleAllAnimalPage(req, res, Object.keys(criteria).length > 0 ? criteria : null);
-      } 
-       else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
+    } else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {
         handleZooPlanPage(req, res);
     } else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
         handleAboutUsPage(req, res);
@@ -84,14 +107,47 @@ function router(req, res) {
             handleProgramPage(req, res);
         }
     } else if (url.startsWith('/Animal')) {
-        // Extract the animal ID from the query parameters
         const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');
         handleOneAnimalPage(req, res, animalId);
-    }
-    /*else if (url.startsWith('/criteria')) {
+    } else if (url.startsWith('/criteria')) {
         handleCriteriaRequest(req, res);
-    }*/
-    else {
+    } else if (url.startsWith('/animal/')) {
+        const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');
+
+        if (url.startsWith('/animal/json')) {
+            exportJson(animalId, req, res);
+
+        } else if (url.startsWith('/animal/xml')) {
+            exportXml(animalId, req, res);
+        } else {
+            res.writeHead(404, {'Content-Type': 'text/plain'});
+            res.end('404 Not Found');
+        }
+
+    } else if (url.startsWith('/json') || url.startsWith('/xml') || url.startsWith('/csv')) {
+        const queryString = url.includes('?') ? url.substring(url.indexOf('?') + 1) : '';
+        const queryParams = new URLSearchParams(queryString);
+        const criteria = {};
+
+        for (const [key, value] of queryParams) {
+            if (value.includes('%')) {
+                criteria[key] = value.split('%');
+            } else {
+                criteria[key] = value;
+            }
+        }
+        for (const [key, value] of queryParams) {
+            if (value.includes(',')) {
+                criteria[key] = value.split(',');
+            } else {
+                criteria[key] = value;
+            }
+        }
+        moreAnimalsExport(criteria, req, res);
+    } else if (url === '/admin'){
+        handleAdminPage(req, res);
+    }
+     else {
         handleStaticFile(req, res);
     }
 }
@@ -101,7 +157,7 @@ function router(req, res) {
 //     req.on('data', (chunk) => {
 //       body += chunk;
 //     });
-  
+
 //     req.on('end', () => {
 //       req.body = JSON.parse(body);
 //       next();

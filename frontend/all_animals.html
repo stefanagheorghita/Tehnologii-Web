@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles/style2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="script.js"></script>
+    <link rel="stylesheet" href="styles/style-modal.css">
 </head>
 
 <body>
@@ -77,6 +78,14 @@
 
     </div>
 </div>
+<div id="popupModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="popupCloseBtn" class="close">&times;</span>
+      <p>You need to be connected to access the export functionality.</p>
+      <p>Please log in to proceed.</p>
+      <a href="login.html" class="login-button" id="loginButton">Login</a>
+    </div>
+</div>
 <section class="animals">
     <div class="title">
         <div class="line"></div>
@@ -91,33 +100,32 @@
             </a>
         </div>
     </div>
+
     <div class="content">
-        <div class="filter-menu">
+        <div class="filter-menu" id="filterForm">
             <h3>Filter by:</h3>
             <form>
-                <label for="category">Category:</label>
-                <select id="category" name="category">
-                    <option value="cat1">Category 1</option>
-                    <option value="cat2">Category 2</option>
-                    <option value="cat3">Category 3</option>
-                </select>
-                <label for="zone">Region:</label>
-                <select id="zone" name="zone">
-                    <option value="zone1">Zone 1</option>
-                    <option value="zone2">Zone 2</option>
-                    <option value="zone3">Zone 3</option>
-                </select>
-                <label for="category">Climate conditions:</label>
-                <select id="climate" name="climate">
-                    <option value="cat1">Category 1</option>
-                    <option value="cat2">Category 2</option>
-                    <option value="cat3">Category 3</option>
-                </select>
-                <label for="endangered">Endangered:</label>
-                <input type="checkbox" id="endangered" name="endangered">
+                <label for="type">Type:</label>
+                <select id="type" name="type"></select>
+                <label for="climate">Climate conditions:</label>
+                <select id="climate" name="climate"></select>
+                <label id="origin-label">Continent:</label>
+                <div id="origin" class="checkbox-group" aria-labelledby="origin-label"></div>
+
+                <label for="status">Status:</label>
+                <select id="status" name="status"></select>
+                <label for="diet">Diet:</label>
+                <select id="diet" name="diet"></select>
+                <label for="reproduction">Reproduction mode:</label>
+                <select id="reproduction" name="reproduction"></select>
+                <label for="cover">Covering:</label>
+                <select id="cover" name="cover"></select>
+                <!-- <label for="endangered">Endangered:</label>
+                <input type="checkbox" id="endangered" name="endangered"> -->
                 <button type="submit">Filter</button>
             </form>
         </div>
+
 
         <div class="filter-toggle">
             <span class="icon">&#x2756;</span>
@@ -137,123 +145,15 @@
             <div class="row">
 
                 <!-- AnimalCards -->
-<!-- 
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div>
-                <div class="about-col">
-                    <img src="images/tiger.jpg" alt="Animal">
-                    <div class="layer">
-                        <a href="Animal.html">Animal</a>
-                    </div>
-                </div> -->
 
             </div>
 
         </div>
+    </div>
+    <div class="buttons">
+        <button class=" button button5" id="xmlButton">XML</button>
+        <button class="button button6" id="jsonButton">JSON</button>
+        <button class="button button7" id="csvButton">CSV</button>
     </div>
 </section>
 <div class="footer_section">
@@ -290,7 +190,325 @@
         <button type="button">+1234567899</button>
     </div>
 </div>
+<script>
+    jsonButton.addEventListener('click', requestJSON);
+    xmlButton.addEventListener('click', requestXML);
+    csvButton.addEventListener('click', requestCSV);
 
+    function requestJSON() {
+        token=localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        if(token==null){
+            showPopUpReminder();
+            return;
+        } 
+
+        const currentUrlParams = new URLSearchParams(window.location.search);
+        const targetUrl = new URL('http://localhost:3000/json');
+        for (const [key, value] of currentUrlParams.entries()) {
+            targetUrl.searchParams.append(key, value);
+        }
+
+        const finalUrl = targetUrl.toString();
+        fetch(finalUrl)
+            .then(response => response.json())
+            .then(data => {
+
+                const jsonBlob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(jsonBlob);
+                downloadLink.download = `animals.json`;
+
+                downloadLink.click();
+            })
+            .catch(error => {
+                console.error('Error requesting JSON:', error);
+            });
+    }
+
+
+    function requestXML() {
+        token=localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        if(token==null){
+            showPopUpReminder();
+            return;
+        }
+        const currentUrlParams = new URLSearchParams(window.location.search);
+        const targetUrl = new URL('http://localhost:3000/xml');
+        for (const [key, value] of currentUrlParams.entries()) {
+            targetUrl.searchParams.append(key, value);
+        }
+
+        const finalUrl = targetUrl.toString();
+        fetch(finalUrl)
+            .then(response => response.text())
+            .then(data => {
+
+                const xmlBlob = new Blob([data], {type: 'application/xml'});
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(xmlBlob);
+                downloadLink.download = `animals.xml`;
+
+                downloadLink.click();
+            })
+            .catch(error => {
+                console.error('Error requesting XML:', error);
+            });
+    }
+
+    function requestCSV() {
+        token=localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        if(token==null){
+            showPopUpReminder();
+            return;
+        }
+    const currentUrlParams = new URLSearchParams(window.location.search);
+    const targetUrl = new URL('http://localhost:3000/csv');
+    for (const [key, value] of currentUrlParams.entries()) {
+        targetUrl.searchParams.append(key, value);
+    }
+
+    const finalUrl = targetUrl.toString();
+    fetch(finalUrl)
+        .then(response => response.text())
+        .then(data => {
+            const csvBlob = new Blob([data], { type: 'text/csv' });
+
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(csvBlob);
+            downloadLink.download = 'animals.csv';
+
+            downloadLink.click();
+        })
+        .catch(error => {
+            console.error('Error requesting CSV:', error);
+        });
+}
+
+
+    //functie request caut animale
+    async function searchAnimals(searchTerm) {
+        try {
+
+            const response = await fetch(`all-animals/search-animals?term=${encodeURIComponent(searchTerm)}`);
+            if (response.ok) {
+                const data = await response.text();
+                return data;
+            } else {
+                throw new Error('Request failed');
+            }
+        } catch (error) {
+            console.error('Error searching animals:', error);
+            throw error;
+        }
+    }
+
+
+    //cerere criterii filtrare server
+    function handleCriteriaRequest() {
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const criteriaData = JSON.parse(xhr.responseText);
+
+                    populateSelectOptions('type', criteriaData.types);
+                    populateSelectOptions('climate', criteriaData.climates);
+                    populateSelectOptions('diet', criteriaData.diets);
+                    populateSelectOptions('reproduction', criteriaData.reproduction);
+                    populateCheckboxOptions('origin', criteriaData.origins);
+                    populateSelectOptions('status', criteriaData.statuses);
+                    populateSelectOptions('cover', criteriaData.covers);
+                    attachCheckboxEventListeners();
+                } else {
+                    console.error('Error fetching criteria data:', xhr.status);
+                }
+            }
+        };
+
+        xhr.open('GET', '/criteria');
+        xhr.send();
+    }
+
+
+    //pune criteriile
+    function populateSelectOptions(selectId, optionsData) {
+        const select = document.getElementById(selectId);
+        const noValueOption = document.createElement('option');
+        noValueOption.value = '';
+        noValueOption.textContent = 'Choose an option';
+        select.appendChild(noValueOption);
+
+        optionsData.forEach((option) => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option._id;
+            optionElement.textContent = option.name;
+            select.appendChild(optionElement);
+        });
+
+    }
+
+
+    function attachCheckboxEventListeners() {
+        const checkboxes = document.querySelectorAll('input[name="origin[]"]');
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', handleCheckboxChange);
+        });
+    }
+
+    function populateCheckboxOptions(checkboxGroupId, optionsData) {
+        const checkboxGroup = document.getElementById(checkboxGroupId);
+
+        optionsData.forEach((option) => {
+            const checkboxContainer = document.createElement('div');
+            checkboxContainer.classList.add('checkbox-container');
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = checkboxGroupId + '[]';
+            checkbox.value = option._id;
+            checkbox.id = `${checkboxGroupId}-${option._id}`;
+
+            const label = document.createElement('label');
+            label.setAttribute('for', `${checkboxGroupId}-${option._id}`);
+            label.textContent = option.name;
+            label.classList.add('origin-label');
+            checkboxContainer.appendChild(checkbox);
+            checkboxContainer.appendChild(label);
+            checkboxGroup.appendChild(checkboxContainer);
+        });
+    }
+
+    const selectedCheckboxValues = [];
+
+    //schimb cand am ales ceva
+    function handleCheckboxChange(event) {
+        const checkbox = event.target;
+        const checkboxValue = checkbox.value.trim();
+
+        if (checkbox.checked) {
+
+            console.log(`Checkbox with value ${checkboxValue} is checked.`);
+            selectedCheckboxValues.push(checkboxValue);
+        } else {
+            console.log(`Checkbox with value ${checkboxValue} is unchecked.`);
+            const index = selectedCheckboxValues.indexOf(checkboxValue);
+            if (index !== -1) {
+                selectedCheckboxValues.splice(index, 1);
+            }
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.querySelector('.search input');
+        //pentru cautare
+        searchInput.addEventListener('input', function (event) {
+            console.log('Search term:', event.target.value);
+            const searchTerm = event.target.value.trim();
+            searchAnimals(searchTerm)
+                .then(results => {
+                    console.log('Search Results:', results);
+                    const parser = new DOMParser();
+                    const newDocument = parser.parseFromString(results, 'text/html');
+                    const newContent = newDocument.querySelector('.about .row').innerHTML;
+                    document.querySelector('.about .row').innerHTML = newContent;
+                    const url = `all-animals/search-animals?term=${encodeURIComponent(value)}`;
+                    history.pushState(null, '', url);
+                })
+                .catch(error => {
+                    console.error('Error searching animals:', error);
+                });
+        });
+
+        //pentru filtrare
+        document.querySelector('form button[type="submit"]').addEventListener('click', function (event) {
+            event.preventDefault();
+            const criteria = {
+                type: getValueIfNotEmpty('type'),
+                origin: getSelectedValues('origin'),
+                clima: getValueIfNotEmpty('climate'),
+                diet: getValueIfNotEmpty('diet'),
+                reproduction: getValueIfNotEmpty('reproduction'),
+                covering: getValueIfNotEmpty('cover'),
+                status: getValueIfNotEmpty('status'),
+                //endangered: document.getElementById('endangered').checked
+            };
+
+            let url = '/all-animals?';
+            Object.entries(criteria).forEach(([key, value]) => {
+                if (value !== null) {
+                    url += `${key}=${encodeURIComponent(value)}&`;
+                }
+            });
+            url = url.replace(/&$/, '');
+
+
+            fetch(url)
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Request failed');
+                    }
+                })
+
+                .then(function (data) {
+                    const parser = new DOMParser();
+                    const newDocument = parser.parseFromString(data, 'text/html');
+                    const newContent = newDocument.querySelector('.about .row').innerHTML;
+                    document.querySelector('.about .row').innerHTML = newContent;
+                    history.pushState(null, '', url);
+                })
+                .catch(function (error) {
+
+                });
+            //   window.location.href = url;
+        });
+
+        function getValueIfNotEmpty(selectId) {
+            const select = document.getElementById(selectId);
+            const selectedValue = select.value.trim();
+            return selectedValue !== '' ? selectedValue : null;
+        }
+
+        function getSelectedValues(checkboxGroupId) {
+            return selectedCheckboxValues.length > 0 ? selectedCheckboxValues : null;
+        }
+
+
+        handleCriteriaRequest();
+        const checkboxes = document.querySelectorAll('input[name="origin[]"]');
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', handleCheckboxChange);
+        });
+
+
+    });
+    function showPopUpReminder() {
+        const modal = document.getElementById('popupModal');
+        modal.style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('popupModal');
+        const closeBtn = document.getElementById('popupCloseBtn');
+        const loginButton = document.getElementById('loginButton');
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        };
+
+        loginButton.onclick = function() {
+            window.location.href = 'login.html';
+        };
+});
+
+</script>
 </body>
 
 </html>
