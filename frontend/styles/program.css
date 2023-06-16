@@ -1,3 +1,17 @@
+:root{
+    --text-fundal: #003629;
+    --fundal: linear-gradient(to right, rgb(255, 183, 0) , rgb(255, 106, 0));
+  }
+  
+  
+  .dark-theme{
+    --fundal:  linear-gradient(to bottom, #003629, #001c15);
+    --text-fundal: #f6f6f6; 
+  }
+
+
+
+
 *{
     margin:0;
     padding:0;
@@ -26,7 +40,7 @@ h2{
 
 
 body{
-  background-image: linear-gradient(to right, rgb(255, 183, 0) , rgb(255, 106, 0));
+  background-image: var(--fundal);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center ;
