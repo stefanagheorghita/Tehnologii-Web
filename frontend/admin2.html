@@ -88,6 +88,12 @@
         // Show statistics panel and information boxes by default
         togglePanels('statistics-panel', 'users-panel', 'animals-panel');
     </script>
+    <script>
+        // Access the mode value from localStorage
+        const mode = localStorage.getItem('mode');
+        console.log('mode:', mode);
+    </script>
+    <script src="darkmode.js"></script>
 </body>
 
 </html>

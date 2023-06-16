@@ -56,22 +56,22 @@
     </div>
 </header>
 
-<body>
-<div class="home_cover">
-    <div class="written_section">
-        <h1 class="title_cover1">Welcome to <span class="orange-text">ZoM</span></h1>
-        <h2 class="subtitle_cover">Lorem ipsum</h2>
-        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer et gravida metus, eleifend vehicula
-            tortor.
-            Pellentesque aliquet orci quis lorem facilisis placerat adipiscing elit.
-        </p>
-        <div class="buttons">
-            <button class="button1_cover" type="button" onclick="location.href='animals.html';"
-                    style="cursor: pointer;">The Zoo
-            </button>
-            <button class="button2_cover" type="button" onclick="location.href='aquarium/aquarium.html';"
-                    style="cursor: pointer;">The Aquarium
-            </button>
+
+<body class="all-page">
+    <div class="wrapper">
+    <div class="home_cover">
+        <div class="written_section">
+            <h1 class="title_cover1">Welcome to <span class="orange-text">ZoM</span></h1>
+            <h2 class="subtitle_cover">Lorem ipsum</h2>
+            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer et gravida metus, eleifend vehicula
+                tortor.
+                Pellentesque aliquet orci quis lorem facilisis placerat adipiscing elit.
+            </p>
+            <div class="buttons">
+                <button class="button1_cover" type="button" onclick="location.href='animals.html';"
+                    style="cursor: pointer;">The Zoo</button>
+                <button class="button2_cover" type="button" onclick="location.href='aquarium/aquarium.html';"
+                    style="cursor: pointer;">The Aquarium</button>
         </div>
     </div>
 </div>
@@ -198,11 +198,12 @@
     </div>
 </div>
 
-<script>
-    const mode = localStorage.getItem('mode');
-    console.log('mode:', mode);
-</script>
-
+    <script>
+        
+        const mode = localStorage.getItem('mode');
+        console.log('mode:', mode);
+    </script>
+    <script src="darkmode.js"></script>
 </body>
 
 </html>

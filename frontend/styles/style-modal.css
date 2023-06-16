@@ -1,3 +1,33 @@
+:root{
+  --text-fundal: #003629;
+  --fundal: #fff5e0;
+  --button-color: #003629;
+  --title-color: #003629;
+
+
+
+}
+
+
+.dark-theme{
+  --fundal:  #333;
+  --text-fundal: #f6f6f6;
+  --title-color: #ad7062;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--fundal);
+}
+
+
+
 .modal {
     display: none;
     position: fixed;
