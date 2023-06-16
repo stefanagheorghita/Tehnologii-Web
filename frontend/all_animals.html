@@ -183,8 +183,8 @@
 </div>
 <script>
     jsonButton.addEventListener('click', requestJSON);
-    //xmlButton.addEventListener('click', requestXML);
-    //csvButton.addEventListener('click', requestCSV);
+    xmlButton.addEventListener('click', requestXML);
+    csvButton.addEventListener('click', requestCSV);
 
     function requestJSON() {
 
@@ -215,9 +215,14 @@
 
     function requestXML() {
 
-        const animalId = getAnimalIdFromURL();
-        const url = `/animal/xml?id=${animalId}`;
-        fetch(url)
+        const currentUrlParams = new URLSearchParams(window.location.search);
+        const targetUrl = new URL('http://localhost:3000/xml');
+        for (const [key, value] of currentUrlParams.entries()) {
+            targetUrl.searchParams.append(key, value);
+        }
+
+        const finalUrl = targetUrl.toString();
+        fetch(finalUrl)
             .then(response => response.text())
             .then(data => {
 
@@ -225,7 +230,7 @@
 
                 const downloadLink = document.createElement('a');
                 downloadLink.href = URL.createObjectURL(xmlBlob);
-                downloadLink.download = `animal_${animalId}.xml`;
+                downloadLink.download = `animals.xml`;
 
                 downloadLink.click();
             })
@@ -233,6 +238,30 @@
                 console.error('Error requesting XML:', error);
             });
     }
+
+    function requestCSV() {
+    const currentUrlParams = new URLSearchParams(window.location.search);
+    const targetUrl = new URL('http://localhost:3000/csv');
+    for (const [key, value] of currentUrlParams.entries()) {
+        targetUrl.searchParams.append(key, value);
+    }
+
+    const finalUrl = targetUrl.toString();
+    fetch(finalUrl)
+        .then(response => response.text())
+        .then(data => {
+            const csvBlob = new Blob([data], { type: 'text/csv' });
+
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(csvBlob);
+            downloadLink.download = 'animals.csv';
+
+            downloadLink.click();
+        })
+        .catch(error => {
+            console.error('Error requesting CSV:', error);
+        });
+}
 
 
     //functie request caut animale
