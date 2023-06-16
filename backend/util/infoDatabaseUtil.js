@@ -105,7 +105,7 @@ async function getUserFromDatabase(id){
         const db=client.db(dbName);
         const userCollection=db.collection('users');
         const user=await userCollection.findOne({ _id: new ObjectId(id) });
-        console.log(user);
+        //console.log(user);
         return user;
     } catch (error) {
         console.error('Error retrieving dangerousness by ID:', error);

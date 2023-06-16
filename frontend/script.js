@@ -1,3 +1,10 @@
+function isTokenExpired(token) {
+     const currentTime = Date.now();
+  const expirationTime = localStorage.getItem('tokenExpires');
+  const expirationTimestamp =  new Date(expirationTime).getTime();
+    return expirationTimestamp < currentTime;
+  }
+
 document.addEventListener("DOMContentLoaded", function () {
 
 //pentru meniu icon
@@ -19,11 +26,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function toggleMenu() {
 
-        var token = localStorage.getItem('token') || getCookie('token');
-        if (token) {
+        var token = localStorage.getItem('token');
+        if (token && !isTokenExpired(token)) {
             subMenu.classList.toggle("open-menu");
             document.getElementById('logoutLink').addEventListener('click', logout);
         } else {
+            localStorage.removeItem('token');
+            localStorage.removeItem('tokenExpires');
             window.location.href = "/login.html";
         }
     }

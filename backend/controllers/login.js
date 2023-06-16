@@ -20,19 +20,19 @@ async function handleLoginRequest(req, res) {
             const client = getClient();
 
             try {
-                await client.connect();
+            
                 console.log('Connected to the database');
                 const collection = client.db(dbName).collection('users');
                 const user = await collection.findOne({email});
-                
+                console.log('l-am gasit pe user'+user.mode);
                 if (user) {
                     const passwordMatch = await bcrypt.compare(password, user.password);
 
                     if (passwordMatch) {
                         const secretKey = 'your_secret_key_here';
                         const token = jwt.sign({ email: user.email, id: user._id}, secretKey);
-                        //const mode = user.mode;////
-                        //localStorage.setItem('mode', mode);////
+                        // const mode = user.mode;
+                        //localStorage.setItem('mode', mode);
 
                         console.log('Login successful');
                         res.writeHead(200, {
@@ -41,7 +41,9 @@ async function handleLoginRequest(req, res) {
                           });
                         // res.write('<h1>Login successful!</h1>');
                         // res.end();
+                        console.log('cu asta m-am logat'+user.mode);
                         res.write(JSON.stringify({ mode: user.mode })); 
+
                         res.end(); ///
                     } else {
                         console.log('Invalid credentials');

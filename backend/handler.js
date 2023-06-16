@@ -24,6 +24,7 @@ const { searchAnimals } = require('./animals/searchAnimals');
 ////
 const {getClient} = require('./util/db');
 const jwt = require('jsonwebtoken');
+const { updateAnimalLikes } = require('./util/likes');
 const dbName = 'web_db';
 const client = getClient();
 
@@ -699,25 +700,6 @@ async function handleSettingsPageInfo(req, res) {
 
 /*async function handleAdminPage(req, res) {
     const filePath = '../frontend/admin2.html';
-<<<<<<< HEAD
-
-    fs.readFile(filePath, 'utf8', (err, content) => {
-        if (err) {
-            res.writeHead(500);
-            res.end('Internal server error');
-        } else {
-
-            const modifiedContent = includeAssets(content, filePath);
-            replaceImageUrls(modifiedContent, (imgErr, modContent) => {
-                if (imgErr) {
-                    res.writeHead(500);
-                    res.end('Internal server error');
-                } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
-                    res.end(modContent, 'utf-8');
-                }
-            });
-=======
   
     fs.readFile(filePath, 'utf8', async (err, content) => {
       if (err) {
@@ -745,7 +727,6 @@ async function handleSettingsPageInfo(req, res) {
           console.log(error);
           res.writeHead(500);
           res.end('Internal server error');
->>>>>>> 6f328b2afe9341a6f815990d40d0cf34ac4bada4
         }
       }
     });
@@ -789,13 +770,44 @@ async function handleSettingsPageInfo(req, res) {
   }
   
   
-  
-  
-  
-  
-  
-  
+  async function handleAddLike(req, res) {
+    const authorizationHeader = req.headers.authorization;
+    if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
+        const token = authorizationHeader.slice(14);
+        if (!verifyToken(token)) {
+            res.statusCode = 401;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({error: 'Unauthorized'}));
+        }
+        else
+        {
+            const dec = verifyToken(token);
+            const userId = dec.id;
+            const user = await getUserFromDatabase(userId);
+            const animalId = req.url.split('/')[2];
+        
+                if (user) {
+                        const updatedAnimal = await updateAnimalLikes(animalId, 1);
+                        if (updatedAnimal) {
+                            res.statusCode = 200;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.end(JSON.stringify({message: 'Animal updated successfully'}));
+                        } else {
+                            res.statusCode = 500;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.end(JSON.stringify({error: 'Internal server error'}));
+                        }
+                    }
+                 else {
+                    res.statusCode = 404;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({error: 'User not found'}));
+                }
+            
+        }
+    }
 
+  }
 
 
 async function handleNameUpdate(req, res) {
@@ -945,5 +957,6 @@ module.exports = {
     handleEmailUpdate,
     handleNameUpdate,
     handlePasswordUpdate,
+    handleAddLike,
     handleStaticFile
 };

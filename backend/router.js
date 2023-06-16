@@ -18,6 +18,7 @@ const {
     handleEmailUpdate, 
     handleNameUpdate,
     handlePasswordUpdate,
+    handleAddLike,
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
 const {handleRegisterRequest} = require('./controllers/register'); // for register
@@ -165,6 +166,9 @@ function router(req, res) {
     else
     if (url === '/update-password' && req.method==='PUT'){
         handlePasswordUpdate(req, res);
+    }
+    else if (url.startsWith('/add-like')){
+        handleAddLike(req, res);
     }
      else {
         handleStaticFile(req, res);

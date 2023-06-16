@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 
 function verifyToken(token) {
     const secretKey = 'your_secret_key_here';
+    if(isTokenExpired(token))
+        throw new Error('Token expired');
     try {
       const decodedToken = jwt.verify(token, secretKey);
       
@@ -24,6 +26,17 @@ function verifyToken(token) {
             throw error;
           }
         }
+    }
+
+    function isTokenExpired(token) {
+      const payload = token.split('.')[1];
+      const decodedPayload = atob(payload);
+      const parsedPayload = JSON.parse(decodedPayload);
+    
+      const expirationTime = parsedPayload.exp * 1000; // Convert expiration time to milliseconds
+      const currentTime = Date.now();
+    
+      return expirationTime < currentTime;
     }
 
     module.exports = {verifyToken};

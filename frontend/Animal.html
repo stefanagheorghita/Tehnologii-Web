@@ -247,6 +247,39 @@
         };
 });
 
+const heartIcon = document.getElementById('heart-icon');
+
+heartIcon.addEventListener('click', () => {
+  const token = localStorage.getItem('token') || getCookie('token');
+  
+  if (token) {
+    const urlParams = new URLSearchParams(window.location.search);
+   const animalId = urlParams.get('id');
+    heartIcon.style.color = 'red';
+
+    fetch(`/add-like/${animalId}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status === 200) {
+          console.log('Like added successfully');
+        } else {
+          console.log('Failed to add like');
+        }
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
+  } else {
+
+    console.log('User is not connected');
+    window.location.href = '/login';
+  }
+});
+
 
 
 
