@@ -14,6 +14,10 @@ const {
     handleOneAnimalPage,
     handleSettingsPage,
     handleAdminPage,
+    handleSettingsPageInfo,
+    handleEmailUpdate, 
+    handleNameUpdate,
+    handlePasswordUpdate,
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
 const {handleRegisterRequest} = require('./controllers/register'); // for register
@@ -22,6 +26,7 @@ const {handleProgramRequest} = require('./controllers/program');
 const {handleSettingsRequest} = require('./controllers/settings');
 const {handleCriteriaRequest} = require('./animals/criteria');
 const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
+
 
 function router(req, res) {
     const url = req.url;
@@ -147,10 +152,25 @@ function router(req, res) {
     } else if (url === '/admin'){
         handleAdminPage(req, res);
     }
+    else if (url === '/profile' && req.method==='GET'){
+      handleSettingsPageInfo(req,res);
+    }
+    else if(url === '/update-name' && req.method==='PUT'){
+      handleNameUpdate(req, res);
+    }
+    else if(url === '/update-email' && req.method==='PUT'){
+      handleEmailUpdate(req, res);
+     
+    }
+    else
+    if (url === '/update-password' && req.method==='PUT'){
+        handlePasswordUpdate(req, res);
+    }
      else {
         handleStaticFile(req, res);
     }
 }
+
 
 // function bodyParser(req, res, next) {
 //     let body = '';

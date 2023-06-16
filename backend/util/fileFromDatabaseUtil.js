@@ -28,7 +28,7 @@ async function getBackgroundImageFromDatabase(imageId) {
         console.error('Error retrieving background image:', error);
         throw error;
     } finally {
-        await client.close();
+
     }
 }
 
