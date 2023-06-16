@@ -16,6 +16,12 @@ const {searchAnimals} = require('./animals/searchAnimals');
 const {getUserFromDatabase} = require('./util/infoDatabaseUtil');
 const {verifyToken} = require('./util/token');
 const {updateName, updateEmail, updatePassword} = require('./util/changeCredentials');
+const { getAllUsersFromDatabase } = require('./util/infoDatabaseUtil');
+const { getAllAnimalsFromDatabase } = require('./util/infoDatabaseUtil');
+const { generateUsersTable } = require('./util/infoDatabaseUtil');
+const { generateAnimalsTable } = require('./util/infoDatabaseUtil');
+const { searchAnimals } = require('./animals/searchAnimals');
+
 ////
 const {getClient} = require('./util/db');
 const jwt = require('jsonwebtoken');
@@ -691,8 +697,10 @@ async function handleSettingsPageInfo(req, res) {
     }
 }
 
-function handleAdminPage(req, res) {
+
+/*async function handleAdminPage(req, res) {
     const filePath = '../frontend/admin2.html';
+<<<<<<< HEAD
 
     fs.readFile(filePath, 'utf8', (err, content) => {
         if (err) {
@@ -710,10 +718,86 @@ function handleAdminPage(req, res) {
                     res.end(modContent, 'utf-8');
                 }
             });
+=======
+  
+    fs.readFile(filePath, 'utf8', async (err, content) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+        try {
+          const users = await getAllUsersFromDatabase();
+  
+          const usersTable = generateUsersTable(users);
+  
+          let modifiedContent = content.replace('<div id="users-table"></div>', usersTable);
+  
+          modifiedContent = includeAssets(modifiedContent, filePath);
+          replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+            if (imgErr) {
+              res.writeHead(500);
+              res.end('Internal server error');
+            } else {
+              res.writeHead(200, { 'Content-Type': 'text/html' });
+              res.end(modContent, 'utf-8');
+            }
+          });
+        } catch (error) {
+          console.log(error);
+          res.writeHead(500);
+          res.end('Internal server error');
+>>>>>>> 6f328b2afe9341a6f815990d40d0cf34ac4bada4
         }
+      }
     });
+  }*/
 
-}
+  async function handleAdminPage(req, res) {
+    const filePath = '../frontend/admin2.html';
+  
+    fs.readFile(filePath, 'utf8', async (err, content) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+        try {
+          const users = await getAllUsersFromDatabase();
+          const animals = await getAllAnimalsFromDatabase();
+  
+          const usersTable = generateUsersTable(users);
+          const animalsTable = generateAnimalsTable(animals);
+  
+          let modifiedContent = content.replace('<div id="users-table"></div>', usersTable);
+          modifiedContent = modifiedContent.replace('<div id="animals-table"></div>', animalsTable);
+  
+          modifiedContent = includeAssets(modifiedContent, filePath);
+          replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+            if (imgErr) {
+              res.writeHead(500);
+              res.end('Internal server error');
+            } else {
+              res.writeHead(200, { 'Content-Type': 'text/html' });
+              res.end(modContent, 'utf-8');
+            }
+          });
+        } catch (error) {
+          console.log(error);
+          res.writeHead(500);
+          res.end('Internal server error');
+        }
+      }
+    });
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+
+
 
 async function handleNameUpdate(req, res) {
     const authorizationHeader = req.headers.authorization;

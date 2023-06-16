@@ -114,6 +114,59 @@ async function getUserFromDatabase(id){
     
 }
 
+async function getAllUsersFromDatabase() {
+    const client = getClient();
+    try {
+      await client.connect();
+  
+      const db = client.db(dbName);
+      const usersCollection = db.collection('users');
+      const users = await usersCollection.find().toArray();
+      return users;
+    } catch (error) {
+      console.error('Error retrieving users from the database:', error);
+      throw error;
+    }
+  }
+
+  async function getAllAnimalsFromDatabase() {
+    const client = getClient();
+    try {
+      await client.connect();
+  
+      const db = client.db(dbName);
+      const usersCollection = db.collection('animals');
+      const users = await usersCollection.find().toArray();
+      return users;
+    } catch (error) {
+      console.error('Error retrieving animals from the database:', error);
+      throw error;
+    }
+  }
+
+  function generateUsersTable(users) {
+    let tableHTML = '<table>';
+    tableHTML += '<tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Email</th></tr>';
+  
+    users.forEach((user) => {
+      tableHTML += `<tr><td>${user._id}</td><td>${user.first_name}</td><td>${user.last_name}</td><td>${user.email}</td></tr>`;
+    });
+  
+    tableHTML += '</table>';
+    return tableHTML;
+  }
+
+  function generateAnimalsTable(animals) {
+    let tableHTML = '<table>';
+    tableHTML += '<tr><th>ID</th><th>Name</th><th>Type</th><th>Age</th></tr>';
+  
+    animals.forEach((animal) => {
+      tableHTML += `<tr><td>${animal._id}</td><td>${animal.name}</td><td>${animal.type}`;
+    });
+  
+    tableHTML += '</table>';
+    return tableHTML;
+  }
 
 module.exports = { getDietByIdFromDatabase, 
                    getStatusByIdFromDatabase, 
@@ -122,5 +175,9 @@ module.exports = { getDietByIdFromDatabase,
                    getTypeByIdFromDatabase,
                    getCoveringByIdFromDatabase,
                    getDangerByIdFromDatabase,
-                   getUserFromDatabase
+                   getUserFromDatabase,
+                   getAllUsersFromDatabase,
+                   getAllAnimalsFromDatabase,
+                   generateUsersTable,
+                   generateAnimalsTable
                  };
