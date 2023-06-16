@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles/style2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="script.js"></script>
+    <link rel="stylesheet" href="styles/style-modal.css">
 </head>
 
 <body>
@@ -75,6 +76,14 @@
             <div class="button-text">Meet our animals</div>
         </a>
 
+    </div>
+</div>
+<div id="popupModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="popupCloseBtn" class="close">&times;</span>
+      <p>You need to be connected to access the export functionality.</p>
+      <p>Please log in to proceed.</p>
+      <a href="login.html" class="login-button" id="loginButton">Login</a>
     </div>
 </div>
 <section class="animals">
@@ -187,6 +196,11 @@
     csvButton.addEventListener('click', requestCSV);
 
     function requestJSON() {
+        token=localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        if(token==null){
+            showPopUpReminder();
+            return;
+        } 
 
         const currentUrlParams = new URLSearchParams(window.location.search);
         const targetUrl = new URL('http://localhost:3000/json');
@@ -214,7 +228,11 @@
 
 
     function requestXML() {
-
+        token=localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        if(token==null){
+            showPopUpReminder();
+            return;
+        }
         const currentUrlParams = new URLSearchParams(window.location.search);
         const targetUrl = new URL('http://localhost:3000/xml');
         for (const [key, value] of currentUrlParams.entries()) {
@@ -240,6 +258,11 @@
     }
 
     function requestCSV() {
+        token=localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        if(token==null){
+            showPopUpReminder();
+            return;
+        }
     const currentUrlParams = new URLSearchParams(window.location.search);
     const targetUrl = new URL('http://localhost:3000/csv');
     for (const [key, value] of currentUrlParams.entries()) {
@@ -466,7 +489,24 @@
 
 
     });
+    function showPopUpReminder() {
+        const modal = document.getElementById('popupModal');
+        modal.style.display = 'block';
+    }
 
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('popupModal');
+        const closeBtn = document.getElementById('popupCloseBtn');
+        const loginButton = document.getElementById('loginButton');
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        };
+
+        loginButton.onclick = function() {
+            window.location.href = 'login.html';
+        };
+});
 
 </script>
 </body>

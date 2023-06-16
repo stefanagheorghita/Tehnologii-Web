@@ -381,7 +381,7 @@ async function handleOneAnimalPage(req, res, id) {
           res.writeHead(500);
           res.end('Internal server error');
         }
-      }
+       }
     });
   }
 
