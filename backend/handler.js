@@ -262,7 +262,7 @@ function handleAllAnimalPage(req, res, criteria,searchTerm) {
 
 //---------------------------------------------------------------------------------------
 
-async function handleOneAnimalPage(req, res, id) {
+/*async function handleOneAnimalPage(req, res, id) {
     const filePath = '../frontend/Animal.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
@@ -315,11 +315,75 @@ async function handleOneAnimalPage(req, res, id) {
             }
         }
     });
-}
+}*/
 
 //--------------------------------------------------------------------------------------------
 
-
+async function handleOneAnimalPage(req, res, id) {
+    const filePath = '../frontend/Animal.html';
+    fs.readFile(filePath, 'utf8', async (err, content) => {
+      if (err) {
+        res.writeHead(500);
+        res.end('Internal server error');
+      } else {
+        const modifiedContent = includeAssets(content, filePath);
+  
+        try {
+          const animal = await getAnimalByIdFromDatabase(id);
+          const diet = await getDietByIdFromDatabase(animal.diet_id);
+          const status = await getStatusByIdFromDatabase(animal.status_id);
+          const clima = await getClimaByIdFromDatabase(animal.clima_id);
+          const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
+          const type = await getTypeByIdFromDatabase(animal.type_id);
+          const covering = await getCoveringByIdFromDatabase(animal.covering_id);
+          const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
+  
+          const updatedContent = modifiedContent
+            .replace('Title Animal', animal.name)
+            .replace('exampleName', animal.name)
+            .replace('exampleGroup', type)
+            .replace('exampleClima', clima)
+            .replace('exampleDiet', diet)
+            .replace('exampleLifespan', animal.lifespan)
+            .replace('Information', animal.description)
+            .replace('exampleStatus', status)
+            .replace('exampleReproduction', reproduction)
+            .replace('exampleCovering', covering)
+            .replace('exampleLifestyle', animal.lifestyle)
+            .replace('exampleDangerousness', danger)
+            .replace('exampleRelatedSpecies', animal.related_species)
+            .replace('exampleNaturalEnemies', animal.natural_enemies)
+            .replace('images/animals_background/default_background.jpg', animal.background_image)
+            .replace('images/leut.png', animal.round_image);
+  
+          const galleryImages = animal.gallery_images.split(',').map((image) => image.trim());
+  
+          const galleryImagesHTML = galleryImages
+            .map((image) => `<img src="${image}" alt="animal image" class="gallery-image">`)
+            .join('\n');
+  
+          const updatedContentWithGallery = updatedContent.replace(
+            '<img src="images/images_all_animals/no.jpg" alt="imagine animal" class="gallery-image">',
+            galleryImagesHTML
+          );
+  
+          replaceImageUrls(updatedContentWithGallery, async (imgErr, finalContent) => {
+            if (imgErr) {
+              res.writeHead(500);
+              res.end('Internal server error');
+            } else {
+              res.writeHead(200, { 'Content-Type': 'text/html' });
+              res.end(finalContent, 'utf-8');
+            }
+          });
+        } catch (error) {
+          console.log(error);
+          res.writeHead(500);
+          res.end('Internal server error');
+        }
+      }
+    });
+  }
 
 
 //for the zoo plan page

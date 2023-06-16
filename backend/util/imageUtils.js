@@ -131,8 +131,6 @@ function replaceImageUrls(htmlContent, callback) {
   }*/
 
 
-
-
 function injectCSS(html) {
     const regex = /<link\s+rel="stylesheet"\s+href="([^"]+)"\s*\/?>/g;
     const modifiedHTML = html.replace(regex, '');
