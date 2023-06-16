@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles/style_animal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="script.js"></script>
+    <link rel="stylesheet" href="styles/style-modal.css">
 </head>
 
 <body>
@@ -63,6 +64,14 @@
     <div class="lion-container">
         <h1>Title Animal</h1>
         <div id="heart-icon"><i class="fas fa-heart"></i></div>
+    </div>
+    <div id="popupModal" class="modal hidden">
+        <div class="modal-content">
+          <span id="popupCloseBtn" class="close">&times;</span>
+          <p>You need to be connected to access the export functionality.</p>
+          <p>Please log in to proceed.</p>
+          <a href="login.html" class="login-button" id="loginButton">Login</a>
+        </div>
     </div>
     <div class="ta">
         <button class="button button3" id="jsonButton">JSON</button>
@@ -155,10 +164,17 @@
 <script>
     jsonButton.addEventListener('click', requestJSON);
     xmlButton.addEventListener('click', requestXML);
-
-
+    const loginButton = document.getElementById('loginButton');
+    loginButton.addEventListener('click', function() {
+      window.location.href = 'login.html';
+    });
+  
     function requestJSON() {
-
+        var token = localStorage.getItem('token') || getCookie('token');
+        if(token == null){
+            showPopUpReminder();
+            return;
+        }
         const animalId = getAnimalIdFromURL();
         const url = `/animal/json?id=${animalId}`;
         fetch(url)
@@ -180,9 +196,14 @@
 
 
     function requestXML() {
-
+        var token = localStorage.getItem('token') || getCookie('token');
+        if(token == null){
+            showPopUpReminder();
+            return;
+        }
         const animalId = getAnimalIdFromURL();
         const url = `/animal/xml?id=${animalId}`;
+
         fetch(url)
             .then(response => response.text())
             .then(data => {
@@ -206,6 +227,29 @@
 
         return animalId;
     }
+
+    function showPopUpReminder() {
+        const modal = document.getElementById('popupModal');
+        modal.style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('popupModal');
+        const closeBtn = document.getElementById('popupCloseBtn');
+        const loginButton = document.getElementById('loginButton');
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        };
+
+        loginButton.onclick = function() {
+            window.location.href = 'login.html';
+        };
+});
+
+
+
+
 </script>
 </body>
 
