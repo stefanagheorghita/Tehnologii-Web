@@ -1,21 +1,23 @@
 const fs = require('fs');
 const path = require('path');
-const { replaceImageUrls } = require('./util/imageUtils');
-const { includeAssets } = require('./util/cssUtils')
-const { getBackgroundImageFromDatabase } = require('./util/fileFromDatabaseUtil');
-const { getAnimals } = require('./animals/animalsDatabase');
-const { getAnimalByIdFromDatabase } = require('./animals/animalsByIdDatabase');
-const { getDietByIdFromDatabase } = require('./util/infoDatabaseUtil');
-const { getStatusByIdFromDatabase } = require('./util/infoDatabaseUtil');
-const { getClimaByIdFromDatabase } = require('./util/infoDatabaseUtil');
-const { getReproductionByIdFromDatabase } = require('./util/infoDatabaseUtil');
-const { getTypeByIdFromDatabase } = require('./util/infoDatabaseUtil');
-const { getCoveringByIdFromDatabase } = require('./util/infoDatabaseUtil');
-const { getDangerByIdFromDatabase } = require('./util/infoDatabaseUtil');
-const { searchAnimals } = require('./animals/searchAnimals');
-
+const {replaceImageUrls} = require('./util/imageUtils');
+const {includeAssets} = require('./util/cssUtils')
+const {getBackgroundImageFromDatabase} = require('./util/fileFromDatabaseUtil');
+const {getAnimals} = require('./animals/animalsDatabase');
+const {getAnimalByIdFromDatabase} = require('./animals/animalsByIdDatabase');
+const {getDietByIdFromDatabase} = require('./util/infoDatabaseUtil');
+const {getStatusByIdFromDatabase} = require('./util/infoDatabaseUtil');
+const {getClimaByIdFromDatabase} = require('./util/infoDatabaseUtil');
+const {getReproductionByIdFromDatabase} = require('./util/infoDatabaseUtil');
+const {getTypeByIdFromDatabase} = require('./util/infoDatabaseUtil');
+const {getCoveringByIdFromDatabase} = require('./util/infoDatabaseUtil');
+const {getDangerByIdFromDatabase} = require('./util/infoDatabaseUtil');
+const {searchAnimals} = require('./animals/searchAnimals');
+const {getUserFromDatabase} = require('./util/infoDatabaseUtil');
+const {verifyToken} = require('./util/token');
+const {updateName, updateEmail, updatePassword} = require('./util/changeCredentials');
 ////
-const { getClient } = require('./util/db');
+const {getClient} = require('./util/db');
 const jwt = require('jsonwebtoken');
 const dbName = 'web_db';
 const client = getClient();
@@ -23,14 +25,14 @@ const client = getClient();
 function renderPage(req, res, pageContent, mode) {
     // Read the contents of the dark-theme.css file
     fs.readFile('../frontend/dark-theme.css', 'utf8', (err, cssContent) => {
-      if (err) {
-        res.writeHead(500);
-        res.end('Internal server error');
-      } else {
-        // Determine whether to include the dark-theme.css based on the mode value
-        const styleTag = mode ? `<style>${cssContent}</style>` : '';
-  
-        const html = `
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
+            // Determine whether to include the dark-theme.css based on the mode value
+            const styleTag = mode ? `<style>${cssContent}</style>` : '';
+
+            const html = `
           <html>
             <head>
               ${styleTag}
@@ -41,13 +43,14 @@ function renderPage(req, res, pageContent, mode) {
             </body>
           </html>
         `;
-  
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.write(html);
-        res.end();
-      }
+
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write(html);
+            res.end();
+        }
     });
-  }
+}
+
 ////
 
 
@@ -67,7 +70,7 @@ function handleLandingPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.writeHead(200, {'Content-Type': 'text/html'});
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -106,7 +109,7 @@ function handleHomePage(req, res) {
                         const imageId = '64884885df77d90a8234a7f6';
                         const backgroundImage = await getBackgroundImageFromDatabase(imageId);
                         const updatedContent = modContent.replace("background-image: url('images/tigru2.jpg')", `background-image: url('${backgroundImage}')`);
-                        res.writeHead(200, { 'Content-Type': 'text/html' });
+                        res.writeHead(200, {'Content-Type': 'text/html'});
                         res.end(updatedContent, 'utf-8');
                     } catch (error) {
                         res.writeHead(500);
@@ -128,7 +131,7 @@ function handleLoginPage(req, res) {
         } else {
 
             const modifiedContent = includeAssets(content, filePath);
-            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.writeHead(200, {'Content-Type': 'text/html'});
             res.end(modifiedContent, 'utf-8');
         }
     });
@@ -157,7 +160,7 @@ function handleGeneralAnimalPage(req, res) {
                         const imageId2 = '64886238df77d90a8234a7f8';
                         const backgroundImage2 = await getBackgroundImageFromDatabase(imageId2);
                         const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
-                        res.writeHead(200, { 'Content-Type': 'text/html' });
+                        res.writeHead(200, {'Content-Type': 'text/html'});
                         res.end(updatedContent2, 'utf-8');
                     } catch (error) {
                         res.writeHead(500);
@@ -171,14 +174,14 @@ function handleGeneralAnimalPage(req, res) {
 
 
 //for the all animals page
-function handleAllAnimalPage(req, res, criteria,searchTerm) {
+function handleAllAnimalPage(req, res, criteria, searchTerm) {
     const filePath = '../frontend/all_animals.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
             res.writeHead(500);
             res.end('Internal server error');
         } else {
-          
+
             const modifiedContent = includeAssets(content, filePath);
 
             const imageId = '64886109df77d90a8234a7f7';
@@ -190,14 +193,13 @@ function handleAllAnimalPage(req, res, criteria,searchTerm) {
             const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
             try {
                 let animals;
-                if(searchTerm!==null)
-                {
-                    animals=await searchAnimals(searchTerm);
+                if (searchTerm !== null) {
+                    animals = await searchAnimals(searchTerm);
+                } else {
+                    animals = await getAnimals(criteria);
                 }
-                else{
-                 animals = await getAnimals(criteria);}
                 const animalCards = animals.map((animal) => {
-        
+
                     const animalUrl = `/Animal?id=${animal._id}`;
                     return `
               <div class="about-col">
@@ -216,7 +218,7 @@ function handleAllAnimalPage(req, res, criteria,searchTerm) {
                         res.writeHead(500);
                         res.end('Internal server error');
                     } else {
-                        res.writeHead(200, { 'Content-Type': 'text/html' });
+                        res.writeHead(200, {'Content-Type': 'text/html'});
                         res.end(finalContent, 'utf-8');
                     }
                 });
@@ -358,68 +360,68 @@ function handleAllAnimalPage(req, res, criteria,searchTerm) {
 async function handleOneAnimalPage(req, res, id) {
     const filePath = '../frontend/Animal.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
-      if (err) {
-        res.writeHead(500);
-        res.end('Internal server error');
-      } else {
-        const modifiedContent = includeAssets(content, filePath);
-  
-        try {
-          const animal = await getAnimalByIdFromDatabase(id);
-          const diet = await getDietByIdFromDatabase(animal.diet_id);
-          const status = await getStatusByIdFromDatabase(animal.status_id);
-          const clima = await getClimaByIdFromDatabase(animal.clima_id);
-          const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
-          const type = await getTypeByIdFromDatabase(animal.type_id);
-          const covering = await getCoveringByIdFromDatabase(animal.covering_id);
-          const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
-  
-          const updatedContent = modifiedContent
-            .replace('Title Animal', animal.name)
-            .replace('exampleName', animal.name)
-            .replace('exampleGroup', type)
-            .replace('exampleClima', clima)
-            .replace('exampleDiet', diet)
-            .replace('exampleLifespan', animal.lifespan)
-            .replace('Information', animal.description)
-            .replace('exampleStatus', status)
-            .replace('exampleReproduction', reproduction)
-            .replace('exampleCovering', covering)
-            .replace('exampleLifestyle', animal.lifestyle)
-            .replace('exampleDangerousness', danger)
-            .replace('exampleRelatedSpecies', animal.related_species)
-            .replace('exampleNaturalEnemies', animal.natural_enemies)
-            .replace('images/animals_background/default_background.jpg', animal.background_image)
-            .replace('images/leut.png', animal.round_image);
-  
-          const galleryImages = animal.gallery_images.split(',').map((image) => image.trim());
-  
-          const galleryImagesHTML = galleryImages
-            .map((image) => `<img src="${image}" alt="animal image" class="gallery-image">`)
-            .join('\n');
-  
-          const updatedContentWithGallery = updatedContent.replace(
-            '<img src="images/images_all_animals/no.jpg" alt="imagine animal" class="gallery-image">',
-            galleryImagesHTML
-          );
-  
-          replaceImageUrls(updatedContentWithGallery, async (imgErr, finalContent) => {
-            if (imgErr) {
-              res.writeHead(500);
-              res.end('Internal server error');
-            } else {
-              res.writeHead(200, { 'Content-Type': 'text/html' });
-              res.end(finalContent, 'utf-8');
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
+            const modifiedContent = includeAssets(content, filePath);
+
+            try {
+                const animal = await getAnimalByIdFromDatabase(id);
+                const diet = await getDietByIdFromDatabase(animal.diet_id);
+                const status = await getStatusByIdFromDatabase(animal.status_id);
+                const clima = await getClimaByIdFromDatabase(animal.clima_id);
+                const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
+                const type = await getTypeByIdFromDatabase(animal.type_id);
+                const covering = await getCoveringByIdFromDatabase(animal.covering_id);
+                const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
+
+                const updatedContent = modifiedContent
+                    .replace('Title Animal', animal.name)
+                    .replace('exampleName', animal.name)
+                    .replace('exampleGroup', type)
+                    .replace('exampleClima', clima)
+                    .replace('exampleDiet', diet)
+                    .replace('exampleLifespan', animal.lifespan)
+                    .replace('Information', animal.description)
+                    .replace('exampleStatus', status)
+                    .replace('exampleReproduction', reproduction)
+                    .replace('exampleCovering', covering)
+                    .replace('exampleLifestyle', animal.lifestyle)
+                    .replace('exampleDangerousness', danger)
+                    .replace('exampleRelatedSpecies', animal.related_species)
+                    .replace('exampleNaturalEnemies', animal.natural_enemies)
+                    .replace('images/animals_background/default_background.jpg', animal.background_image)
+                    .replace('images/leut.png', animal.round_image);
+
+                const galleryImages = animal.gallery_images.split(',').map((image) => image.trim());
+
+                const galleryImagesHTML = galleryImages
+                    .map((image) => `<img src="${image}" alt="animal image" class="gallery-image">`)
+                    .join('\n');
+
+                const updatedContentWithGallery = updatedContent.replace(
+                    '<img src="images/images_all_animals/no.jpg" alt="imagine animal" class="gallery-image">',
+                    galleryImagesHTML
+                );
+
+                replaceImageUrls(updatedContentWithGallery, async (imgErr, finalContent) => {
+                    if (imgErr) {
+                        res.writeHead(500);
+                        res.end('Internal server error');
+                    } else {
+                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.end(finalContent, 'utf-8');
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+                res.writeHead(500);
+                res.end('Internal server error');
             }
-          });
-        } catch (error) {
-          console.log(error);
-          res.writeHead(500);
-          res.end('Internal server error');
         }
-       }
     });
-  }
+}
 
 
 //for the zoo plan page
@@ -438,7 +440,7 @@ function handleZooPlanPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.writeHead(200, {'Content-Type': 'text/html'});
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -462,7 +464,7 @@ function handleHelpPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.writeHead(200, {'Content-Type': 'text/html'});
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -486,7 +488,7 @@ function handleAboutUsPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.writeHead(200, {'Content-Type': 'text/html'});
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -510,7 +512,7 @@ function handleForgotPasswordPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.writeHead(200, {'Content-Type': 'text/html'});
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -535,7 +537,7 @@ function handleProgramPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.writeHead(200, {'Content-Type': 'text/html'});
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -560,7 +562,7 @@ function handleStaticFile(req, res) {
                 res.end('Internal server error');
             }
         } else {
-            res.writeHead(200, { 'Content-Type': contentType });
+            res.writeHead(200, {'Content-Type': contentType});
             res.end(content, 'utf-8');
         }
     });
@@ -576,7 +578,7 @@ function handleRegisterPage(req, res) {
         } else {
 
             const modifiedContent = includeAssets(content, filePath);
-            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.writeHead(200, {'Content-Type': 'text/html'});
             res.end(modifiedContent, 'utf-8');
         }
     });
@@ -598,7 +600,7 @@ function handleSettingsPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.writeHead(200, {'Content-Type': 'text/html'});
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -606,6 +608,7 @@ function handleSettingsPage(req, res) {
         }
     });
 }
+
 // function handleSettingsPage(req, res) {
 //     const filePath = '../frontend/settings.html';
 //     fs.readFile(filePath, 'utf8', (err, content) => {
@@ -656,7 +659,37 @@ function handleSettingsPage(req, res) {
 //       }
 //     });
 //   }
+async function handleSettingsPageInfo(req, res) {
 
+    const authorizationHeader = req.headers.authorization;
+    if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
+        const token = authorizationHeader.slice(14);
+        if (!verifyToken(token)) {
+            res.statusCode = 401;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({error: 'Unauthorized'}));
+            return;
+        } else {
+            const dec = verifyToken(token);
+            const userId = dec.id;
+            const user = await getUserFromDatabase(userId);
+
+            if (user) {
+                const response = {
+                    name: user.name,
+                    email: user.email,
+                };
+                const jsonResponse = JSON.stringify(response);
+                res.setHeader('Content-Type', 'application/json');
+                res.end(jsonResponse);
+            } else {
+                res.statusCode = 404;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({error: 'User not found'}));
+            }
+        }
+    }
+}
 
 function handleAdminPage(req, res) {
     const filePath = '../frontend/admin2.html';
@@ -673,7 +706,7 @@ function handleAdminPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.writeHead(200, {'Content-Type': 'text/html'});
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -681,6 +714,113 @@ function handleAdminPage(req, res) {
     });
 
 }
+
+async function handleNameUpdate(req, res) {
+    const authorizationHeader = req.headers.authorization;
+    if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
+        const token = authorizationHeader.slice(14);
+        if (!verifyToken(token)) {
+            res.statusCode = 401;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({error: 'Unauthorized'}));
+            return;
+        } else {
+            const tok = verifyToken(token);
+            const id = tok.id;
+            let body = '';
+
+            req.on('data', (chunk) => {
+                body += chunk.toString();
+            });
+
+            req.on('end', () => {
+                const data = JSON.parse(body);
+
+                const newName = data.name;
+                updateName(id, newName, req, res);
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({message: 'Name updated successfully'}));
+            });
+        }
+    }
+
+}
+
+async function handlePasswordUpdate(req, res) {
+
+    const authorizationHeader = req.headers.authorization;
+    if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
+        const token = authorizationHeader.slice(14);
+        if (!verifyToken(token)) {
+            res.statusCode = 401;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({error: 'Unauthorized'}));
+            return;
+        } else {
+            const tok = verifyToken(token);
+            const id = tok.id;
+            let body = '';
+            req.on('data', (chunk) => {
+                body += chunk.toString();
+            });
+
+            req.on('end', () => {
+                const data = JSON.parse(body);
+
+                const newPassword = data.password;
+                updatePassword(id, newPassword, req, res);
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({message: 'Password updated successfully'}));
+            });
+        }
+
+    }
+}
+
+
+async function handleEmailUpdate(req, res) {
+    const authorizationHeader = req.headers.authorization;
+    const token = authorizationHeader.slice(14);
+    if (!verifyToken(token)) {
+        res.statusCode = 401;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({error: 'Unauthorized'}));
+        return;
+    } else {
+        const tok = verifyToken(token);
+        const id = tok.id;
+        let body = '';
+        req.on('data', (chunk) => {
+            body += chunk.toString();
+        });
+
+        req.on('end', async () => {
+            const data = JSON.parse(body);
+
+            const newEmail = data.email;
+            const rez = await updateEmail(id, newEmail, req, res);
+
+            if (rez.success) {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({message: 'Email updated successfully'}));
+            } else {
+
+                if (rez.message === 'Email already exists') {
+                    res.statusCode = 409;
+                    res.end(JSON.stringify({error: 'Email already exists'}));
+                } else {
+                    console.log('mare eroare');
+                    res.statusCode = 500;
+                    res.end(JSON.stringify({error: 'Error at updating'}));
+                }
+            }
+        });
+    }
+}
+
 
 function getContentType(extension) {
     switch (extension) {
@@ -701,24 +841,6 @@ function getContentType(extension) {
     }
 }
 
-function readCssFiles(cssFiles, callback) {
-    let cssCount = 0;
-    let cssContents = [];
-
-    cssFiles.forEach((cssFilePath) => {
-        fs.readFile(cssFilePath, 'utf8', (err, cssContent) => {
-            cssCount++;
-            if (err) {
-                callback(err);
-                return;
-            }
-            cssContents.push(cssContent);
-            if (cssCount === cssFiles.length) {
-                callback(null, cssContents);
-            }
-        });
-    });
-}
 
 module.exports = {
     handleLandingPage,
@@ -736,5 +858,9 @@ module.exports = {
     handleProgramPage,
     handleOneAnimalPage,
     handleAdminPage,
+    handleSettingsPageInfo,
+    handleEmailUpdate,
+    handleNameUpdate,
+    handlePasswordUpdate,
     handleStaticFile
 };

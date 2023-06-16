@@ -11,78 +11,78 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="settings-script.js"></script>
     <script src="script.js"></script>
-    
+
 </head>
 
 <body>
-    <header class="header">
-        <div class="logo">
-            <img src="images/zoo.png" alt="Logo">
+<header class="header">
+    <div class="logo">
+        <img src="images/zoo.png" alt="Logo">
+    </div>
+    <div class="navigation_bar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="animals.html">Our Animals</a></li>
+            <li><a href="aboutUs.html">About us</a></li>
+            <li><a href="contact-us.html">Contact us</a></li>
+            <li><a href="help-page/help.html">Help</a></li>
+        </ul>
+        <div class="profile_icon_container">
+            <span class="vertical_line"></span>
+            <i id="userIcon" class="fa fa-user" aria-hidden="true"></i>
+
         </div>
-        <div class="navigation_bar">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="animals.html">Our Animals</a></li>
-                <li><a href="aboutUs.html">About us</a></li>
-                <li><a href="contact-us.html">Contact us</a></li>
-                <li><a href="help-page/help.html">Help</a></li>
-            </ul>
-            <div class="profile_icon_container">
-                <span class="vertical_line"></span>
-                <i id="userIcon" class="fa fa-user" aria-hidden="true"></i>
+    </div>
+    <div class="icons">
+        <div id="menu-btn" class="fas fa-bars"></div>
+        <div class="profile_icon_container-2">
+            <i class="fa fa-user" aria-hidden="true"></i>
 
-            </div>
         </div>
-        <div class="icons">
-            <div id="menu-btn" class="fas fa-bars"> </div>
-            <div class="profile_icon_container-2">
-                <i class="fa fa-user" aria-hidden="true"></i>
+    </div>
+    <div class="sub-menu-wrap" id="subMenu">
+        <div class="sub-menu">
 
-            </div>
+            <a href="settings.html" class="sub-menu-link" id="settingsLink">
+                <img src="images/setting.png" alt="setting">
+                <p>Settings</p>
+                <span> > </span>
+            </a>
+
+            <a href="landingpage.html" class="sub-menu-link" id="logoutLink">
+                <img src="images/logout.png" alt="logout">
+                <p>Logout</p>
+                <span> > </span>
+            </a>
+
         </div>
-        <div class="sub-menu-wrap" id="subMenu">
-            <div class="sub-menu">
+    </div>
+</header>
 
-                <a href="settings.html" class="sub-menu-link" id="settingsLink">
-                    <img src="images/setting.png" alt="setting">
-                    <p>Settings</p>
-                    <span> > </span>
-                </a>
-
-                <a href="landingpage.html" class="sub-menu-link" id="logoutLink">
-                    <img src="images/logout.png" alt="logout">
-                    <p>Logout</p>
-                    <span> > </span>
-                </a>
-
-            </div>
-        </div>
-    </header>
-
-    <div class="set-box">
-        <!--<div>
-            <h1>
-                Settings
-            </h1>
-        </div>
+<div class="set-box">
+    <!--<div>
+        <h1>
+            Settings
+        </h1>
+    </div>
+    <div>
         <div>
+            <label for="togg-1">
+                <span class="dark-mode-text">Dark mode</span>
+                <input type="checkbox" id="togg-1">
+                <div class="toggle-container">
+                    <span class="toggle"></span>
+                    <span class="toggle-c"></span>
+                </div>
+            </label>
+        </div>
+    </div> -->
+    <div>
+        <h1>Settings</h1>
+    </div>
+    <div>
+        <form id="settingsForm" action="/settings" method="POST">
             <div>
-                <label for="togg-1">
-                    <span class="dark-mode-text">Dark mode</span>
-                    <input type="checkbox" id="togg-1">
-                    <div class="toggle-container">
-                        <span class="toggle"></span>
-                        <span class="toggle-c"></span>
-                    </div>
-                </label>
-            </div>
-        </div> -->
-        <div>
-            <h1>Settings</h1>
-          </div>
-          <div>
-            <form id="settingsForm" action="/settings" method="POST">
-              <div>
                 <label for="darkModeToggle">
                     <span class="dark-mode-text">Dark mode</span>
                     <input type="checkbox" id="darkModeToggle" name="darkModeToggle">
@@ -92,63 +92,281 @@
                         <span class="toggle-c"></span>
                     </div>
                 </label>
-              </div>
-            </form>
-          </div>
-          
-        <div class="profile-info">
-            <h1>Profile Information</h1>
-            <h2>Full Name</h2>
-            <p>Example Example <button class="btn">update</button></p>
-            <h2>Email</h2>
-            <p>example@example.com <button class="btn">update</button></p>
-            <h2>Password</h2>
-            <p>******** <button class="btn">Change</button></p>
-        </div>
-
+            </div>
+        </form>
     </div>
 
-
-    <div class="footer_section">
-        <div class="section_1">
-            <h4>Quick Links</h4>
-            <ul>
-               <li><a href="index.html">Home</a></li>
-                <li><a href="animals.html">Our Animals</a></li>
-                <li><a href="aboutUs.html">About us</a></li>
-                <li><a href="contact-us.html">Contact us</a></li>
-                <li><a href="help-page/help.html">Help</a></li>
-            </ul>
-        </div>
-        <div class="section_2">
-            <h4>Other Pages</h4>
-            <ul>
-                <li><a href="#privacy">Privacy & Policy</a></li>
-                <li><a href="#terms">Terms of Use</a></li>
-                <li><a href="#disclaimer">Disclaimer</a></li>
-                <li><a href="#faq">FAQ</a></li>
-            </ul>
-        </div>
-        <div class="section_3">
-            <h4>Contact Info</h4>
-            <ul>
-                <li>Lorem ipsum dolor sit amet</li>
-                <li>+1234567899</li>
-                <li>contact@domain.com</li>
-            </ul>
-        </div>
-        <div class="section_4">
-            <h4>Make a Reservation</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <button type="button">+1234567899</button>
-        </div>
+    <div class="profile-info">
+        <h1>Profile Information</h1>
+        <h2>Name</h2>
+        <p>Example Example
+            <button class="btn">update</button>
+        </p>
+        <h2>Email</h2>
+        <p>example@example.com
+            <button class="btn">update</button>
+        </p>
+        <h2>Password</h2>
+        <p><span id="passwordMask">********</span>
+            <button class="btn" id="passButton">Change</button>
+        </p>
     </div>
-    <script>
-        // Access the mode value from localStorage
-        const mode = localStorage.getItem('mode');
-        console.log('mode:', mode);
-    </script>
-    <script src="darkmode.js"></script>
+
+</div>
+
+<div id="namePopup" class="popup">
+    <div class="popup-content">
+        <h3>Update Name</h3>
+        <input type="text" id="newNameInput" placeholder="Enter new name">
+        <button class="btn" id="nameSubmitButton">Submit</button>
+        <button class="btn" id="nameCancelButton">Cancel</button>
+    </div>
+</div>
+
+<div id="emailPopup" class="popup">
+    <div class="popup-content">
+        <h3>Update Email</h3>
+        <input type="email" id="newEmailInput" placeholder="Enter new email">
+        <button class="btn" id="emailSubmitButton">Submit</button>
+        <button class="btn" id="emailCancelButton">Cancel</button>
+    </div>
+</div>
+<div id="passwordPopup" class="popup">
+    <div class="popup-content">
+        <h3>Change Password</h3>
+        <input type="password" id="newPasswordInput" placeholder="Enter new password">
+        <button class="btn" id="passwordSubmitButton">Submit</button>
+        <button class="btn" id="passwordCancelButton">Cancel</button>
+    </div>
+</div>
+
+<div class="footer_section">
+    <div class="section_1">
+        <h4>Quick Links</h4>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="animals.html">Our Animals</a></li>
+            <li><a href="aboutUs.html">About us</a></li>
+            <li><a href="contact-us.html">Contact us</a></li>
+            <li><a href="help-page/help.html">Help</a></li>
+        </ul>
+    </div>
+    <div class="section_2">
+        <h4>Other Pages</h4>
+        <ul>
+            <li><a href="#privacy">Privacy & Policy</a></li>
+            <li><a href="#terms">Terms of Use</a></li>
+            <li><a href="#disclaimer">Disclaimer</a></li>
+            <li><a href="#faq">FAQ</a></li>
+        </ul>
+    </div>
+    <div class="section_3">
+        <h4>Contact Info</h4>
+        <ul>
+            <li>Lorem ipsum dolor sit amet</li>
+            <li>+1234567899</li>
+            <li>contact@domain.com</li>
+        </ul>
+    </div>
+    <div class="section_4">
+        <h4>Make a Reservation</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <button type="button">+1234567899</button>
+    </div>
+</div>
+
+
+<script>
+    const mode = localStorage.getItem('mode');
+    console.log('mode:', mode);
+</script>
+<script src="darkmode.js"></script>
+<script>
+    const token = localStorage.getItem('token') || getCookie('token');
+    fetch('/profile', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+
+            const nameElement = document.querySelector('.profile-info h2:nth-of-type(1) + p');
+
+
+            nameElement.textContent = data.name;
+
+
+            const nameButton = document.createElement('button');
+            nameButton.classList.add('btn');
+            nameButton.textContent = 'Update';
+            nameButton.id = 'nameButton';
+
+
+            nameElement.appendChild(nameButton);
+
+            const emailElement = document.querySelector('.profile-info h2:nth-of-type(2) + p');
+
+
+            emailElement.textContent = data.email;
+
+
+            const emailButton = document.createElement('button');
+            emailButton.classList.add('btn');
+            emailButton.textContent = 'Update';
+            emailButton.id = 'emailButton';
+
+
+            emailElement.appendChild(emailButton);
+
+
+            const namePopup = document.getElementById('namePopup');
+            const nameInput = document.getElementById('newNameInput');
+            const nameSubmitButton = document.getElementById('nameSubmitButton');
+            const nameCancelButton = document.getElementById('nameCancelButton');
+
+            const emailPopup = document.getElementById('emailPopup');
+            const emailInput = document.getElementById('newEmailInput');
+            const emailSubmitButton = document.getElementById('emailSubmitButton');
+            const emailCancelButton = document.getElementById('emailCancelButton');
+
+            nameButton.addEventListener('click', () => {
+                namePopup.style.display = 'block';
+            });
+
+            emailButton.addEventListener('click', () => {
+                emailPopup.style.display = 'block';
+            });
+
+            nameSubmitButton.addEventListener('click', () => {
+                const newName = nameInput.value;
+
+                if (newName) {
+                    fetch('/update-name', {
+                        method: 'PUT',
+                        body: JSON.stringify({name: newName}),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then(response => {
+
+                            namePopup.style.display = 'none';
+                            if (response.status === 200) {
+                                nameElement.textContent = newName;
+                                nameElement.appendChild(nameButton);
+                            } else {
+                                nameElement.textContent = data.name;
+                                nameElement.appendChild(nameButton);
+                            }
+                        })
+                        .catch(error => {
+
+                        });
+                }
+            });
+
+            nameCancelButton.addEventListener('click', () => {
+                namePopup.style.display = 'none';
+            });
+
+            emailSubmitButton.addEventListener('click', () => {
+                const newEmail = emailInput.value;
+                if (!validateEmail(newEmail)) {
+                    alert('Please enter a valid email address');
+                    return;
+                }
+                if (newEmail) {
+
+                    fetch('/update-email', {
+                        method: 'PUT',
+                        body: JSON.stringify({email: newEmail}),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then(response => {
+
+                            emailPopup.style.display = 'none';
+                            if (response.status === 200) {
+                                emailElement.textContent = newEmail;
+                                emailElement.appendChild(emailButton);
+                            } else {
+                                if (response.status === 409) {
+                                    alert('Email already exists');
+                                }
+                                emailElement.textContent = data.email;
+                                emailElement.appendChild(emailButton);
+
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }
+            });
+
+            emailCancelButton.addEventListener('click', () => {
+                emailPopup.style.display = 'none';
+            });
+
+            const passwordElement = document.querySelector('.profile-info h2:nth-of-type(3) + p');
+            const passwordMaskElement = document.getElementById('passwordMask');
+            const passwordButton = document.getElementById('passButton');
+
+            const passwordPopup = document.getElementById('passwordPopup');
+            const newPasswordInput = document.getElementById('newPasswordInput');
+            const passwordSubmitButton = document.getElementById('passwordSubmitButton');
+            const passwordCancelButton = document.getElementById('passwordCancelButton');
+
+            passwordButton.addEventListener('click', () => {
+                passwordPopup.style.display = 'block';
+            });
+
+            passwordSubmitButton.addEventListener('click', () => {
+                const newPassword = newPasswordInput.value;
+
+                if (newPassword) {
+                    fetch('/update-password', {
+                        method: 'PUT',
+                        body: JSON.stringify({password: newPassword}),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then(response => {
+                            if (response.status === 200) {
+                                alert('Password updated successfully');
+                                passwordMaskElement.textContent = '*'.repeat(newPassword.length);
+                                passwordElement.appendChild(passwordButton);
+                                passwordPopup.style.display = 'none';
+                            } else {
+                                alert('Failed to update password');
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }
+            });
+
+            passwordCancelButton.addEventListener('click', () => {
+                passwordPopup.style.display = 'none';
+            });
+
+
+        });
+
+    function validateEmail(email) {
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+</script>
 </body>
 
 </html>

@@ -15,7 +15,7 @@ async function searchAnimals(searchTerm) {
         console.error('Error searching animals:', error);
 
     } finally {
-        client.close();
+
     }
 }
 
