@@ -47,7 +47,7 @@
                 </div>
                 <a href="forgot.html">Forgot Password?</a>
             </div>
-            <button class="login-button" type="submit" onclick="submitForm(event)">Log in</button>
+            <button id="loginButton" class="login-button" type="submit" onclick="submitForm(event)">Log in</button>
         </form>
         <div class="sign-up">
             Don't have an account?
@@ -107,6 +107,37 @@
         var data = JSON.stringify({email: email, password: password});
         xhr.send(data);
     }
+
+    const loginButton = document.getElementById('loginButton');
+    loginButton.addEventListener('click', handleLogin);
+
+  async function handleLogin() {
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+
+    try {
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const mode = data.mode;
+
+        localStorage.setItem('mode', mode);
+        console.log('Mode stored in localStorage:', mode);
+      } else {
+        console.error('Login failed');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  }
+
 </script>
 </body>
 </html>
