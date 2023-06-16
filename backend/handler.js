@@ -12,7 +12,6 @@ const {getReproductionByIdFromDatabase} = require('./util/infoDatabaseUtil');
 const {getTypeByIdFromDatabase} = require('./util/infoDatabaseUtil');
 const {getCoveringByIdFromDatabase} = require('./util/infoDatabaseUtil');
 const {getDangerByIdFromDatabase} = require('./util/infoDatabaseUtil');
-const {searchAnimals} = require('./animals/searchAnimals');
 const {getUserFromDatabase} = require('./util/infoDatabaseUtil');
 const {verifyToken} = require('./util/token');
 const {updateName, updateEmail, updatePassword} = require('./util/changeCredentials');
