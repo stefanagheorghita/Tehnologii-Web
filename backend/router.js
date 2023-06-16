@@ -12,7 +12,8 @@ const {
     handleHelpPage, /*handleForgotPasswordPage,*/
     handleProgramPage,
     handleOneAnimalPage,
-    handleSettingsPage
+    handleSettingsPage,
+    handleAdminPage,
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
 const {handleRegisterRequest} = require('./controllers/register'); // for register
@@ -140,7 +141,10 @@ function router(req, res) {
             }
         }
         moreAnimalsExport(criteria, req, res);
-    } else {
+    } else if (url === '/admin'){
+        handleAdminPage(req, res);
+    }
+     else {
         handleStaticFile(req, res);
     }
 }
