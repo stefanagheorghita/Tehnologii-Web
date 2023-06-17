@@ -20,6 +20,7 @@ const {
     handlePasswordUpdate,
     handleAddLike,
     handleRemoveLike,
+    handleContactUs,
     handleSearchExport
     
 } = require('./handler');
@@ -30,7 +31,9 @@ const {handleProgramRequest} = require('./controllers/program');
 const {handleSettingsRequest} = require('./controllers/settings');
 const {handleCriteriaRequest} = require('./animals/criteria');
 const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
-const {verifyIfUserLiked,getLikesCount}=require('./util/likes')
+const {verifyIfUserLiked,getLikesCount}=require('./util/likes');
+const {handleContactUsRequest} = require('./controllers/contactUs');
+
 function router(req, res) {
     const url = req.url;
     if (url === '/' || url === '/landingpage.html' || url === '/landingpage') {
@@ -112,6 +115,12 @@ function router(req, res) {
             handleProgramRequest(req, res);
         } else {
             handleProgramPage(req, res);
+        }
+    } else if (url === '/contact' || url === '/contact-us.html') {
+        if (req.method === 'GET') {
+            handleContactUs(req, res);
+        } else if (req.method === 'POST') {
+            handleContactUsRequest(req, res);
         }
     } else if (url.startsWith('/Animal')) {
         const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');

@@ -40,7 +40,7 @@
   --header: #003629;
   --footer: #003629;
   --footer-h: rgb(27, 174, 27);
-  --hover: rgb(59, 207, 193);;
+  --hover: rgb(59, 207, 193);
   --descr: white;
   --btn-txt: rgb(15, 15, 15);
   --btn-hov: #29e4dbd5;
@@ -201,11 +201,16 @@ body {
       color: var(--text-color);
       
     }
+
+    
     
     #check:checked ~ ul{
-      background: coral;
+
+      /* background: coral; */
+      background-color: var(--header);
       left: 0;
       z-index: 9999;
+
     }
     
     body.disable-scroll{

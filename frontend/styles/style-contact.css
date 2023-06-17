@@ -112,7 +112,8 @@ form textarea {
 }
 
 .round-rect-box {
-    background-image: url(../images/gradient.jpg);
+    /* background-image: url(../images/gradient.jpg); */
+    background: linear-gradient(to right, #FFA500, #FF4500);
     background-position: center;
     background-size: cover;
     border-radius: 20px;

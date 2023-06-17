@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Contact us</title>
     <script src="script.js"></script>
+    <script src="contactUs-client.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,200;0,300;1,100;1,200&display=swap"
@@ -51,7 +52,7 @@
                     <span> > </span>
                 </a>
 
-                <a href="landingpage.html" class="sub-menu-link">
+                <a href="landingpage.html" class="sub-menu-link" id="logoutLink">
                     <img src="images/logout.png" alt="logout">
                     <p>Logout</p>
                     <span> > </span>
@@ -64,13 +65,16 @@
         <div class="contact-form">
             <h1>Contact <span>Us</span></h1>
             <p>If you have any questions, send us a message.</p>
-            <form action="action">
-                <input type="text" placeholder="Your name" required>
+            <!-- <form action="action"> -->
+            <form id="contact-form" action="/contact" method="POST">    
+                <input type="text" name="name" placeholder="Your name" required>
                 <input type="email" name="email" id="em" placeholder="Email address" required>
-                <input type="text" placeholder="Subject" required>
-                <textarea name="text-area" id="text-area" cols="30" rows="10" placeholder="Your message"></textarea>
+                <input type="text" name="subject" placeholder="Subject" required>
+                <textarea name="text-area" id="text-area" cols="30" rows="10" placeholder="Your message" required></textarea>
                 <input type="submit" name="submit" value="Submit" class="btn">
             </form>
+            <div id="status-message"></div>
+
         </div>
         <div class="contact-img">
             <img src="images/cont.jpg" alt="Imagine">

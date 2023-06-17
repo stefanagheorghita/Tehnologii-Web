@@ -13,7 +13,7 @@
   --fundal:  #333;
   --title: white;
   --text-fundal: #f6f6f6;
-  --title-color: #ef3921;
+  --title-color: white;
   --line: white;
 }
 
@@ -464,7 +464,7 @@ body {
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 10px;
-  color: var(--title)
+  color: var(--title);
 
 }
 
