@@ -85,10 +85,10 @@
 </div>
 <div id="popupModal" class="modal hidden">
     <div class="modal-content">
-      <span id="popupCloseBtn" class="close">&times;</span>
-      <p>You need to be connected to access the export functionality.</p>
-      <p>Please log in to proceed.</p>
-      <a href="login.html" class="login-button" id="loginButton">Login</a>
+        <span id="popupCloseBtn" class="close">&times;</span>
+        <p>You need to be connected to access the export functionality.</p>
+        <p>Please log in to proceed.</p>
+        <a href="/login.html" class="login-button" id="loginButton">Login</a>
     </div>
 </div>
 <section class="animals">
@@ -110,25 +110,50 @@
         <div class="filter-menu" id="filterForm">
             <h3>Filter by:</h3>
             <form>
-                <label for="type">Type:</label>
-                <select id="type" name="type"></select>
-                <label for="climate">Climate conditions:</label>
-                <select id="climate" name="climate"></select>
-                <label id="origin-label">Continent:</label>
-                <div id="origin" class="checkbox-group" aria-labelledby="origin-label"></div>
+                <label id="type-label" style="margin-bottom:15px;"><strong>Type:</strong></label>
+                <button type="button" class="toggle-button" data-target="type"><span class="toggle-icon">&#9660;</span>
+                </button>
+                <div id="type" class="checkbox-group" aria-labelledby="type-label" style="color:#FED784; display:none;">
+                </div>
+                <label id="climate-label" style="margin-bottom:15px;"><strong>Climate conditions:</strong></label>
+                <button type="button" class="toggle-button" data-target="climate"><span
+                        class="toggle-icon">&#9660;</span></button>
+                <div id="climate" class="checkbox-group" aria-labelledby="climate-label"
+                     style="color:#FED784; display:none;"></div>
 
-                <label for="status">Status:</label>
-                <select id="status" name="status"></select>
-                <label for="diet">Diet:</label>
-                <select id="diet" name="diet"></select>
-                <label for="reproduction">Reproduction mode:</label>
-                <select id="reproduction" name="reproduction"></select>
-                <label for="cover">Covering:</label>
-                <select id="cover" name="cover"></select>
-                <!-- <label for="endangered">Endangered:</label>
-                <input type="checkbox" id="endangered" name="endangered"> -->
+                <label id="origin-label" style="margin-bottom:15px;"><strong>Continent:</strong></label>
+                <button type="button" class="toggle-button" data-target="origin"><span
+                        class="toggle-icon">&#9660;</span></button>
+                <div id="origin" class="checkbox-group" aria-labelledby="origin-label"
+                     style="color:#FED784; display:none;"></div>
+
+                <label id="status-label" style="margin-bottom:15px;"><strong>Status:</strong></label>
+                <button type="button" class="toggle-button" data-target="status"><span
+                        class="toggle-icon">&#9660;</span></button>
+                <div id="status" class="checkbox-group" aria-labelledby="status-label"
+                     style="color:#FED784; display:none;"></div>
+
+                <label id="diet-label" style="margin-bottom:15px;"><strong>Diet:</strong></label>
+                <button type="button" class="toggle-button" data-target="diet"><span class="toggle-icon">&#9660;</span>
+                </button>
+                <div id="diet" class="checkbox-group" aria-labelledby="diet-label"
+                     style="color:#FED784; display:none;"></div>
+
+                <label id="reproduction-label" style="margin-bottom:15px;"><strong>Reproduction mode:</strong></label>
+                <button type="button" class="toggle-button" data-target="reproduction"><span
+                        class="toggle-icon">&#9660;</span></button>
+                <div id="reproduction" class="checkbox-group" aria-labelledby="reproduction-label"
+                     style="color:#FED784; display:none;"></div>
+
+                <label id="cover-label" style="margin-bottom:15px;"><strong>Covering:</strong></label>
+                <button type="button" class="toggle-button" data-target="cover"><span class="toggle-icon">&#9660;</span>
+                </button>
+                <div id="cover" class="checkbox-group" aria-labelledby="cover-label"
+                     style="color:#FED784;display:none;"></div>
+
                 <button type="submit">Filter</button>
             </form>
+
         </div>
 
 
@@ -196,23 +221,39 @@
     </div>
 </div>
 <script>
+    let searchTerm='' ;
+    var toggleButtons = document.getElementsByClassName("toggle-button");
+
+    for (var i = 0; i < toggleButtons.length; i++) {
+        toggleButtons[i].addEventListener("click", function () {
+            var targetId = this.getAttribute("data-target");
+            var targetElement = document.getElementById(targetId);
+            targetElement.style.display = (targetElement.style.display === "none") ? "block" : "none";
+        });
+    }
+
+
+    //export functionality
     jsonButton.addEventListener('click', requestJSON);
     xmlButton.addEventListener('click', requestXML);
     csvButton.addEventListener('click', requestCSV);
 
     function requestJSON() {
-        token=localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
-        if(token==null){
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        if (token == null) {
             showPopUpReminder();
             return;
-        } 
-
+        }
+        let targetUrl = new URL('http://localhost:3000/json');
+        if(searchTerm!=''){
+            targetUrl.searchParams.append('search', searchTerm);
+        }
+        else{
         const currentUrlParams = new URLSearchParams(window.location.search);
-        const targetUrl = new URL('http://localhost:3000/json');
         for (const [key, value] of currentUrlParams.entries()) {
             targetUrl.searchParams.append(key, value);
         }
-
+    }
         const finalUrl = targetUrl.toString();
         fetch(finalUrl)
             .then(response => response.json())
@@ -233,17 +274,22 @@
 
 
     function requestXML() {
-        token=localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
-        if(token==null){
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        if (token == null) {
             showPopUpReminder();
             return;
         }
-        const currentUrlParams = new URLSearchParams(window.location.search);
         const targetUrl = new URL('http://localhost:3000/xml');
+        if(searchTerm!=''){
+            targetUrl.searchParams.append('search', searchTerm);
+        }
+        else{
+        const currentUrlParams = new URLSearchParams(window.location.search);
+       
         for (const [key, value] of currentUrlParams.entries()) {
             targetUrl.searchParams.append(key, value);
         }
-
+    }
         const finalUrl = targetUrl.toString();
         fetch(finalUrl)
             .then(response => response.text())
@@ -263,33 +309,38 @@
     }
 
     function requestCSV() {
-        token=localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
-        if(token==null){
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        if (token == null) {
             showPopUpReminder();
             return;
         }
-    const currentUrlParams = new URLSearchParams(window.location.search);
-    const targetUrl = new URL('http://localhost:3000/csv');
-    for (const [key, value] of currentUrlParams.entries()) {
-        targetUrl.searchParams.append(key, value);
+        const targetUrl = new URL('http://localhost:3000/csv');
+        if(searchTerm!=''){
+            targetUrl.searchParams.append('search', searchTerm);
+        }
+        else{
+            const currentUrlParams = new URLSearchParams(window.location.search);
+           
+            for (const [key, value] of currentUrlParams.entries()) {
+                targetUrl.searchParams.append(key, value);
+            }
+       }
+        const finalUrl = targetUrl.toString();
+        fetch(finalUrl)
+            .then(response => response.text())
+            .then(data => {
+                const csvBlob = new Blob([data], {type: 'text/csv'});
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(csvBlob);
+                downloadLink.download = 'animals.csv';
+
+                downloadLink.click();
+            })
+            .catch(error => {
+                console.error('Error requesting CSV:', error);
+            });
     }
-
-    const finalUrl = targetUrl.toString();
-    fetch(finalUrl)
-        .then(response => response.text())
-        .then(data => {
-            const csvBlob = new Blob([data], { type: 'text/csv' });
-
-            const downloadLink = document.createElement('a');
-            downloadLink.href = URL.createObjectURL(csvBlob);
-            downloadLink.download = 'animals.csv';
-
-            downloadLink.click();
-        })
-        .catch(error => {
-            console.error('Error requesting CSV:', error);
-        });
-}
 
 
     //functie request caut animale
@@ -320,13 +371,13 @@
                 if (xhr.status === 200) {
                     const criteriaData = JSON.parse(xhr.responseText);
 
-                    populateSelectOptions('type', criteriaData.types);
-                    populateSelectOptions('climate', criteriaData.climates);
-                    populateSelectOptions('diet', criteriaData.diets);
-                    populateSelectOptions('reproduction', criteriaData.reproduction);
-                    populateCheckboxOptions('origin', criteriaData.origins);
-                    populateSelectOptions('status', criteriaData.statuses);
-                    populateSelectOptions('cover', criteriaData.covers);
+                    populateCheckboxOptions('type', criteriaData.types, 'type-label');
+                    populateCheckboxOptions('climate', criteriaData.climates, 'climate-label');
+                    populateCheckboxOptions('diet', criteriaData.diets, 'diet-label');
+                    populateCheckboxOptions('reproduction', criteriaData.reproduction, 'reproduction-label');
+                    populateCheckboxOptions('origin', criteriaData.origins, 'origin-label');
+                    populateCheckboxOptions('status', criteriaData.statuses, 'status-label');
+                    populateCheckboxOptions('cover', criteriaData.covers, 'cover-label');
                     attachCheckboxEventListeners();
                 } else {
                     console.error('Error fetching criteria data:', xhr.status);
@@ -358,13 +409,13 @@
 
 
     function attachCheckboxEventListeners() {
-        const checkboxes = document.querySelectorAll('input[name="origin[]"]');
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach((checkbox) => {
             checkbox.addEventListener('change', handleCheckboxChange);
         });
     }
 
-    function populateCheckboxOptions(checkboxGroupId, optionsData) {
+    function populateCheckboxOptions(checkboxGroupId, optionsData, labelClass) {
         const checkboxGroup = document.getElementById(checkboxGroupId);
 
         optionsData.forEach((option) => {
@@ -380,29 +431,37 @@
             const label = document.createElement('label');
             label.setAttribute('for', `${checkboxGroupId}-${option._id}`);
             label.textContent = option.name;
-            label.classList.add('origin-label');
+            label.classList.add(labelClass);
             checkboxContainer.appendChild(checkbox);
             checkboxContainer.appendChild(label);
             checkboxGroup.appendChild(checkboxContainer);
         });
     }
 
-    const selectedCheckboxValues = [];
+    const selectedCheckboxValues = {
+        type: [],
+        origin: [],
+        climate: [],
+        diet: [],
+        reproduction: [],
+        cover: [],
+        status: []
+    };
 
-    //schimb cand am ales ceva
+    // Event listener callback function for checkbox change
     function handleCheckboxChange(event) {
         const checkbox = event.target;
         const checkboxValue = checkbox.value.trim();
+        const checkboxGroup = checkbox.name.split('[')[0]; // Get the criteria name
 
         if (checkbox.checked) {
-
-            console.log(`Checkbox with value ${checkboxValue} is checked.`);
-            selectedCheckboxValues.push(checkboxValue);
+            console.log(`Checkbox with value ${checkboxValue} is checked for ${checkboxGroup}.`);
+            selectedCheckboxValues[checkboxGroup].push(checkboxValue);
         } else {
-            console.log(`Checkbox with value ${checkboxValue} is unchecked.`);
-            const index = selectedCheckboxValues.indexOf(checkboxValue);
+            console.log(`Checkbox with value ${checkboxValue} is unchecked for ${checkboxGroup}.`);
+            const index = selectedCheckboxValues[checkboxGroup].indexOf(checkboxValue);
             if (index !== -1) {
-                selectedCheckboxValues.splice(index, 1);
+                selectedCheckboxValues[checkboxGroup].splice(index, 1);
             }
         }
     }
@@ -413,17 +472,13 @@
         const searchInput = document.querySelector('.search input');
         //pentru cautare
         searchInput.addEventListener('input', function (event) {
-            console.log('Search term:', event.target.value);
-            const searchTerm = event.target.value.trim();
+             searchTerm = event.target.value.trim();
             searchAnimals(searchTerm)
                 .then(results => {
-                    console.log('Search Results:', results);
                     const parser = new DOMParser();
                     const newDocument = parser.parseFromString(results, 'text/html');
                     const newContent = newDocument.querySelector('.about .row').innerHTML;
                     document.querySelector('.about .row').innerHTML = newContent;
-                    const url = `all-animals/search-animals?term=${encodeURIComponent(value)}`;
-                    history.pushState(null, '', url);
                 })
                 .catch(error => {
                     console.error('Error searching animals:', error);
@@ -434,13 +489,13 @@
         document.querySelector('form button[type="submit"]').addEventListener('click', function (event) {
             event.preventDefault();
             const criteria = {
-                type: getValueIfNotEmpty('type'),
+                type: getSelectedValues('type'),
                 origin: getSelectedValues('origin'),
-                clima: getValueIfNotEmpty('climate'),
-                diet: getValueIfNotEmpty('diet'),
-                reproduction: getValueIfNotEmpty('reproduction'),
-                covering: getValueIfNotEmpty('cover'),
-                status: getValueIfNotEmpty('status'),
+                clima: getSelectedValues('climate'),
+                diet: getSelectedValues('diet'),
+                reproduction: getSelectedValues('reproduction'),
+                covering: getSelectedValues('cover'),
+                status: getSelectedValues('status'),
                 //endangered: document.getElementById('endangered').checked
             };
 
@@ -482,12 +537,18 @@
         }
 
         function getSelectedValues(checkboxGroupId) {
-            return selectedCheckboxValues.length > 0 ? selectedCheckboxValues : null;
+            const selectedValues = selectedCheckboxValues[checkboxGroupId];
+
+            if (selectedValues.length === 0) {
+                return null;
+            } else {
+                return selectedValues;
+            }
         }
 
 
         handleCriteriaRequest();
-        const checkboxes = document.querySelectorAll('input[name="origin[]"]');
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
         checkboxes.forEach((checkbox) => {
             checkbox.addEventListener('change', handleCheckboxChange);
@@ -495,26 +556,28 @@
 
 
     });
+
     function showPopUpReminder() {
         const modal = document.getElementById('popupModal');
         modal.style.display = 'block';
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const modal = document.getElementById('popupModal');
         const closeBtn = document.getElementById('popupCloseBtn');
         const loginButton = document.getElementById('loginButton');
 
-        closeBtn.onclick = function() {
+        closeBtn.onclick = function () {
             modal.style.display = 'none';
         };
 
-        loginButton.onclick = function() {
+        loginButton.onclick = function () {
             window.location.href = 'login.html';
         };
-});
+    });
 
 </script>
+
 
 </body>
 

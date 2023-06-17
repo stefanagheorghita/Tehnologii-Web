@@ -171,6 +171,16 @@ input,textarea,select{
     margin: 0 10px;
   }
 
+  .alert {
+    display: block;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+  }
+
   @media screen and (max-width:1090px){
     .hline{
         width: 150px;

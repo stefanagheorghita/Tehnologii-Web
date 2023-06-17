@@ -86,12 +86,12 @@
             <form class="bf-body" action="/program" method="POST">
                 <div class="line">
                     <div class="column">
-                        <p>Name</p>
+                        <p>Name*</p>
                         <input type="text" name="full-name" id="fname" placeholder="Full Name">
 
                     </div>
                     <div class="column">
-                        <p>Email address</p>
+                        <p>Email address*</p>
                         <input type="email" name="email" id="email" placeholder="Your email address">
 
                     </div>
@@ -99,12 +99,12 @@
 
                 <div class="line">
                     <div class="column">
-                        <p>Select date</p>
+                        <p>Select date*</p>
                         <input type="date" name="date" id="date">
 
                     </div>
                     <div class="column">
-                        <p>Number of tickets</p>
+                        <p>Number of tickets*</p>
                         <select name="sel">
                             <option>Select number</option>
                             <option value="1">1</option>
@@ -112,6 +112,11 @@
                             <option value="3">3</option>
                             <option value="4">4</option>
                             <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
                         </select>
 
                     </div>
@@ -135,11 +140,11 @@
                 </div>
             </form>
 
+            <div id="alertBox" style="display: none;"></div>
+
         </div>
     </div>
-
-
-
+    
     <div class="footer_section">
         <div class="section_1">
             <h4>Quick Links</h4>
@@ -174,6 +179,80 @@
             <button type="button">+1234567899</button>
         </div>
     </div>
+    <script>
+        const form = document.querySelector('.bf-body');
+        const formData = new URLSearchParams();
+
+        const fullNameInput = form.querySelector('input[name="full-name"]');
+        const emailInput = form.querySelector('input[name="email"]');
+        const dateInput = form.querySelector('input[name="date"]');
+        const numberOfTicketsInput = form.querySelector('select[name="sel"]');
+        const messageInput = form.querySelector('textarea[name="Message"]');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const fullName = fullNameInput.value;
+            const email = emailInput.value;
+            const date = dateInput.value;
+            const numberOfTickets = numberOfTicketsInput.value;
+            const message = messageInput.value;
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(email)) {
+                alert('Invalid email address!');
+                emailInput.focus();
+                event.preventDefault();
+                return;
+            }
+
+            if (fullName.trim() === '') {
+                alert('Please enter your full name.');
+                fullNameInput.focus();
+                return;
+            }
+
+            if (date.trim() === '') {
+                alert('Please select a date.');
+                dateInput.focus();
+                return;
+            }
+
+            if (numberOfTickets === 'Select number') {
+                alert('Please select the number of tickets.');
+                numberOfTicketsInput.focus();
+                return;
+            }
+
+            formData.append('full-name', fullName);
+            formData.append('email', email);
+            formData.append('date', date);
+            formData.append('sel', numberOfTickets);
+            formData.append('Message', message);
+
+            try {
+                const response = await fetch('/program', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: formData.toString(),
+                });
+
+                if (response.ok) {
+                    alert('Reservation made successfully!');
+                } else {
+                    const data = await response.json();
+                    const errorMessage = data.error;
+                    alert(errorMessage);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
     <script>
         // Access the mode value from localStorage
         const mode = localStorage.getItem('mode');

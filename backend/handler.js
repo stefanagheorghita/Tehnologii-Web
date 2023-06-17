@@ -203,7 +203,7 @@ function handleAllAnimalPage(req, res, criteria, searchTerm) {
             try {
                 let animals;
                 if (searchTerm !== null) {
-                    animals = await searchAnimals(searchTerm);
+                    animals = await searchAnimals(searchTerm,0);
                 } else {
                     animals = await getAnimals(criteria);
                 }
