@@ -1028,6 +1028,34 @@ async function handleEmailUpdate(req, res) {
 }
 
 
+
+//for the contact us page
+function handleContactUs(req, res) {
+    const filePath = '../frontend/contact-us.html';
+
+    fs.readFile(filePath, 'utf8', (err, content) => {
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
+
+            const modifiedContent = includeAssets(content, filePath);
+            replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+                if (imgErr) {
+                    res.writeHead(500);
+                    res.end('Internal server error');
+                } else {
+                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.end(modContent, 'utf-8');
+                }
+            });
+        }
+    });
+}
+
+
+
+
 function getContentType(extension) {
     switch (extension) {
         case 'html':
@@ -1074,5 +1102,6 @@ module.exports = {
     handlePasswordUpdate,
     handleAddLike,
     handleRemoveLike,
-    handleStaticFile
+    handleStaticFile,
+    handleContactUs
 };
