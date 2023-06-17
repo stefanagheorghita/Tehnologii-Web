@@ -1,17 +1,22 @@
+const { ObjectId } = require('mongodb');
 const {getClient} = require('../util/db');
 const jwt = require('jsonwebtoken');
+const { get } = require('mongoose');
 const dbName = 'web_db';
-
+const {getUserFromDatabase} = require('../util/infoDatabaseUtil');
 async function handleSettingsRequest(req, res) {
     console.log('in handleSettingsRequest');
-    const client = getClient();
+   // const client = getClient();
 
     try {
-        console.log('in handleSettingsRequest try');
         await client.connect();
-
-        const cookieHeader = req.headers.cookie;
-        const token = parseCookie(cookieHeader, 'token');
+        console.log('in handleSettingsRequest try');
+      
+       // const cookieHeader = req.headers.cookie;
+        //const token = parseCookie(cookieHeader, 'token');
+        const authorizationHeader = req.headers.authorization;
+        const token = authorizationHeader.split(' ')[2];
+        console.log('token = ' + token);
         const secretKey = 'your_secret_key_here';
 
         const decodedToken = jwt.verify(token, secretKey);
@@ -24,10 +29,10 @@ async function handleSettingsRequest(req, res) {
         }
 
         const userEmail = decodedToken.email;
-
+        const id = decodedToken.id;
         const collection = client.db(dbName).collection('users');
 
-        const user = await collection.findOne({email: userEmail});
+        const user = await getUserFromDatabase(id);
 
 
         if (!user) {
@@ -59,7 +64,15 @@ async function handleSettingsRequest(req, res) {
                 try {
                     const {darkModeToggle} = JSON.parse(body);
                     user.mode = darkModeToggle;
-                    await collection.updateOne({email: userEmail}, {$set: {mode: darkModeToggle}});
+                    console.log('darkModeToggle = ' + darkModeToggle);
+                    console.log('user.mode = ' + user.mode);
+                    console.log('id = ' + id);
+                   console.log('user = ' + user._id);
+                    const result = await collection.updateOne({email: userEmail}, {$set: {mode: darkModeToggle}});
+                    if(result.modifiedCount !== 1) {
+                        console.log('Error updating user');
+                    }
+                    else{console.log('User updated');}
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.write(JSON.stringify({mode: darkModeToggle}));
                     res.end();

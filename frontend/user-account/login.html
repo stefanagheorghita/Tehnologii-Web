@@ -103,26 +103,31 @@
                     if (localStorage.getItem("rememberMe") === "true") {
                         const expirationDate = new Date();
                         expirationDate.setTime(Date.now() + 300 * 60 * 1000);
-                        document.cookie = `token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
+                       // document.cookie = `token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
                         const expirationTime = 300 * 60 * 1000;
+                        localStorage.setItem('tokenExpires', expirationDate.toString());
                         setTimeout(() => {
                             localStorage.removeItem('token');
                             console.log('Token removed from local storage');
                         }, expirationTime);
                     } else {
                         const expirationDate = new Date();
-                        expirationDate.setTime(Date.now() + 30 * 60 * 1000);
-                        const expirationTime = 30 * 60 * 1000;
-                        document.cookie = `token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
-                        document.cookie = `sessionCookie=${token}; path=/`;
-
+                        expirationDate.setTime(Date.now() +30 * 60 * 1000);
+                        const expirationTime =30*  60 * 1000;
+                       // document.cookie = `token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
+                       // document.cookie = `sessionCookie=${token}; path=/`;
+                        localStorage.setItem('tokenExpires', expirationDate); 
+                        expirationTimestamp = new Date(expirationDate).getTime();
+                
+                               
                         setTimeout(() => {
                             localStorage.removeItem('token');
                             console.log('Token removed from local storage');
                         }, expirationTime);
 
-                        window.location.href = "/index.html";
+                      
                     }
+                    localStorage.removeItem('rememberMe');
                     window.location.href = "/index.html";
                 } else {
                     alert('Login failed');
