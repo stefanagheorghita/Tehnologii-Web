@@ -288,26 +288,7 @@ async function handleSettingsRequest(req, res) {
     // console.log('Disconnected from the database');
   }
 }
-
-  
-  
-  function parseCookie(cookieHeader, cookieName) {
-    if (cookieHeader) {
-      const cookies = cookieHeader.split(';');
-      for (const cookie of cookies) {
-        const [name, value] = cookie.trim().split('=');
-        if (name === cookieName) {
-          return value;
-        }
-      }
-    }
-    return undefined;
-  }
-  
-
 module.exports = { handleSettingsRequest };*/
-
-
 /*async function handleSettingsRequest(req, res) {
   let client; // Declare the client variable outside the try block
 
