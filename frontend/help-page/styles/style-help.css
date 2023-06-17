@@ -39,8 +39,8 @@
   --presentation-section: linear-gradient(to bottom, #003629, #001c15);
   --header: #003629;
   --footer: #003629;
-  --footer-h: rgb(200, 51, 34);
-  --hover: black;
+  --footer-h: rgb(27, 174, 27);
+  --hover: rgb(59, 207, 193);;
   --descr: white;
   --btn-txt: rgb(15, 15, 15);
   --btn-hov: #29e4dbd5;
