@@ -10,7 +10,7 @@ const {
     getOriginNames
 } = require('../util/findInfoDatabase');
 const {getAnimals} = require('../animals/animalsDatabase');
-const {searchAnimalsComplete} = require('../animals/searchAnimals');
+const {searchAnimals} = require('../animals/searchAnimals');
 async function populate(animalId) {
     try {
         const originNames = await getOriginNames(animalId);
@@ -89,7 +89,7 @@ async function moreAnimalsExport(criteria, req, res) {
     let allAnimals = [];
     if('search' in criteria){
         const searchTerm=criteria['search'];
-         allAnimals= await searchAnimalsComplete(searchTerm);
+         allAnimals= await searchAnimals(searchTerm,1);
     }
     else{
     const Animals = await getAnimals(criteria);
