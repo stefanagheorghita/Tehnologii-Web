@@ -15,12 +15,12 @@
   --title-color: #ad7062;
 }
 
-*{
+/* *{
   margin:0;
   padding:0;
   box-sizing: border-box;
   box-sizing: border-box;
-}
+} */
 
 body {
   background-color: var(--fundal);
@@ -38,15 +38,18 @@ body {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.6);
+    
   }
   
   .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #888;
     width: 300px;
+    height:150px;
     text-align: center;
+    
   }
   
   .close {
@@ -68,12 +71,17 @@ body {
   }
   
   .login-button {
+    border-top:10px;
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
-    margin-top: 10px;
+  
+  }
+  .modal p{
+    font-size: 15px;
+    margin-bottom: 15px;
   }
   @media screen and (max-width: 360px) {
     

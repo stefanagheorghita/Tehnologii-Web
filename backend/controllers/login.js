@@ -24,7 +24,7 @@ async function handleLoginRequest(req, res) {
                 console.log('Connected to the database');
                 const collection = client.db(dbName).collection('users');
                 const user = await collection.findOne({email});
-                console.log('l-am gasit pe user'+user.mode);
+        
                 if (user) {
                     const passwordMatch = await bcrypt.compare(password, user.password);
 

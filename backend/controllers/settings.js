@@ -16,7 +16,6 @@ async function handleSettingsRequest(req, res) {
         //const token = parseCookie(cookieHeader, 'token');
         const authorizationHeader = req.headers.authorization;
         const token = authorizationHeader.split(' ')[2];
-        console.log('token = ' + token);
         const secretKey = 'your_secret_key_here';
 
         const decodedToken = jwt.verify(token, secretKey);
@@ -64,10 +63,6 @@ async function handleSettingsRequest(req, res) {
                 try {
                     const {darkModeToggle} = JSON.parse(body);
                     user.mode = darkModeToggle;
-                    console.log('darkModeToggle = ' + darkModeToggle);
-                    console.log('user.mode = ' + user.mode);
-                    console.log('id = ' + id);
-                   console.log('user = ' + user._id);
                     const result = await collection.updateOne({email: userEmail}, {$set: {mode: darkModeToggle}});
                     if(result.modifiedCount !== 1) {
                         console.log('Error updating user');
