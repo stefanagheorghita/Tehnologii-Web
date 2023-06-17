@@ -1,16 +1,20 @@
 :root{
   --text-fundal: #003629;
   --fundal: #fff5e0;
+  --title: black;
   --button-color: #003629;
   --title-color: #003629;
+  --line: black;
 
 }
 
 
 .dark-theme{
   --fundal:  #333;
+  --title: white;
   --text-fundal: #f6f6f6;
-  --title-color: #ad7062;
+  --title-color: #ef3921;
+  --line: white;
 }
 
 *{
@@ -452,19 +456,24 @@ body {
 }
 
 .animals .title {
+
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 10px;
+  color: var(--title)
 
 }
 
 .line {
+
   height: 3px;
   width: 200px;
-  background-color: black;
+  /* background-color: black; */
+  background-color: var(--line);
   margin: 0 10px;
+
 }
 
 .animals h1 {

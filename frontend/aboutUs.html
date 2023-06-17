@@ -9,10 +9,16 @@
     <link rel="stylesheet" href="aboutUsStyle.css">
     <link rel="stylesheet" href="styles/style.css">
     <script src="script.js"></script>
+    <script>
+        // Access the mode value from localStorage
+        const mode = localStorage.getItem('mode');
+        console.log('mode:', mode);
+    </script>
+    <script src="darkmode.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
-<body>
+<body style="display: none;">
 
     <header class="header">
         <div class="logo">

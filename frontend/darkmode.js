@@ -6,9 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
   if (mode === 'true') {
     // Apply dark theme
     document.body.classList.add('dark-theme');
+    document.body.style.display = 'block';
   } else {
     // Apply light theme
     document.body.classList.remove('dark-theme');
+    document.body.style.display = 'block';
   }
 });
 
