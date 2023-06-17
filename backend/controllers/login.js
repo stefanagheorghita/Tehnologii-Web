@@ -20,28 +20,30 @@ async function handleLoginRequest(req, res) {
             const client = getClient();
 
             try {
-                await client.connect();
+            
                 console.log('Connected to the database');
                 const collection = client.db(dbName).collection('users');
                 const user = await collection.findOne({email});
-                
+        
                 if (user) {
                     const passwordMatch = await bcrypt.compare(password, user.password);
 
                     if (passwordMatch) {
                         const secretKey = 'your_secret_key_here';
-                        const token = jwt.sign({ email: user.email }, secretKey); 
-                        //const mode = user.mode;////
-                        //localStorage.setItem('mode', mode);////
+                        const token = jwt.sign({ email: user.email, id: user._id}, secretKey);
+                        // const mode = user.mode;
+                        //localStorage.setItem('mode', mode);
 
                         console.log('Login successful');
                         res.writeHead(200, {
-                            'Content-Type': 'text/html',
-                            'Set-Cookie': `token=${token}; HttpOnly`,
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
                           });
                         // res.write('<h1>Login successful!</h1>');
                         // res.end();
-                        res.write(JSON.stringify({ mode: user.mode })); // Send the mode field as a response ////
+                        console.log('cu asta m-am logat'+user.mode);
+                        res.write(JSON.stringify({ mode: user.mode })); 
+
                         res.end(); ///
                     } else {
                         console.log('Invalid credentials');
@@ -61,7 +63,8 @@ async function handleLoginRequest(req, res) {
                 res.write('<h1>Internal Server Error</h1>');
                 res.end();
             } finally {
-                await client.close();
+              
+
             }
         });
     }

@@ -1,111 +1,105 @@
-const { getClient } = require('../util/db');
+const { ObjectId } = require('mongodb');
+const {getClient} = require('../util/db');
 const jwt = require('jsonwebtoken');
+const { get } = require('mongoose');
 const dbName = 'web_db';
-
+const {getUserFromDatabase} = require('../util/infoDatabaseUtil');
 async function handleSettingsRequest(req, res) {
-  console.log('in handleSettingsRequest');
-  const client = getClient();
+    console.log('in handleSettingsRequest');
+   // const client = getClient();
 
-  try {
-    console.log('in handleSettingsRequest try');
-    await client.connect();
-    console.log('Connected to the database');
+    try {
+        await client.connect();
+        console.log('in handleSettingsRequest try');
+      
+       // const cookieHeader = req.headers.cookie;
+        //const token = parseCookie(cookieHeader, 'token');
+        const authorizationHeader = req.headers.authorization;
+        const token = authorizationHeader.split(' ')[2];
+        const secretKey = 'your_secret_key_here';
 
-    console.log('in handleSettingsRequest conn');
-
-    const cookieHeader = req.headers.cookie;
-    const token = parseCookie(cookieHeader, 'token');
-    const secretKey = 'your_secret_key_here';
-
-    console.log('in handleSettingsRequest cookie');
-
-    const decodedToken = jwt.verify(token, secretKey);
-    if (!decodedToken) {
-      console.log('Invalid token');
-      res.writeHead(401, { 'Content-Type': 'text/html' });
-      res.write('<h1>Invalid token</h1>');
-      res.end();
-      return;
-    }
-
-    console.log('in handleSettingsRequest jwt');
-
-    const userEmail = decodedToken.email;
-
-    const collection = client.db(dbName).collection('users');
-
-    const user = await collection.findOne({ email: userEmail });
-
-    console.log('in handleSettingsRequest check');
-
-    if (!user) {
-      console.log('User not found');
-      res.writeHead(404, { 'Content-Type': 'text/html' });
-      res.write('<h1>User not found</h1>');
-      res.end();
-      return;
-    }
-
-    console.log('in handleSettingsRequest bef get');
-
-    if (req.method === 'GET') {
-      // Retrieve the mode setting from the user object
-      const mode = user.mode || false;
-      console.log('mode = ' + mode);
-
-      // Send the mode setting as a JSON response
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.write(JSON.stringify({ mode }));
-      res.end();
-    } else if (req.method === 'POST') {
-      let body = '';
-
-      req.on('data', (chunk) => {
-        body += chunk;
-      });
-
-      req.on('end', async () => {
-        try {
-          const { darkModeToggle } = JSON.parse(body);
-          //console.log('Dark mode toggle value:', darkModeToggle);
-
-          // Update the user object with the new mode setting
-          user.mode = darkModeToggle;
-          await collection.updateOne({ email: userEmail }, { $set: { mode: darkModeToggle } });
-
-          // Send the updated mode setting as a JSON response
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.write(JSON.stringify({ mode: darkModeToggle }));
-          res.end();
-        } catch (error) {
-          console.error('Error parsing JSON:', error);
-          res.writeHead(400, { 'Content-Type': 'text/plain' });
-          res.end('Bad Request');
+        const decodedToken = jwt.verify(token, secretKey);
+        if (!decodedToken) {
+            console.log('Invalid token');
+            res.writeHead(401, {'Content-Type': 'text/html'});
+            res.write('<h1>Invalid token</h1>');
+            res.end();
+            return;
         }
-      });
+
+        const userEmail = decodedToken.email;
+        const id = decodedToken.id;
+        const collection = client.db(dbName).collection('users');
+
+        const user = await getUserFromDatabase(id);
+
+
+        if (!user) {
+            console.log('User not found');
+            res.writeHead(404, {'Content-Type': 'text/html'});
+            res.write('<h1>User not found</h1>');
+            res.end();
+            return;
+        }
+
+        console.log('in handleSettingsRequest bef get');
+
+        if (req.method === 'GET') {
+            const mode = user.mode || false;
+            console.log('mode = ' + mode);
+
+
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.write(JSON.stringify({mode}));
+            res.end();
+        } else if (req.method === 'POST') {
+            let body = '';
+
+            req.on('data', (chunk) => {
+                body += chunk;
+            });
+
+            req.on('end', async () => {
+                try {
+                    const {darkModeToggle} = JSON.parse(body);
+                    user.mode = darkModeToggle;
+                    const result = await collection.updateOne({email: userEmail}, {$set: {mode: darkModeToggle}});
+                    if(result.modifiedCount !== 1) {
+                        console.log('Error updating user');
+                    }
+                    else{console.log('User updated');}
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.write(JSON.stringify({mode: darkModeToggle}));
+                    res.end();
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                    res.writeHead(400, {'Content-Type': 'text/plain'});
+                    res.end('Bad Request');
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error handling settings request:', error);
+        res.writeHead(500, {'Content-Type': 'text/html'});
+        res.write('<h1>Internal Server Error</h1>');
+        res.end();
+    } finally {
+        // await client.close();
+        // console.log('Disconnected from the database');
     }
-  } catch (error) {
-    console.error('Error handling settings request:', error);
-    res.writeHead(500, { 'Content-Type': 'text/html' });
-    res.write('<h1>Internal Server Error</h1>');
-    res.end();
-  } finally {
-    // await client.close();
-    // console.log('Disconnected from the database');
-  }
 }
 
 function parseCookie(cookieHeader, cookieName) {
-  if (cookieHeader) {
-    const cookies = cookieHeader.split(';');
-    for (const cookie of cookies) {
-      const [name, value] = cookie.trim().split('=');
-      if (name === cookieName) {
-        return value;
-      }
+    if (cookieHeader) {
+        const cookies = cookieHeader.split(';');
+        for (const cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === cookieName) {
+                return value;
+            }
+        }
     }
-  }
-  return undefined;
+    return undefined;
 }
 
 // function renderPage(req, res, pageContent, mode) {
@@ -137,15 +131,7 @@ function parseCookie(cookieHeader, cookieName) {
 //   res.end();
 // }
 
-module.exports = { handleSettingsRequest };
-
-
-
-
-
-
-
-
+module.exports = {handleSettingsRequest};
 
 
 /*const { getClient } = require('../util/db');
@@ -246,17 +232,6 @@ function parseCookie(cookieHeader, cookieName) {
 }
 
 module.exports = { handleSettingsRequest };*/
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*const { getClient } = require('../util/db');
@@ -362,12 +337,6 @@ async function handleSettingsRequest(req, res) {
 module.exports = { handleSettingsRequest };*/
 
 
-
-
-
-
-
-
 /*async function handleSettingsRequest(req, res) {
   let client; // Declare the client variable outside the try block
 
@@ -428,8 +397,6 @@ module.exports = { handleSettingsRequest };*/
 }*/
 
 
-
-
 /*const { getClient } = require('../util/db');
 const jwt = require('jsonwebtoken');
 
@@ -486,18 +453,7 @@ async function handleSettingsRequest(req, res) {
 module.exports = { handleSettingsRequest };*/
 
 
-
-
-
-
-
-
-
-
-
-
-
-/*const { getClient } = require('../util/db'); 
+/*const { getClient } = require('../util/db');
 async function handleSettingsRequest(req, res) {
     try {
      const darkModeToggle = req.body.darkModeToggle;
@@ -525,13 +481,6 @@ async function handleSettingsRequest(req, res) {
   }
 
 module.exports = {handleSettingsRequest};*/
-
-
-
-
-
-
-
 
 
 /*const fs = require('fs');

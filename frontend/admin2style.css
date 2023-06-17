@@ -1,7 +1,41 @@
 .logo-admin-home {
   width: 45px;
   height: 30px;
-  padding-left: 20px;
+  padding-left: 20px;}
+:root {
+    --left-menu: #fff;
+    --right-side: #f5f5f5;
+    --h3: black;
+    --p: black;
+    --box: white;
+    --box-h3: black;
+    --box-p: black;
+    --right-side-panel-h3: black;
+
+}
+
+.dark-theme {
+    --left-menu: #242424;
+    --right-side: #333;
+    --h3: wheat;
+    --p: #fff;
+    --box: #242424;
+    --box-h3: white;
+    --box-p: white;
+    --right-side-panel-h3: white;
+
+}
+
+
+body {
+    background-color: var(--left-menu);
+}
+
+
+.logo-admin-home{
+    width:45px;
+    height: 30px;
+    padding-left:20px;
 }
 
 .logo-admin-logout {

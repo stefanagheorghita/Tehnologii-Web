@@ -14,6 +14,13 @@ const {
     handleOneAnimalPage,
     handleSettingsPage,
     handleAdminPage,
+    handleSettingsPageInfo,
+    handleEmailUpdate, 
+    handleNameUpdate,
+    handlePasswordUpdate,
+    handleAddLike,
+    handleRemoveLike
+    
 } = require('./handler');
 const { handleLoginRequest } = require('./controllers/login');
 const { handleRegisterRequest } = require('./controllers/register'); // for register
@@ -21,9 +28,6 @@ const { handleForgotPasswordRequest } = require('./controllers/forgot');
 const { handleProgramRequest } = require('./controllers/program');
 const { handleSettingsRequest } = require('./controllers/settings');
 const { handleCriteriaRequest } = require('./animals/criteria');
-const { exportJson, exportXml, moreAnimalsExport } = require('./operations/export');
-const { generateUsersTable, generateAnimalsTable, generateReservationsTable } = require('./util/infoDatabaseUtil');
-const { handleDataRequest } = require('./handler');
 const { deleteUserFromDatabase } = require('./util/infoDatabaseUtil');
 const { deleteAnimalFromDatabase } = require('./util/infoDatabaseUtil');
 const { deleteReservationFromDatabase } = require('./util/infoDatabaseUtil');
@@ -31,6 +35,8 @@ const { extractUserIdFromUrl } = require('./handler');
 const { extractAnimalIdFromUrl } = require('./handler');
 const { extractReservationIdFromUrl } = require('./handler');
 const { insertAnimals } = require('./util/infoDatabaseUtil');
+const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
+const {verifyIfUserLiked,getLikesCount}=require('./util/likes')
 
 function router(req, res) {
     const url = req.url;
@@ -244,10 +250,39 @@ function router(req, res) {
     else if (url === '/admin') {
         handleAdminPage(req, res);
     }
-    else {
+    else if (url === '/profile' && req.method==='GET'){
+      handleSettingsPageInfo(req,res);
+    }
+    else if(url === '/update-name' && req.method==='PUT'){
+      handleNameUpdate(req, res);
+    }
+    else if(url === '/update-email' && req.method==='PUT'){
+      handleEmailUpdate(req, res);
+     
+    }
+    else
+    if (url === '/update-password' && req.method==='PUT'){
+        handlePasswordUpdate(req, res);
+    }
+    else if (url.startsWith('/add-like')){
+        handleAddLike(req, res);
+    }
+    else if (url.startsWith('/remove-like')){
+       handleRemoveLike(req, res);
+    }
+    else if(url.startsWith('/get-like-state'))
+    {
+        verifyIfUserLiked(req, res);
+    }
+    else if(url.startsWith('/get-likes-count'))
+    {
+        getLikesCount(req,res);
+    }
+     else {
         handleStaticFile(req, res);
     }
 }
+
 
 // function bodyParser(req, res, next) {
 //     let body = '';

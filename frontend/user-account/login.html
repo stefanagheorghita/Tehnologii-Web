@@ -79,6 +79,14 @@
     </div>
 </div>
 <script>
+    rememberMe.addEventListener('change', function () {
+        if (this.checked) {
+            localStorage.setItem('rememberMe', true);
+        } else {
+            localStorage.removeItem('rememberMe');
+        }
+    })
+
     function submitForm(event) {
         event.preventDefault();
         var email = document.getElementById("email").value;
@@ -92,17 +100,35 @@
                 if (xhr.status === 200) {
                     var token = xhr.getResponseHeader("Authorization");
                     localStorage.setItem("token", token);
-                    const expirationDate = new Date();
-                    expirationDate.setTime(Date.now() + 30 * 60 * 1000);
-                    alert(expirationDate);
-                    const expirationTime =30 * 60 * 1000;
-                    setTimeout(() => {
-                        localStorage.removeItem('token');
-                        console.log('Token removed from local storage');
-                    }, expirationTime);
-                    document.cookie = `token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
+                    if (localStorage.getItem("rememberMe") === "true") {
+                        const expirationDate = new Date();
+                        expirationDate.setTime(Date.now() + 300 * 60 * 1000);
+                       // document.cookie = `token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
+                        const expirationTime = 300 * 60 * 1000;
+                        localStorage.setItem('tokenExpires', expirationDate.toString());
+                        setTimeout(() => {
+                            localStorage.removeItem('token');
+                            console.log('Token removed from local storage');
+                        }, expirationTime);
+                    } else {
+                        const expirationDate = new Date();
+                        expirationDate.setTime(Date.now() +30 * 60 * 1000);
+                        const expirationTime =30*  60 * 1000;
+                       // document.cookie = `token=${token}; expires=${expirationDate.toUTCString()}; path=/`;
+                       // document.cookie = `sessionCookie=${token}; path=/`;
+                        localStorage.setItem('tokenExpires', expirationDate); 
+                        expirationTimestamp = new Date(expirationDate).getTime();
+                
+                               
+                        setTimeout(() => {
+                            localStorage.removeItem('token');
+                            console.log('Token removed from local storage');
+                        }, expirationTime);
+
+                      
+                    }
+                    localStorage.removeItem('rememberMe');
                     window.location.href = "/index.html";
-                    console.log(expirationDate);
                 } else {
                     alert('Login failed');
                     window.location.href = "/login.html";
@@ -117,32 +143,32 @@
     const loginButton = document.getElementById('loginButton');
     loginButton.addEventListener('click', handleLogin);
 
-  async function handleLogin() {
-    var email = document.getElementById("email").value;
-    var password = document.getElementById("password").value;
+    async function handleLogin() {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
 
-    try {
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-      });
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email, password})
+            });
 
-      if (response.ok) {
-        const data = await response.json();
-        const mode = data.mode;
+            if (response.ok) {
+                const data = await response.json();
+                const mode = data.mode;
 
-        localStorage.setItem('mode', mode);
-        console.log('Mode stored in localStorage:', mode);
-      } else {
-        console.error('Login failed');
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
+                localStorage.setItem('mode', mode);
+                console.log('Mode stored in localStorage:', mode);
+            } else {
+                console.error('Login failed');
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+        }
     }
-  }
 
 </script>
 </body>

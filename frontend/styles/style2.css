@@ -1,4 +1,27 @@
+:root{
+  --text-fundal: #003629;
+  --fundal: #fff5e0;
+  --button-color: #003629;
+  --title-color: #003629;
+
+}
+
+
+.dark-theme{
+  --fundal:  #333;
+  --text-fundal: #f6f6f6;
+  --title-color: #ad7062;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 body {
+  /* background-color: var(--fundal); */
   margin: 0;
   height: 100%;
   /* background-color:#ffa31a; */
@@ -9,8 +32,11 @@ body {
   background-position: center;
   background-size: cover;
   position: relative;
-  background-color: #fff5e0;
+  /* background-color: #003629; */
+}
 
+.bdy {
+  background: var(--fundal);
 }
 
 .custom-form {
@@ -28,6 +54,8 @@ body {
   width: 100%;
   object-fit: cover;
   z-index: -1;
+  /*  */
+  
 
 }
 
@@ -51,7 +79,7 @@ body {
   font-size: 3rem;
   margin: 0;
   padding: 10vh 0;
-  color: #003629;
+  color: var(--title-color);
 }
 
 .subtitle_animals {
@@ -61,7 +89,7 @@ body {
   padding-top: 0.5vw;
   padding-left: 3vw;
   padding-right: 3vw;
-  color: black;
+  color: var(--title-color);
 }
 
 .two-buttons {
@@ -92,7 +120,7 @@ body {
   display: block;
   width: 5vw;
   height: 5vw;
-  color: #003629;
+  color: var(--button-color);
   align-items: center;
   margin: 10px;
 }
