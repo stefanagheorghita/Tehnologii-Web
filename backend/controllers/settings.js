@@ -107,35 +107,6 @@ function parseCookie(cookieHeader, cookieName) {
     return undefined;
 }
 
-// function renderPage(req, res, pageContent, mode) {
-//   const html = `
-//     <html>
-//       <head>
-//         <link rel="stylesheet" href="/path/to/dark-theme.css">
-//         <!-- Other stylesheets and meta tags -->
-//       </head>
-//       <body>
-//         ${pageContent}
-//       </body>
-//     </html>
-//   `;
-
-//   res.writeHead(200, { 'Content-Type': 'text/html' });
-//   res.write(html);
-//   res.end();
-// }
-
-// //  GET request /settings
-// function handleSettingsGetRequest(req, res) {
-//   // Retrieve the mode setting from the user object
-//   const mode = user.mode || false;
-
-//   // Send the mode setting as a JSON response
-//   res.writeHead(200, { 'Content-Type': 'application/json' });
-//   res.write(JSON.stringify({ mode }));
-//   res.end();
-// }
-
 module.exports = {handleSettingsRequest};
 
 
