@@ -19,6 +19,8 @@ const {
     handleNameUpdate,
     handlePasswordUpdate,
     handleAddLike,
+    handleRemoveLike
+    
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
 const {handleRegisterRequest} = require('./controllers/register'); // for register
@@ -27,8 +29,7 @@ const {handleProgramRequest} = require('./controllers/program');
 const {handleSettingsRequest} = require('./controllers/settings');
 const {handleCriteriaRequest} = require('./animals/criteria');
 const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
-
-
+const {verifyIfUserLiked,getLikesCount}=require('./util/likes')
 function router(req, res) {
     const url = req.url;
     if (url === '/' || url === '/landingpage.html' || url === '/landingpage') {
@@ -169,6 +170,17 @@ function router(req, res) {
     }
     else if (url.startsWith('/add-like')){
         handleAddLike(req, res);
+    }
+    else if (url.startsWith('/remove-like')){
+       handleRemoveLike(req, res);
+    }
+    else if(url.startsWith('/get-like-state'))
+    {
+        verifyIfUserLiked(req, res);
+    }
+    else if(url.startsWith('/get-likes-count'))
+    {
+        getLikesCount(req,res);
     }
      else {
         handleStaticFile(req, res);

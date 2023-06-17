@@ -11,7 +11,7 @@
   --round-box: rgba(219, 194, 147, 0.834);
   --first-sec: #fff5e0;
   --scris: black;
-
+  --likes:#098637d5;
 
 
 }
@@ -28,6 +28,8 @@
   --round-box: #242424;
   --first-sec: #555;
   --scris: #fff;
+  --likes: #29e4dbd5;
+ 
 }
 
 *{
@@ -356,7 +358,7 @@ h1 {
   margin-left: auto;
   cursor: pointer;
   margin-bottom: 20px;
-  margin-top:30px;
+  margin-top:60px;
 
 }
 
@@ -383,4 +385,17 @@ h1 {
   .lion-container #heart-icon {
     margin-bottom: 5px;
   }
+}
+
+
+.likes-message {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--likes);
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  margin-left:10px;
+  margin-top:32px;
 }

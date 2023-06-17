@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function logout() {
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     localStorage.removeItem('token');
-
+    localStorage.removeItem('mode');
     window.location.href = 'landingpage.html';
 }
 
@@ -50,4 +50,6 @@ function getCookie(name) {
     const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
     return cookieValue ? cookieValue.pop() : '';
 }
+
+
   

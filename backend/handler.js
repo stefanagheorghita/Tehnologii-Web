@@ -787,7 +787,46 @@ async function handleSettingsPageInfo(req, res) {
             const animalId = req.url.split('/')[2];
         
                 if (user) {
-                        const updatedAnimal = await updateAnimalLikes(animalId, 1);
+                        const updatedAnimal = await updateAnimalLikes(userId,animalId, 1);
+                        if (updatedAnimal) {
+                            res.statusCode = 200;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.end(JSON.stringify({message: 'Animal updated successfully'}));
+                        } else {
+                            res.statusCode = 500;
+                            res.setHeader('Content-Type', 'application/json');
+                            res.end(JSON.stringify({error: 'Internal server error'}));
+                        }
+                    }
+                 else {
+                    res.statusCode = 404;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({error: 'User not found'}));
+                }
+            
+        }
+    }
+
+  }
+
+  async function handleRemoveLike(req, res) {
+    const authorizationHeader = req.headers.authorization;
+    if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
+        const token = authorizationHeader.slice(14);
+        if (!verifyToken(token)) {
+            res.statusCode = 401;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({error: 'Unauthorized'}));
+        }
+        else
+        {
+            const dec = verifyToken(token);
+            const userId = dec.id;
+            const user = await getUserFromDatabase(userId);
+            const animalId = req.url.split('/')[2];
+        
+                if (user) {
+                        const updatedAnimal = await updateAnimalLikes(userId,animalId, 0);
                         if (updatedAnimal) {
                             res.statusCode = 200;
                             res.setHeader('Content-Type', 'application/json');
@@ -958,5 +997,6 @@ module.exports = {
     handleNameUpdate,
     handlePasswordUpdate,
     handleAddLike,
+    handleRemoveLike,
     handleStaticFile
 };

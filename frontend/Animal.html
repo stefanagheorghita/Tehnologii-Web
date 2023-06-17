@@ -64,11 +64,12 @@
     <div class="lion-container">
         <h1>Title Animal</h1>
         <div id="heart-icon"><i class="fas fa-heart"></i></div>
+        <div id="likesCount" class="likes-message"></div>
     </div>
     <div id="popupModal" class="modal hidden">
         <div class="modal-content">
           <span id="popupCloseBtn" class="close">&times;</span>
-          <p>You need to be connected to access the export functionality.</p>
+          <p>You need to be connected to access this functionality.</p>
           <p>Please log in to proceed.</p>
           <a href="login.html" class="login-button" id="loginButton">Login</a>
         </div>
@@ -169,9 +170,31 @@
       window.location.href = 'login.html';
     });
   
+    async function fetchLikesCount(animalId) {
+    try {
+      const response = await fetch(`/get-likes-count/${animalId}`);
+      if (response.ok) {
+        const data = await response.json();
+        return data.likesCount;
+      } else {
+        throw new Error('Failed to fetch likes count');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+  async function updateLikesCount(animalId) {
+    const likesCountElement = document.getElementById('likesCount');
+    const likesCount = await fetchLikesCount(animalId);
+    likesCountElement.textContent = `Likes: ${likesCount}`;
+  }
+
+
+
     function requestJSON() {
         var token = localStorage.getItem('token') || getCookie('token');
-        if(token == null){
+
+        if(token == null || token==='' || isTokenExpired(token)){
             showPopUpReminder();
             return;
         }
@@ -197,11 +220,11 @@
 
     function requestXML() {
         var token = localStorage.getItem('token') || getCookie('token');
-        if(token == null){
+        if(token == null || token==='' || isTokenExpired(token)){
             showPopUpReminder();
             return;
         }
-        const animalId = getAnimalIdFromURL();
+        
         const url = `/animal/xml?id=${animalId}`;
 
         fetch(url)
@@ -234,6 +257,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+        const animalId=getAnimalIdFromURL();
+        updateLikesCount(animalId)
         const modal = document.getElementById('popupModal');
         const closeBtn = document.getElementById('popupCloseBtn');
         const loginButton = document.getElementById('loginButton');
@@ -248,38 +273,96 @@
 });
 
 const heartIcon = document.getElementById('heart-icon');
+let isClicked = false;
+token = localStorage.getItem('token') || getCookie('token');
+const animalId = getAnimalIdFromURL();
+if(token!=null && token!=='' || isTokenExpired(token)){
+fetch(`/get-like-state/${animalId}`, {
+  method: 'GET',
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+})
+  .then(response => {
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw new Error('Failed to retrieve like state');
+    }
+  })
+  .then(data => {
+    isClicked = data.isClicked; 
 
+    if (isClicked) {
+      heartIcon.classList.add('clicked');
+    } else {
+      heartIcon.classList.remove('clicked');
+    }
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
+}
 heartIcon.addEventListener('click', () => {
   const token = localStorage.getItem('token') || getCookie('token');
-  
+  if (token == null || token === '' || isTokenExpired(token)) {
+    showPopUpReminder();
+    return;
+  }
+
   if (token) {
     const urlParams = new URLSearchParams(window.location.search);
-   const animalId = urlParams.get('id');
-    heartIcon.style.color = 'red';
+    const animalId = urlParams.get('id');
+    console.log(animalId);
 
-    fetch(`/add-like/${animalId}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(response => {
-        if (response.status === 200) {
-          console.log('Like added successfully');
-        } else {
-          console.log('Failed to add like');
+    if (isClicked) {
+
+      heartIcon.classList.remove('clicked');
+      isClicked = false;
+      fetch(`/remove-like/${animalId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
       })
-      .catch(error => {
-        console.log('Error:', error);
-      });
-  } else {
+        .then(response => {
+          if (response.status === 200) {
+            console.log('Like removed successfully');
+            updateLikesCount(animalId);
+          } else {
+            console.log('Failed to remove like');
+          }
+        })
+        .catch(error => {
+          console.log('Error:', error);
+        });
+    } else {
+      heartIcon.classList.add('clicked');
+      isClicked = true;
 
+      fetch(`/add-like/${animalId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+        .then(response => {
+          if (response.status === 200) {
+            console.log('Like added successfully');
+            updateLikesCount(animalId);
+          } else {
+            console.log('Failed to add like');
+          }
+        })
+        .catch(error => {
+          console.log('Error:', error);
+        });
+    }
+  } else {
     console.log('User is not connected');
-    window.location.href = '/login';
+    // window.location.href = '/login';
   }
 });
-
 
 
 
