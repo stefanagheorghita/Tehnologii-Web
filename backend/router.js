@@ -221,26 +221,23 @@ function router(req, res) {
                 res.statusCode = 400;
                 res.end('Invalid request. Reservation ID not provided.');
             }
-        } else if (url === '/import-animals' && req.method === 'POST') {
-            let body = '';
+        } else if (url === '/import-animals') 
+            if(req.method === 'POST')
+          {
+            let fileData = '';
+        
             req.on('data', chunk => {
-              body += chunk;
+              fileData += chunk;
             });
-          
-            req.on('end', async () => {
-              const animals = JSON.parse(body);
-          
-              try {
-                await insertAnimals(animals);
-                res.statusCode = 200;
-                res.end(JSON.stringify({ message: 'Animals imported successfully' }));
-              } catch (err) {
-                console.error('Error inserting animals:', err);
-                res.statusCode = 500;
-                res.end(JSON.stringify({ error: 'Failed to import animals' }));
-              }
+        
+            req.on('end', () => {
+              // Process the file data or perform any desired operations
+              console.log('Received file:', fileData);
+        
+              res.statusCode = 200;
+              res.end('File received successfully.');
             });
-          }
+          } 
          else {
             res.statusCode = 405;
             res.end('Method Not Allowed');
