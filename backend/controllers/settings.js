@@ -514,46 +514,5 @@ function readFileAsync(filePath) {
   });
 }
 
-async function getCurrentUser(req) {
-  
-  const sessionId = req.headers['session-id'];
 
-  
-  const client = new MongoClient(url);
-  await client.connect();
-
-  try {
-    
-    const db = client.db(dbName);
-
-    
-    const user = await db.collection(collectionName).findOne({ [sessionField]: sessionId });
-
-    return user;
-  } finally {
-    
-    await client.close();
-  }
-}
-
-async function saveUserPreference(user, preferences) {
-    
-    const client = new MongoClient(url);
-    await client.connect();
-  
-    try {
-      const db = client.db(dbName);
-      const collection = db.collection(collectionName);
-  
-      
-      await collection.updateOne({ _id: user._id }, { $set: { preferences } });
-    } finally {
-      await client.close();
-    }
-  }
-  
-
-module.exports = {
-  handleSettingsRequest,
-  saveUserPreference
-};*/
+*/
