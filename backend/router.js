@@ -78,7 +78,6 @@ function router(req, res) {
                 }
             }
 
-            console.log(criteria);
             handleAllAnimalPage(req, res, Object.keys(criteria).length > 0 ? criteria : null, null);
         }
     } else if (url === '/zooplan' || url === '/zoo-plan.html' || url === '/zoo-plan' || url === '/zoo-plan/zoo-plan.html') {

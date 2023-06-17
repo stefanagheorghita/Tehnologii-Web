@@ -1,16 +1,20 @@
 :root{
   --text-fundal: #003629;
   --fundal: #fff5e0;
+  --title: black;
   --button-color: #003629;
   --title-color: #003629;
+  --line: black;
 
 }
 
 
 .dark-theme{
   --fundal:  #333;
+  --title: white;
   --text-fundal: #f6f6f6;
-  --title-color: #ad7062;
+  --title-color: #ef3921;
+  --line: white;
 }
 
 *{
@@ -328,6 +332,7 @@ body {
 /* animals from all-animals page */
 .about {
   width: auto;
+  max-width:80%;
   margin: auto;
   text-align: center;
   margin: 0;
@@ -338,8 +343,7 @@ body {
 .about-col {
 
   border-radius: 5px;
-
-  margin-left: 30px;
+  margin-left: 20px;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -347,7 +351,7 @@ body {
   flex-wrap:wrap;
    /* flex-basis: calc(100% / 4 - 80px);  */
   border-radius: 20px;
-  width: 320px;
+  width: 350px;
   height: 290px;
   margin-bottom: 30px;
   margin-top:30px;
@@ -405,6 +409,7 @@ body {
 
 .row {
   margin-top: 5%;
+  /* margin-left:1%; */
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -452,19 +457,24 @@ body {
 }
 
 .animals .title {
+
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 10px;
+  color: var(--title)
 
 }
 
 .line {
+
   height: 3px;
   width: 200px;
-  background-color: black;
+  /* background-color: black; */
+  background-color: var(--line);
   margin: 0 10px;
+
 }
 
 .animals h1 {
@@ -535,6 +545,7 @@ body {
   font-size: 14px;
   cursor: pointer;
   align-self: flex-end;
+  margin-top:10px;
 }
 
 .filter-toggle {
@@ -555,7 +566,7 @@ body {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .filter-menu {
     display: none;
     width: 100%;
@@ -564,6 +575,7 @@ body {
   .filter-toggle {
     display: block;
     position: sticky;
+    margin-right:2px;
     top: 0;
     left: 0;
     background-color: transparent;
@@ -573,6 +585,13 @@ body {
     height: 25px;
 
 
+  }
+  .about{
+    width: auto;
+  }
+  .row{
+    margin-left: 10px;
+    width: 100%;
   }
 
   /* .filter-toggle .icon {
@@ -756,4 +775,21 @@ body {
     flex-direction: column;
   }
 }
-  
+   
+.filter-menu .toggle-button {
+  background-color: #d88f23;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-size: 5px;
+  cursor: pointer;
+  margin-top:-25px;
+}
+.toggle-button .toggle-icon {
+  font-size: 7px;
+}
+

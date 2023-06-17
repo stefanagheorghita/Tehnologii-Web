@@ -21,6 +21,11 @@ async function getAnimals(criteria) {
             const animalIds = await originsCollection.distinct('animal_id', { origin_id: { $in: originIds } });
             criteria['_id'] = { $in: animalIds };
             delete criteria[key];
+          } else if (Array.isArray(value)) {
+            const newKey = `${key}_id`;
+            const objectIds = value.map((id) => new ObjectId(id));
+            criteria[newKey] = { $in: objectIds };
+            delete criteria[key];
           } else {
             const newKey = `${key}_id`;
             criteria[newKey] = new ObjectId(value);
