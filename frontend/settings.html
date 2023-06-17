@@ -176,11 +176,7 @@
 </div>
 
 
-<script>
-    const mode = localStorage.getItem('mode');
-    console.log('mode:', mode);
-</script>
-<script src="darkmode.js"></script>
+
 <script>
     const token = localStorage.getItem('token') || getCookie('token');
     fetch('/profile', {
@@ -367,6 +363,12 @@
         return emailRegex.test(email);
     }
 </script>
+<script>
+        
+    const mode = localStorage.getItem('mode');
+    console.log('mode:', mode);
+</script>
+<script src="darkmode.js"></script>
 </body>
 
 </html>
