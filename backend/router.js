@@ -19,7 +19,8 @@ const {
     handleNameUpdate,
     handlePasswordUpdate,
     handleAddLike,
-    handleRemoveLike
+    handleRemoveLike,
+    handleSearchExport
     
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
@@ -150,6 +151,7 @@ function router(req, res) {
             }
         }
         moreAnimalsExport(criteria, req, res);
+    
     } else if (url === '/admin'){
         handleAdminPage(req, res);
     }

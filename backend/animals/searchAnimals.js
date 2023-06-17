@@ -19,5 +19,24 @@ async function searchAnimals(searchTerm) {
     }
 }
 
+async function searchAnimalsComplete(searchTerm) {
+    const client = getClient();
+    try {
+        await client.connect();
+        const db = client.db('web_db');
+        const animalsCollection = db.collection('animals');
 
-module.exports = {searchAnimals};
+        const searchQuery = {name: {$regex: searchTerm, $options: 'i'}};
+       
+        const animals = await animalsCollection.find(searchQuery).toArray();
+        return animals;
+    } catch (error) {
+        console.error('Error searching animals:', error);
+
+    } finally {
+
+    }
+}
+
+
+module.exports = {searchAnimals,searchAnimalsComplete};

@@ -221,7 +221,7 @@
     </div>
 </div>
 <script>
-
+    let searchTerm='' ;
     var toggleButtons = document.getElementsByClassName("toggle-button");
 
     for (var i = 0; i < toggleButtons.length; i++) {
@@ -244,13 +244,16 @@
             showPopUpReminder();
             return;
         }
-
+        let targetUrl = new URL('http://localhost:3000/json');
+        if(searchTerm!=''){
+            targetUrl.searchParams.append('search', searchTerm);
+        }
+        else{
         const currentUrlParams = new URLSearchParams(window.location.search);
-        const targetUrl = new URL('http://localhost:3000/json');
         for (const [key, value] of currentUrlParams.entries()) {
             targetUrl.searchParams.append(key, value);
         }
-
+    }
         const finalUrl = targetUrl.toString();
         fetch(finalUrl)
             .then(response => response.json())
@@ -276,12 +279,17 @@
             showPopUpReminder();
             return;
         }
-        const currentUrlParams = new URLSearchParams(window.location.search);
         const targetUrl = new URL('http://localhost:3000/xml');
+        if(searchTerm!=''){
+            targetUrl.searchParams.append('search', searchTerm);
+        }
+        else{
+        const currentUrlParams = new URLSearchParams(window.location.search);
+       
         for (const [key, value] of currentUrlParams.entries()) {
             targetUrl.searchParams.append(key, value);
         }
-
+    }
         const finalUrl = targetUrl.toString();
         fetch(finalUrl)
             .then(response => response.text())
@@ -306,12 +314,17 @@
             showPopUpReminder();
             return;
         }
-        const currentUrlParams = new URLSearchParams(window.location.search);
         const targetUrl = new URL('http://localhost:3000/csv');
-        for (const [key, value] of currentUrlParams.entries()) {
-            targetUrl.searchParams.append(key, value);
+        if(searchTerm!=''){
+            targetUrl.searchParams.append('search', searchTerm);
         }
-
+        else{
+            const currentUrlParams = new URLSearchParams(window.location.search);
+           
+            for (const [key, value] of currentUrlParams.entries()) {
+                targetUrl.searchParams.append(key, value);
+            }
+       }
         const finalUrl = targetUrl.toString();
         fetch(finalUrl)
             .then(response => response.text())
@@ -459,15 +472,13 @@
         const searchInput = document.querySelector('.search input');
         //pentru cautare
         searchInput.addEventListener('input', function (event) {
-            const searchTerm = event.target.value.trim();
+             searchTerm = event.target.value.trim();
             searchAnimals(searchTerm)
                 .then(results => {
                     const parser = new DOMParser();
                     const newDocument = parser.parseFromString(results, 'text/html');
                     const newContent = newDocument.querySelector('.about .row').innerHTML;
                     document.querySelector('.about .row').innerHTML = newContent;
-                    const url = `all-animals/search-animals?term=${encodeURIComponent(value)}`;
-                    history.pushState(null, '', url);
                 })
                 .catch(error => {
                     console.error('Error searching animals:', error);

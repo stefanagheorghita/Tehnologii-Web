@@ -10,7 +10,7 @@ const {
     getOriginNames
 } = require('../util/findInfoDatabase');
 const {getAnimals} = require('../animals/animalsDatabase');
-
+const {searchAnimalsComplete} = require('../animals/searchAnimals');
 async function populate(animalId) {
     try {
         const originNames = await getOriginNames(animalId);
@@ -86,10 +86,16 @@ function createAnimalXML(animalData) {
 
 async function moreAnimalsExport(criteria, req, res) {
 
+    let allAnimals = [];
+    if('search' in criteria){
+        const searchTerm=criteria['search'];
+         allAnimals= await searchAnimalsComplete(searchTerm);
+    }
+    else{
     const Animals = await getAnimals(criteria);
     const promises = Animals.map(animal => populate(animal._id));
-    const allAnimals = await Promise.all(promises);
-
+     allAnimals = await Promise.all(promises);
+    }
     if (req.url.startsWith('/json')) {
         const jsonResponse = JSON.stringify(allAnimals);
         res.writeHead(200, {'Content-Type': 'application/json'});
@@ -157,6 +163,8 @@ function createCSVData(animalData) {
       dangerousness_name
     } = animal;
   
+    const originString = Array.isArray(origin_names) ? origin_names.join(', ') : origin_names;
+  
     const row = [
       _id,
       name,
@@ -167,7 +175,7 @@ function createCSVData(animalData) {
       lifestyle,
       natural_enemies,
       related_species,
-      origin_names.join(', '),
+      originString,
       status_name,
       diet_name,
       reproduction_name,
@@ -178,8 +186,9 @@ function createCSVData(animalData) {
   
     csvData.push(row);
   }
-
+  
   return csvData;
+  
 }
 
 function createCSVContent(data) {
