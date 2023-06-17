@@ -170,12 +170,63 @@
             }
         }
 
-        const importButton = document.getElementById('importButton');
-        importButton.addEventListener('click', importAnimals);
 
-        function importAnimals() {
+
+        const importButton = document.getElementById('importButton');
+        const jsonFileInput = document.getElementById('jsonFileInput');
+
+        /*importButton.addEventListener('click', () => {
+            console.log('importButton clicked');
+            const file = jsonFileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/import-animals', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Handle the response from the backend
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });*/
+
+        importButton.addEventListener('click', () => {
+            console.log('importButton clicked');
+            if (jsonFileInput.files.length > 0) {
+                const file = jsonFileInput.files[0];
+                const formData = new FormData();
+                formData.append('file', file);
+
+                fetch('/import-animals', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('File upload failed. Status: ' + response.status);
+                        }
+                        console.log('File uploaded successfully.');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            } else {
+                console.log('No file selected.');
+            }
+        });
+
+
+
+        /*const importButton = document.getElementById('importButton');
+        importButton.addEventListener('click', importAnimals);*/
+
+        /*function importAnimals() {
             console.log('importAnimals');
-            /*const fileInput = document.getElementById('jsonFileInput');
+            const fileInput = document.getElementById('jsonFileInput');
             const file = fileInput.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -205,8 +256,8 @@
                 reader.readAsText(file);
             } else {
                 alert('Please select a file.');
-            }*/
-        }
+            }
+        }*/
 
         togglePanels('statistics-panel', 'users-panel', 'animals-panel', 'reservations-panel');
     </script>
