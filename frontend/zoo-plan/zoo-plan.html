@@ -10,7 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fasthand&family=Lato:wght@300&family=Pacifico&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="display: none;">
+    <script>
+        // Access the mode value from localStorage
+        const mode = localStorage.getItem('mode');
+        console.log('mode:', mode);
+    </script>
+    <script src="../darkmode.js"></script>
     <div class="header">
         <div class="logo">
             <img src="images/zoo.png" alt="Logo">

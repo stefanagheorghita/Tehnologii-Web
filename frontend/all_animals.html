@@ -12,8 +12,13 @@
     <script src="script.js"></script>
     <link rel="stylesheet" href="styles/style-modal.css">
 </head>
-
-<body>
+<script>
+    // Access the mode value from localStorage
+    const mode = localStorage.getItem('mode');
+    console.log('mode:', mode);
+</script>
+<body style="display: none;">
+    <script src="darkmode.js"></script>
 <header class="header">
     <div class="logo">
         <img src="images/zoo.png" alt="Logo">
@@ -450,6 +455,7 @@
 
 
     document.addEventListener('DOMContentLoaded', function () {
+       
         const searchInput = document.querySelector('.search input');
         //pentru cautare
         searchInput.addEventListener('input', function (event) {
@@ -560,11 +566,8 @@
     });
 
 </script>
-<script>
-    // Access the mode value from localStorage
-    const mode = localStorage.getItem('mode');
-</script>
-<script src="darkmode.js"></script>
+
+
 </body>
 
 </html>

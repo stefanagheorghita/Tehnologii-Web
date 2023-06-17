@@ -16,7 +16,7 @@ const reservationSchema = new mongoose.Schema({
 
 const Reservation = mongoose.model('Reservation', reservationSchema);
 
-async function handleProgramRequest(req, res) {
+/*async function handleProgramRequest(req, res) {
   console.log('handleProgramRequest');
   if (req.method === 'POST') {
     let body = '';
@@ -46,24 +46,60 @@ async function handleProgramRequest(req, res) {
     res.statusCode = 404;
     res.end('Not Found');
   }
+}*/
+
+async function handleProgramRequest(req, res) {
+  if (req.method === 'POST') {
+    let body = '';
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+    });
+
+    req.on('end', async () => {
+      const formData = querystring.parse(body);
+
+      const name = formData['full-name'];
+      const email = formData['email'];
+      const date = formData['date'];
+      const number_tickets = formData['sel'];
+      const message = formData['Message'];
+
+      try {
+        // Save the form data to the database or perform other actions
+        await saveReservationToDatabase(name, email, date, number_tickets, message);
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html');
+        res.end('<h1>Form submitted successfully</h1>');
+      } catch (error) {
+        res.statusCode = 500;
+        res.setHeader('Content-Type', 'text/html');
+        res.end('<h1>Internal Server Error</h1>');
+        console.error('Error saving form data:', error);
+      }
+    });
+  } else {
+    res.statusCode = 404;
+    res.end('Not Found');
+  }
 }
 
 async function saveReservationToDatabase(name, email, date, number_tickets, message) {
-    try {
-      const reservation = new Reservation({
-        name: name,
-        email: email,
-        date: date,
-        number_tickets: number_tickets,
-        message: message
-      });
-  
-      await reservation.save();
-      console.log('Reservation saved:', reservation);
-    } catch (error) {
-      console.error('Error saving reservation:', error);
-      throw error;
-    }
+  try {
+    const reservation = new Reservation({
+      name: name,
+      email: email,
+      date: date,
+      number_tickets: number_tickets,
+      message: message
+    });
+
+    await reservation.save();
+    console.log('Reservation saved:', reservation);
+  } catch (error) {
+    console.error('Error saving reservation:', error);
+    throw error;
   }
+}
 
 module.exports = { handleProgramRequest };

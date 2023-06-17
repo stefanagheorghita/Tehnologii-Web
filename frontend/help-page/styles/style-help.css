@@ -1,3 +1,66 @@
+:root{
+  --text-color: black;
+  --fundal: #f6f6f6;
+  --btn-col: #ffa31a;
+  --toggle: rgba(0, 0, 0, 0.071);
+  --set-box-col: white;
+  --set-box-text: black;
+  --profile-info-h2: #4e1616;
+  --border-profile-info: linear-gradient(to right, #e9c557, rgba(207, 121, 15, 0.825));
+  --profile-info-p: #070707;
+  --presentation-section: linear-gradient(to right, rgba(255, 85, 0, 0.893) , rgba(255, 179, 0, 0.904));
+  --header: coral;
+  --footer: coral;
+  --footer-h: midnightblue;
+  --hover: white;
+  --btn-txt: cornsilk;
+  --stitle: black;
+  --btn-hov: aliceblue;
+  --help-card: white;
+  --descr: black;
+  --help-card-hov: ghostwhite;
+  --set-title: black;
+
+
+}
+
+
+.dark-theme{
+  --fundal:  #333;
+  --text-color: #f6f6f6; 
+  --btn-col: #383737;
+  /* --btn-col: red; */
+  --toggle: #383737;
+  --set-box-col: #0c372d;
+  --set-box-text: white;
+  --profile-info-h2: rgb(255, 102, 0);
+  --border-profile-info: rgb(255, 102, 0);
+  --profile-info-p: white;
+  --presentation-section: linear-gradient(to bottom, #003629, #001c15);
+  --header: #003629;
+  --footer: #003629;
+  --footer-h: rgb(27, 174, 27);
+  --hover: rgb(59, 207, 193);;
+  --descr: white;
+  --btn-txt: rgb(15, 15, 15);
+  --btn-hov: #29e4dbd5;
+  --stitle: white;
+  --help-card: #555;
+  --help-card-hov: grey;
+  --set-title: white;
+
+  
+    
+}
+
+
+body {
+  background-color: var(--fundal);
+}
+
+
+
+
 * {
     font-family: sans-serif;
     margin: 0;
@@ -16,7 +79,8 @@
 }
 
 .header{
-    background-color: coral;
+    /* background-color: coral; */
+    background-color: var(--header);
     height: 100px;
     position: relative;
     display: flex;
@@ -34,7 +98,8 @@
 }
 
 .nav-bar a{
-    color: black;
+    /* color: black; */
+    color: var(--text-color);
 }
 
 .nav-bar ul{
@@ -50,13 +115,15 @@
 
 .nav-bar a:link{
     text-decoration: none;
-    color: black;
+    /* color: black; */
+    color: var(--text-color);
     padding: 15px;
 }
 
 
 .nav-bar li a:hover{
-  color: white;
+  /* color: white; */
+  color: var(--hover);
 }
 
 .burger-button img{
@@ -110,7 +177,8 @@
       width: 100%;
       height: 100%;
       margin-top: 50px;
-      background: coral;
+      /* background: coral; */
+      background: var(--header);
       left: 100%;
       text-align: center;
       transition: all .5s;
@@ -129,7 +197,8 @@
     
     a:hover{
       background: none;
-      color: black;
+      /* color: black; */
+      color: var(--text-color);
       
     }
     
@@ -155,7 +224,8 @@
     justify-content:space-between;
     flex-wrap: wrap;
     align-items:flex-start;
-    background-color: coral;
+    /* background-color: coral; */
+    background-color: var(--footer);
     margin-top: 25px;
   }
   
@@ -168,16 +238,19 @@
   
   .footer_section a:link{
   text-decoration: none;
-  color: black;
+  /* color: black; */
+  color: var(--text-color);
   /*font-weight:500;*/
   }
   
   .footer_section a:visited {
-    color: black;
+    /* color: black; */
+    color: var(--text-color);
   }
   
   .footer_section li a:hover{
-    color: white;
+    /* color: white; */
+    color: var(--hover);
     transition: .5s;
   }
   
@@ -187,20 +260,24 @@
     padding-right:70px;
     font-family:sans-serif;
     font-size:15px;
-    color: black;
+    /* color: black; */
+    color: var(--text-color);
   }
   
   .footer_section h4{
     font-size:16px;
     font-family:sans-serif;
-    color:midnightblue;
+    /* color:midnightblue; */
+    color: var(--footer-h);
     padding-left:70px;
   }
   
   .footer_section button{
-    background-color: midnightblue;
+    /* background-color: midnightblue; */
+    background-color: var(--footer-h);
     border: none;
-    color: cornsilk;
+    /* color: cornsilk; */
+    color: var(--btn-txt);
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -210,7 +287,8 @@
   }
   
   .footer_section button:hover{
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
+    background-color: var(--btn-hov);
     transition: .5s;
     color: midnightblue;
   }
@@ -221,7 +299,8 @@
   }
   
   .footer_section .section_4 p{
-    color: black;
+    /* color: black; */
+    color: var(--text-color);
     font-family:sans-serif;
     font-size:15px;
   }
@@ -241,6 +320,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
     font-size: 25px;
+    color: var(--set-title);
 }
 
 * {
@@ -256,7 +336,8 @@
 }
 
 .help-card {
-    background: white;
+    /* background: white; */
+    background: var(--help-card);
     width: 350px;
     height: 350px;
     border: 1.65px solid grey;
@@ -306,7 +387,8 @@
 
 
 .help-card:hover {
-    background-color: ghostwhite;
+    /* background-color: ghostwhite; */
+    background-color: var(--help-card-hov);
     color: black;
     cursor: pointer;
     border: 1.65px solid coral;
@@ -322,6 +404,8 @@ div.stitle h4{
     font-size: 20px;
     text-align: center;
     margin-bottom: 20px;
+    color: var(--stitle);
+    
 }
 
 .stitle {
@@ -349,4 +433,5 @@ div.descr p{
     margin-top: 20px;
     text-align: center;
     font-size: 18px;
+    color: var(--descr);
 }
