@@ -1,3 +1,32 @@
+:root{
+    --contact-back: wheat;
+    --span: #003629;
+    --contact-form-p: #03614b;
+    --btn-color: #003629;
+    --box: linear-gradient(to right, #FFA500, #FF4500);
+    --box-text: black;
+  
+  
+  }
+  
+  
+  .dark-theme{
+    --contact-back: linear-gradient(to bottom, #003629, #001c15);
+    --span: rgb(27, 174, 27);
+    --contact-form-p: rgb(27, 174, 27);
+    --btn-color: rgb(31, 134, 31);
+    --box: linear-gradient(to right, #333333, #222222);
+    --box-text: white;
+  
+    
+      
+  }
+  
+
+
+
+
+
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +40,8 @@ section {
 
 .contact {
     /* background:#014a39; */
-    background: wheat;
+    /* background: wheat; */
+    background: var(--contact-back);
     height: 100%;
     width: 100%;
     min-height: 100vh;
@@ -37,11 +67,13 @@ section {
 }
 
 span {
-    color: #003629;
+    /* color: #003629; */
+    color: var(--span);
 }
 
 .contact-form p {
-    color: #03614b;
+    /* color: #03614b; */
+    color: var(--contact-form-p);
     letter-spacing: 1px;
     line-height: 26px;
     font-size: 1.1rem;
@@ -73,8 +105,10 @@ form textarea {
 }
 
 .contact-form form .btn {
+
     display: inline-block;
-    background: #003629;
+    /* background: #003629; */
+    background-color: var(--btn-color);
     font-size: 1.1rem;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -84,6 +118,7 @@ form textarea {
     width: 220px;
     transition: ease 0.2s;
     cursor: pointer;
+
 }
 
 .contact-form form .btn:hover {
@@ -112,8 +147,10 @@ form textarea {
 }
 
 .round-rect-box {
+
     /* background-image: url(../images/gradient.jpg); */
-    background: linear-gradient(to right, #FFA500, #FF4500);
+    /* background: linear-gradient(to right, #FFA500, #FF4500); */
+    background: var(--box);
     background-position: center;
     background-size: cover;
     border-radius: 20px;
@@ -130,6 +167,7 @@ form textarea {
     margin: 2vw 0;
     font-size: 3vw;
     line-height: 1.5;
+    color: var(--box-text);
 }
 
 .round-rect-box p strong {
