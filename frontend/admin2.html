@@ -194,7 +194,7 @@
                 });
         });*/
 
-        importButton.addEventListener('click', () => {
+        /*importButton.addEventListener('click', () => {
             console.log('importButton clicked');
             if (jsonFileInput.files.length > 0) {
                 const file = jsonFileInput.files[0];
@@ -217,7 +217,7 @@
             } else {
                 console.log('No file selected.');
             }
-        });
+        });*/
 
 
 
@@ -258,6 +258,35 @@
                 alert('Please select a file.');
             }
         }*/
+
+
+        /*document.getElementById('importButton').addEventListener('click', async () => {
+            const fileInput = document.getElementById('jsonFileInput');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                try {
+                    const response = await fetch('/import-animals', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        alert('Animal data imported successfully!');
+                    } else {
+                        alert('Failed to import animal data.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                }
+            } else {
+                alert('Please select a file.');
+            }
+        });*/
 
         togglePanels('statistics-panel', 'users-panel', 'animals-panel', 'reservations-panel');
     </script>

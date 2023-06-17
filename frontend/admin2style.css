@@ -1,4 +1,4 @@
-.logo-admin-home {
+/*.logo-admin-home {
   width: 45px;
   height: 30px;
   padding-left: 20px;}
@@ -24,12 +24,12 @@
     --box-p: white;
     --right-side-panel-h3: white;
 
-}
+}*/
 
 
-body {
+/*body {
     background-color: var(--left-menu);
-}
+}*/
 
 
 .logo-admin-home{
