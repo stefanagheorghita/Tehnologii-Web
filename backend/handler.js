@@ -14,8 +14,11 @@ const { getCoveringByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getDangerByIdFromDatabase } = require('./util/infoDatabaseUtil');
 const { getAllUsersFromDatabase } = require('./util/infoDatabaseUtil');
 const { getAllAnimalsFromDatabase } = require('./util/infoDatabaseUtil');
+const { getAllReservationsFromDatabase } = require('./util/infoDatabaseUtil');
 const { generateUsersTable } = require('./util/infoDatabaseUtil');
 const { generateAnimalsTable } = require('./util/infoDatabaseUtil');
+const { generateReservationsTable } = require('./util/infoDatabaseUtil');
+//const { deleteButtonListeners } = require('./util/infoDatabaseUtil');
 const { searchAnimals } = require('./animals/searchAnimals');
 
 ////
@@ -708,12 +711,22 @@ function handleSettingsPage(req, res) {
         try {
           const users = await getAllUsersFromDatabase();
           const animals = await getAllAnimalsFromDatabase();
+          const reservations = await getAllReservationsFromDatabase();
   
           const usersTable = generateUsersTable(users);
-          const animalsTable = generateAnimalsTable(animals);
+          const animalsTable = await generateAnimalsTable(animals);
+          const reservationsTable = generateReservationsTable(reservations);
+  
+          const numUsers = users.length;
+          const numAnimals = animals.length;
+          const numReservations = reservations.length;
   
           let modifiedContent = content.replace('<div id="users-table"></div>', usersTable);
           modifiedContent = modifiedContent.replace('<div id="animals-table"></div>', animalsTable);
+          modifiedContent = modifiedContent.replace('<div id="reservations-table"></div>', reservationsTable);
+          modifiedContent = modifiedContent.replace('numUsers', numUsers);
+          modifiedContent = modifiedContent.replace('numAnimals', numAnimals);
+          modifiedContent = modifiedContent.replace('numReservations', numReservations);
   
           modifiedContent = includeAssets(modifiedContent, filePath);
           replaceImageUrls(modifiedContent, (imgErr, modContent) => {
@@ -725,6 +738,8 @@ function handleSettingsPage(req, res) {
               res.end(modContent, 'utf-8');
             }
           });
+
+          //deleteButtonListeners();
         } catch (error) {
           console.log(error);
           res.writeHead(500);
@@ -735,7 +750,58 @@ function handleSettingsPage(req, res) {
   }
   
   
+  async function handleDataRequest(req, res) {
+    try {
+      const users = await getAllUsersFromDatabase();
+      const animals = await getAllAnimalsFromDatabase();
+      const reservations = await getAllReservationsFromDatabase();
   
+      const usersTable = generateUsersTable(users);
+      const animalsTable = generateAnimalsTable(animals);
+      const reservationsTable = generateReservationsTable(reservations);
+  
+      const responseData = {
+        usersTable,
+        animalsTable,
+        reservationsTable
+      };
+  
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(responseData));
+    } catch (error) {
+      console.error('Error handling data request:', error);
+      res.statusCode = 500;
+      res.end('Internal Server Error');
+    }
+  }
+
+  function extractUserIdFromUrl(url) {
+    const userIdRegex = /\/delete-user\/(\w+)/;
+    const match = url.match(userIdRegex);
+    if (match && match[1]) {
+      return match[1];
+    }
+    return null;
+  }
+
+  function extractAnimalIdFromUrl(url) {
+    const userIdRegex = /\/delete-animal\/(\w+)/;
+    const match = url.match(userIdRegex);
+    if (match && match[1]) {
+      return match[1];
+    }
+    return null;
+  }
+
+  function extractReservationIdFromUrl(url) {
+    const userIdRegex = /\/delete-reservation\/(\w+)/;
+    const match = url.match(userIdRegex);
+    if (match && match[1]) {
+      return match[1];
+    }
+    return null;
+  }
   
   
   
@@ -798,5 +864,9 @@ module.exports = {
     handleProgramPage,
     handleOneAnimalPage,
     handleAdminPage,
-    handleStaticFile
+    handleStaticFile,
+    handleDataRequest,
+    extractUserIdFromUrl,
+    extractAnimalIdFromUrl,
+    extractReservationIdFromUrl
 };

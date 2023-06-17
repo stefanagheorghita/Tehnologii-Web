@@ -27,13 +27,20 @@
             </div>
             <div>
                 <h3>Moderation</h3>
-                <div class="menu-see-users" onclick="togglePanels('users-panel', 'statistics-panel', 'animals-panel')">
+                <div class="menu-see-users"
+                    onclick="togglePanels('users-panel', 'statistics-panel', 'animals-panel', 'reservations-panel')">
                     <img class="logo-user" src="images/user-icon.png">
                     <p class="menu-item">See all users</p>
                 </div>
-                <div class="menu-see-animals" onclick="togglePanels('animals-panel', 'statistics-panel', 'users-panel')">
+                <div class="menu-see-animals"
+                    onclick="togglePanels('animals-panel', 'statistics-panel', 'users-panel', 'reservations-panel')">
                     <img class="logo-animal" src="images/paw-orange.png">
                     <p class="menu-item">See all animals</p>
+                </div>
+                <div class="menu-see-reservations"
+                    onclick="togglePanels('reservations-panel', 'statistics-panel', 'users-panel', 'animals-panel')">
+                    <img class="logo-reservations" src="images/reservations.png">
+                    <p class="menu-item">See reservations</p>
                 </div>
             </div>
             <div>
@@ -69,24 +76,139 @@
             </div>
             <div id="animals-panel" class="right-side-panel" style="display: none;">
                 <p>Here are the animals.</p>
+                <input type="file" id="jsonFileInput">
+                <button id="importButton">Import animal</button>
                 <div id="animals-table"></div>
+            </div>
+            <div id="reservations-panel" class="right-side-panel" style="display: none;">
+                <p>Here are the reservations.</p>
+                <div id="reservations-table"></div>
             </div>
         </div>
     </div>
 
     <script>
-        function togglePanels(panelToShow, panelToHide1, panelToHide2) {
+
+        function togglePanels(panelToShow, panelToHide1, panelToHide2, panelToHide3) {
             const showPanel = document.getElementById(panelToShow);
             const hidePanel1 = document.getElementById(panelToHide1);
             const hidePanel2 = document.getElementById(panelToHide2);
+            const hidePanel3 = document.getElementById(panelToHide3);
 
             showPanel.style.display = 'block';
             hidePanel1.style.display = 'none';
             hidePanel2.style.display = 'none';
+            hidePanel3.style.display = 'none';
         }
 
-        // Show statistics panel and information boxes by default
-        togglePanels('statistics-panel', 'users-panel', 'animals-panel');
+        function deleteUser(userId) {
+            if (confirm("Are you sure you want to delete this user?")) {
+                fetch(`/delete-user/${userId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('User deleted successfully!');
+                            const rowElement = document.querySelector(`tr[data-user-id="${userId}"]`);
+                            if (rowElement) {
+                                rowElement.remove();
+                            }
+                        } else {
+                            alert('Error deleting user. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting user:', error);
+                        alert('An error occurred. Please try again.');
+                    });
+            }
+        }
+
+        function deleteAnimal(animalId) {
+            if (confirm("Are you sure you want to delete this animal?")) {
+                fetch(`/delete-animal/${animalId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Animal deleted successfully!');
+                            const rowElement = document.querySelector(`tr[data-user-id="${animalId}"]`);
+                            if (rowElement) {
+                                rowElement.remove();
+                            }
+                        } else {
+                            alert('Error deleting animal. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting animal:', error);
+                        alert('An error occurred. Please try again.');
+                    });
+            }
+        }
+
+        function deleteReservation(reservationId) {
+            if (confirm("Are you sure you want to delete this reservation?")) {
+                fetch(`/delete-reservation/${reservationId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Reservation deleted successfully!');
+                            const rowElement = document.querySelector(`tr[data-user-id="${reservationId}"]`);
+                            if (rowElement) {
+                                rowElement.remove();
+                            }
+                        } else {
+                            alert('Error deleting reservation. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting reservation:', error);
+                        alert('An error occurred. Please try again.');
+                    });
+            }
+        }
+
+        const importButton = document.getElementById('importButton');
+        importButton.addEventListener('click', importAnimals);
+
+        function importAnimals() {
+            console.log('importAnimals');
+            /*const fileInput = document.getElementById('jsonFileInput');
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const jsonData = event.target.result;
+                    const animals = JSON.parse(jsonData);
+
+                    fetch('/import-animals', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(animals)
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                alert('Animals imported successfully!');
+                            } else {
+                                alert('Error importing animals. Please try again.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error importing animals:', error);
+                            alert('An error occurred. Please try again.');
+                        });
+                };
+                reader.readAsText(file);
+            } else {
+                alert('Please select a file.');
+            }*/
+        }
+
+        togglePanels('statistics-panel', 'users-panel', 'animals-panel', 'reservations-panel');
     </script>
 </body>
 

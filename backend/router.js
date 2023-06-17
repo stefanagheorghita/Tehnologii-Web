@@ -15,13 +15,22 @@ const {
     handleSettingsPage,
     handleAdminPage,
 } = require('./handler');
-const {handleLoginRequest} = require('./controllers/login');
-const {handleRegisterRequest} = require('./controllers/register'); // for register
-const {handleForgotPasswordRequest} = require('./controllers/forgot');
-const {handleProgramRequest} = require('./controllers/program');
-const {handleSettingsRequest} = require('./controllers/settings');
-const {handleCriteriaRequest} = require('./animals/criteria');
-const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
+const { handleLoginRequest } = require('./controllers/login');
+const { handleRegisterRequest } = require('./controllers/register'); // for register
+const { handleForgotPasswordRequest } = require('./controllers/forgot');
+const { handleProgramRequest } = require('./controllers/program');
+const { handleSettingsRequest } = require('./controllers/settings');
+const { handleCriteriaRequest } = require('./animals/criteria');
+const { exportJson, exportXml, moreAnimalsExport } = require('./operations/export');
+const { generateUsersTable, generateAnimalsTable, generateReservationsTable } = require('./util/infoDatabaseUtil');
+const { handleDataRequest } = require('./handler');
+const { deleteUserFromDatabase } = require('./util/infoDatabaseUtil');
+const { deleteAnimalFromDatabase } = require('./util/infoDatabaseUtil');
+const { deleteReservationFromDatabase } = require('./util/infoDatabaseUtil');
+const { extractUserIdFromUrl } = require('./handler');
+const { extractAnimalIdFromUrl } = require('./handler');
+const { extractReservationIdFromUrl } = require('./handler');
+const { insertAnimals } = require('./util/infoDatabaseUtil');
 
 function router(req, res) {
     const url = req.url;
@@ -80,14 +89,14 @@ function router(req, res) {
         handleAboutUsPage(req, res);
     } else if (url === '/settings.html' || url === '/settings' || url === '/settings.html') {
         if (req.method === 'POST') {
-           
-          handleSettingsRequest(req, res);
-              
+
+            handleSettingsRequest(req, res);
+
         } /*else if (req.method === 'GET'){
           handleSettingsGetRequest(req, res)
         }*/ else if (req.method) {
-          handleSettingsPage(req, res);
-          //handleSettingsRequest(req, res);
+            handleSettingsPage(req, res);
+            //handleSettingsRequest(req, res);
         }
 
     } else if (url === '/help.html' || url === '/help' || url === '/help-page/help.html') {
@@ -120,7 +129,7 @@ function router(req, res) {
         } else if (url.startsWith('/animal/xml')) {
             exportXml(animalId, req, res);
         } else {
-            res.writeHead(404, {'Content-Type': 'text/plain'});
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
             res.end('404 Not Found');
         }
 
@@ -144,10 +153,98 @@ function router(req, res) {
             }
         }
         moreAnimalsExport(criteria, req, res);
-    } else if (url === '/admin'){
+    }
+    else if (url.startsWith('/delete-user')) {
+        if (req.method === 'DELETE') {
+            const userId = extractUserIdFromUrl(url);
+            if (userId) {
+                try {
+                    deleteUserFromDatabase(userId);
+                    res.statusCode = 200;
+                    res.end('User deleted successfully');
+                } catch (error) {
+                    console.error('Error deleting user:', error);
+                    res.statusCode = 500;
+                    res.end('Error deleting user. Please try again.');
+                }
+            } else {
+                res.statusCode = 400;
+                res.end('Invalid request. User ID not provided.');
+            }
+        } else {
+            res.statusCode = 405;
+            res.end('Method Not Allowed');
+        }
+    }
+    else if (url.startsWith('/delete-animal')) {
+        if (req.method === 'DELETE') {
+            const animalId = extractAnimalIdFromUrl(url);
+            if (animalId) {
+                try {
+                    deleteAnimalFromDatabase(animalId);
+                    res.statusCode = 200;
+                    res.end('Animal deleted successfully');
+                } catch (error) {
+                    console.error('Error deleting animal:', error);
+                    res.statusCode = 500;
+                    res.end('Error deleting animal. Please try again.');
+                }
+            } else {
+                res.statusCode = 400;
+                res.end('Invalid request. Animal ID not provided.');
+            }
+        } else {
+            res.statusCode = 405;
+            res.end('Method Not Allowed');
+        }
+    }
+    else if(url.startsWith('/delete-reservation')){
+        if (req.method === 'DELETE') {
+            const reservationId = extractReservationIdFromUrl(url);
+            if (reservationId) {
+                try {
+                    deleteReservationFromDatabase(reservationId);
+                    res.statusCode = 200;
+                    res.end('Reservation deleted successfully');
+                } catch (error) {
+                    console.error('Error deleting reservation:', error);
+                    res.statusCode = 500;
+                    res.end('Error deleting reservation. Please try again.');
+                }
+            } else {
+                res.statusCode = 400;
+                res.end('Invalid request. Reservation ID not provided.');
+            }
+        } else if (url === '/import-animals' && req.method === 'POST') {
+            let body = '';
+            req.on('data', chunk => {
+              body += chunk;
+            });
+          
+            req.on('end', async () => {
+              const animals = JSON.parse(body);
+          
+              try {
+                await insertAnimals(animals);
+                res.statusCode = 200;
+                res.end(JSON.stringify({ message: 'Animals imported successfully' }));
+              } catch (err) {
+                console.error('Error inserting animals:', err);
+                res.statusCode = 500;
+                res.end(JSON.stringify({ error: 'Failed to import animals' }));
+              }
+            });
+          }
+         else {
+            res.statusCode = 405;
+            res.end('Method Not Allowed');
+        }
+    }
+
+    else if (url === '/admin') {
         handleAdminPage(req, res);
     }
-     else {
+    else {
         handleStaticFile(req, res);
     }
 }
