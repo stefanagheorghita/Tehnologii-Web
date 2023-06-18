@@ -37,7 +37,7 @@ const {handleSettingsRequest} = require('./controllers/settings');
 const {handleCriteriaRequest} = require('./animals/criteria');
 const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
 const {verifyIfUserLiked,getLikesCount}=require('./util/likes')
-const {insertAnimal} = require('./util/infoDatabaseUtil');
+const {insertAnimal, insertAnimalWithXML} = require('./util/infoDatabaseUtil');
 const {extractAnimalIdFromUrl, extractUserIdFromUrl, extractReservationIdFromUrl} = require('./handler');
 const {deleteUserFromDatabase, deleteAnimalFromDatabase, deleteReservationFromDatabase} = require('./util/infoDatabaseUtil');
 
@@ -267,7 +267,6 @@ function router(req, res) {
         });
 
         req.on('end', () => {
-            // No need for JSON parsing, as we are working with form data
             insertAnimal(formData);
             res.statusCode = 200;
             res.end('Animals inserted successfully');
@@ -287,6 +286,18 @@ function router(req, res) {
     {
         handleFindFavorites(req, res);
     } 
+    else if(url === '/import-animals-xml' && req.method==='POST'){
+        let formData = '';
+        req.on('data', (chunk) => {
+            formData += chunk;
+        });
+
+        req.on('end', () => {
+            insertAnimalWithXML(formData);
+            res.statusCode = 200;
+            res.end('Animals inserted successfully');
+        });
+    }
      else if (req.method === 'POST' && req.url === '/language') {
         handleLanguageRequest(req,res);
        }

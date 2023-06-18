@@ -1,0 +1,68 @@
+[{
+    "_id": {
+      "$oid": "6489fef5df77d90a8234a837"
+    },
+    "name": "White Tiger",
+    "image": "images/images_all_animals/polar_tiger.jpg",
+    "scientific_name": "Panthera tigris",
+    "description": "The Polar Tiger is a majestic big cat known for its white fur and black stripes. It is a rare subspecies of the tiger and is specially adapted to survive in cold environments, such as the Arctic. With its powerful build and sharp claws, the Polar Tiger is an excellent hunter. It primarily feeds on marine mammals and fish. Despite its imposing size and strength, the Polar Tiger is considered an endangered species due to habitat loss and poaching.",
+    "status_id": {
+      "$oid": "00000001df77d90a8234a81e"
+    },
+    "diet_id": {
+      "$oid": "6489cafbdf77d90a8234a82a"
+    },
+    "clima_id": {
+      "$oid": "6489c8386009b85bbe27cd19"
+    },
+    "reproduction_id": {
+      "$oid": "6489c66a6009b85bbe27cd4e"
+    },
+    "type_id": {
+      "$oid": "64899a55df77d90a8234a80e"
+    },
+    "lifespan": "10 - 15 years",
+    "lifestyle": "diurnal",
+    "covering_id": {
+      "$oid": "6489cea46009b85bbe27cd43"
+    },
+    "dangerousness_id": {
+      "$oid": "6489cab56009b85bbe27cd27"
+    },
+    "related_species": "Bengal Tiger, Siberian Tiger",
+    "natural_enemies": "None"
+  },
+  {
+    "_id": {
+      "$oid": "6489fef5df77d90a8234a838"
+    },
+    "name": "Gecko",
+    "image": "images/images_all_animals/gecko.jpg",
+    "scientific_name": "Gekkonidae",
+    "description": "Geckos are a diverse group of lizards known for their unique characteristics. They are small to medium-sized reptiles found in various habitats around the world, including tropical rainforests, deserts, and grasslands. Geckos are known for their ability to climb walls and surfaces using specialized toe pads that enable them to adhere to surfaces. They are predominantly nocturnal, with most species being active during the night. Geckos have a remarkable ability to vocalize and communicate through chirping sounds. They are also known for their ability to shed their tails as a defense mechanism.",
+    "status_id": {
+      "$oid": "00000005df77d90a8234a822"
+    },
+    "diet_id": {
+      "$oid": "6489cafbdf77d90a8234a82b"
+    },
+    "clima_id": {
+      "$oid": "6489c8386009b85bbe27cd19"
+    },
+    "reproduction_id": {
+      "$oid": "6489c66a6009b85bbe27cd3e"
+    },
+    "type_id": {
+      "$oid": "64899ab3df77d90a8234a810"
+    },
+    "lifespan": "5 - 20 years",
+    "lifestyle": "nocturnal",
+    "covering_id": {
+      "$oid": "6489ce896009b85bbe27cd37"
+    },
+    "dangerousness_id": {
+      "$oid": "6489cab56009b85bbe27cd30"
+    },
+    "related_species": "Leopard Gecko, Crested Gecko",
+    "natural_enemies": "Snakes, Birds of Prey"
+  }]

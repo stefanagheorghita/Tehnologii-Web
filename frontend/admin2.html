@@ -14,7 +14,7 @@
             <div class="menu">
                 <h3>See statistics</h3>
                 <div class="menu-statistics" onclick="togglePanels('statistics-panel', 'users-panel', 'animals-panel')">
-                    <img class="logo-statistics" src="images/statistics.jpg">
+                    <img class="logo-statistics" src="images/statistics.png">
                     <p class="menu-item">Statistics</p>
                 </div>
                 <h3>See application</h3>
@@ -54,34 +54,41 @@
         <div class="right-side">
             <h1 class="title">ZoM Admin Control Center</h1>
             <div id="statistics-panel" class="right-side-panel">
-                <h3>Statistics</h3>
+                <h3 class="top-title">Statistics</h3>
                 <div class="information-boxes">
                     <div class="box">
-                        <h3>Number of users</h3>
-                        <p>numUsers</p>
+                        <h3 class="numbers">Number of users</h3>
+                        <p class="numbers-bottom">numUsers</p>
                     </div>
                     <div class="box">
-                        <h3>Number of animals</h3>
-                        <p>numAnimals</p>
+                        <h3 class="numbers">Number of animals</h3>
+                        <p class="numbers-bottom">numAnimals</p>
                     </div>
                     <div class="box">
-                        <h3>Number of reservations</h3>
-                        <p>numReservations</p>
+                        <h3 class="numbers">Number of reservations</h3>
+                        <p class="numbers-bottom">numReservations</p>
                     </div>
                 </div>
             </div>
             <div id="users-panel" class="right-side-panel" style="display: none;">
-                <p>Here are the users.</p>
+                <p class="top-title">Users</p>
                 <div id="users-table"></div>
             </div>
             <div id="animals-panel" class="right-side-panel" style="display: none;">
-                <p>Here are the animals.</p>
-                <input type="file" id="jsonFileInput">
-                <button id="importButton">Import animal</button>
+                <p class="top-title">Animals</p>
                 <div id="animals-table"></div>
-            </div>
+                <div>
+                    <button id="importButton" class="buttons">JSON Import animal</button>
+                    <input type="file" id="jsonFileInput">
+                  </div>
+                  <br>
+                  <div>
+                    <button id="importXMLButton" class="buttons">XML Import animal</button>
+                    <input type="file" id="xmlFileInput">
+                  </div>
+              </div>
             <div id="reservations-panel" class="right-side-panel" style="display: none;">
-                <p>Here are the reservations.</p>
+                <p class="top-title">Reservations</p>
                 <div id="reservations-table"></div>
             </div>
         </div>
@@ -170,95 +177,8 @@
             }
         }
 
-
-
         const importButton = document.getElementById('importButton');
         const jsonFileInput = document.getElementById('jsonFileInput');
-
-        /*importButton.addEventListener('click', () => {
-            console.log('importButton clicked');
-            const file = jsonFileInput.files[0];
-            const formData = new FormData();
-            formData.append('file', file);
-
-            fetch('/import-animals', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data); // Handle the response from the backend
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });*/
-
-        /*importButton.addEventListener('click', () => {
-            console.log('importButton clicked');
-            if (jsonFileInput.files.length > 0) {
-                const file = jsonFileInput.files[0];
-                const formData = new FormData();
-                formData.append('file', file);
-
-                fetch('/import-animals', {
-                    method: 'POST',
-                    body: formData
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('File upload failed. Status: ' + response.status);
-                        }
-                        console.log('File uploaded successfully.');
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            } else {
-                console.log('No file selected.');
-            }
-        });*/
-
-
-
-        /*const importButton = document.getElementById('importButton');
-        importButton.addEventListener('click', importAnimals);*/
-
-        /*function importAnimals() {
-            console.log('importAnimals');
-            const fileInput = document.getElementById('jsonFileInput');
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    const jsonData = event.target.result;
-                    const animals = JSON.parse(jsonData);
-
-                    fetch('/import-animals', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(animals)
-                    })
-                        .then(response => {
-                            if (response.ok) {
-                                alert('Animals imported successfully!');
-                            } else {
-                                alert('Error importing animals. Please try again.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error importing animals:', error);
-                            alert('An error occurred. Please try again.');
-                        });
-                };
-                reader.readAsText(file);
-            } else {
-                alert('Please select a file.');
-            }
-        }*/
-
 
         document.getElementById('importButton').addEventListener('click', async () => {
             const fileInput = document.getElementById('jsonFileInput');
@@ -270,6 +190,38 @@
 
                 try {
                     const response = await fetch('/import-animals', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        alert('Animal data imported successfully!');
+                    } else {
+                        alert('Failed to import animal data.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                }
+            } else {
+                alert('Please select a file.');
+            }
+        });
+
+        const importXMLButton = document.getElementById('importXMLButton');
+        const xmlFileInput = document.getElementById('xmlFileInput');
+
+        importXMLButton.addEventListener('click', async () => {
+            const fileInput = document.getElementById('xmlFileInput');
+            const file = fileInput.files[0];
+            console.log(file);
+
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                try {
+                    const response = await fetch('/import-animals-xml', {
                         method: 'POST',
                         body: formData
                     });

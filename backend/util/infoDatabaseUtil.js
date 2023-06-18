@@ -132,56 +132,6 @@ async function getAllUsersFromDatabase() {
   }
 }
 
-/*async function getPasswordByEmailFromDatabase(email) {
-  const client = getClient();
-  try {
-    await client.connect();
-
-    const db = client.db(dbName);
-    const usersCollection = db.collection('users');
-    const users = await usersCollection.findOne({ email });
-    if (users) {
-      return users.password;
-    } else {
-      throw new Error('Email not found in the database');
-    }
-  } catch (error) {
-    console.error('Error retrieving password by email:', error);
-    throw error;
-  }
-}*/
-
-/*async function getPasswordByEmailFromDatabase(email) {
-  const client = getClient();
-  try {
-    await client.connect();
-
-    const db = client.db(dbName);
-    const usersCollection = db.collection('users');
-    const user = await usersCollection.findOne({ email });
-    if (user) {
-      const encryptedPassword = user.password;
-
-      // Generate a new random password
-      const newPlainTextPassword = 'MyNewPassword';
-
-      // Encrypt the new password
-      const newEncryptedPassword = await bcrypt.hash(newPlainTextPassword, 10);
-
-      // Update the encrypted password in the database
-      await usersCollection.updateOne({ email }, { $set: { password: newEncryptedPassword } });
-
-      // Return the new plain text password
-      return newPlainTextPassword;
-    } else {
-      throw new Error('Email not found in the database');
-    }
-  } catch (error) {
-    console.error('Error retrieving password by email:', error);
-    throw error;
-  }
-}*/
-
 async function getPasswordByEmailFromDatabase(email) {
   const client = getClient();
   try {
@@ -260,26 +210,6 @@ async function getAllReservationsFromDatabase() {
 }
 
 
-/*function generateUsersTable(users) {
-  let tableHTML = '<table>';
-  tableHTML += '<tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Email</th></tr>';
- 
-  users.forEach((user, index) => {
-      const rowClass = index % 2 === 0 ? 'table-row-white' : 'table-row-grey';
-
-      tableHTML += `<tr class="${rowClass}">
-      <td>${user._id}</td>
-      <td>${user.first_name}</td>
-      <td>${user.last_name}</td>
-      <td>${user.email}</td>
-      <td><button class="delete-user-button" onclick="deleteUser('${user._id}')">Delete</button></td>
-    </tr>`;
-  });
- 
-  tableHTML += '</table>';
-  return tableHTML;
-}*/
-
 function generateUsersTable(users) {
   let tableHTML = '<div class="table-container">';
   tableHTML += '<table>';
@@ -301,30 +231,6 @@ function generateUsersTable(users) {
   tableHTML += '</div>';
   return tableHTML;
 }
-
-/*function generateAnimalsTable(animals) {
-  let tableHTML = '<div class="table-container">';
-  tableHTML += '<table>';
-  tableHTML += '<tr><th>Name</th><th>Status</th><th>Diet</th><th>Clima</th><th>Type</th></tr>';
-
-  for (let index = 0; index < animals.length; index++) {
-    const animal = animals[index];
-    const rowClass = index % 2 === 0 ? 'table-row-white' : 'table-row-grey';
-
-    tableHTML += `<tr class="${rowClass}">
-      <td>${animal.name}</td>
-      <td>${getStatusByIdFromDatabase(animal.status_id)}</td>
-      <td>${getDietByIdFromDatabase(animal.diet_id)}</td>
-      <td>${getClimaByIdFromDatabase(animal.clima_id)}</td>
-      <td>${getTypeByIdFromDatabase(animal.type_id)}</td>
-      <td><button class="delete-animal-button delete-button" onclick="deleteAnimal('${animal._id}')">Delete</button></td>
-      </tr>`;
-  };
-
-  tableHTML += '</table>';
-  tableHTML += '</div>';
-  return tableHTML;
-}*/
 
 async function generateAnimalsTable(animals) {
   let tableHTML = '<div class="table-container">';
@@ -364,7 +270,6 @@ async function generateAnimalsTable(animals) {
 }
 
 
-
 function generateReservationsTable(reservations) {
   let tableHTML = '<div class="table-container">';
   tableHTML += '<table>';
@@ -389,45 +294,6 @@ function generateReservationsTable(reservations) {
   return tableHTML;
 }
 
-
-
-/*function generateAnimalsTable(animals) {
-  let tableHTML = '<table>';
-  tableHTML += '<tr><th>ID</th><th>Name</th><th>Type</th><th>Age</th></tr>';
- 
-  animals.forEach((animal) => {
-    const rowClass = index % 2 === 0 ? 'table-row-white' : 'table-row-grey';
-
-    tableHTML += `<tr class="${rowClass}">
-    <td>${animal._id}</td>
-    <td>${animal.name}</td>
-    <td>${animal.type}
-    <td><button class="delete-animal-button" onclick="deleteAnimal('${animal._id}')">Delete</button></td>
-    </tr>`;
-  });
- 
-  tableHTML += '</table>';
-  return tableHTML;
-}
-
-function generateReservationsTable(reservations) {
-  let tableHTML = '<table>';
-  tableHTML += '<tr><th>ID</th><th>Name</th><th>Type</th><th>Age</th></tr>';
- 
-  reservations.forEach((reservation) => {
-    const rowClass = index % 2 === 0 ? 'table-row-white' : 'table-row-grey';
-
-    tableHTML += `<tr class="${rowClass}">
-    <td>${reservation._id}</td>
-    <td>${reservation.name}</td>
-    <td>${reservation.date}</td>
-    <td><button class="delete-reservation-button" onclick="deleteReservation('${reservation._id}')">Delete</button></td>
-    </tr>`;
-  });
- 
-  tableHTML += '</table>';
-  return tableHTML;
-}*/
 
 async function deleteUserFromDatabase(userId) {
   const client = getClient();
@@ -562,6 +428,113 @@ function transformObjectIDs(data) {
 }
 
 
+async function insertAnimalWithXML(xmlData) {
+  const animal = parseXMLData(xmlData);
+  const client = getClient();
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection('animals');
+    await collection.insertOne(animal);
+  } catch (error) {
+    console.error('Error inserting animals:', error);
+    throw error;
+  } finally {
+    client.close();
+  }
+}
+
+function parseXMLData(xmlData) {
+  const animal = {};
+
+  const nameMatch = xmlData.match(/<name>([\s\S]*?)<\/name>/);
+  if (nameMatch) {
+    animal.name = nameMatch[1];
+  }
+
+  const imageMatch = xmlData.match(/<image>([\s\S]*?)<\/image>/);
+  if (imageMatch) {
+    animal.image = imageMatch[1];
+  }
+
+  const scientificNameMatch = xmlData.match(/<scientific_name>([\s\S]*?)<\/scientific_name>/);
+  if (scientificNameMatch) {
+    animal.scientific_name = scientificNameMatch[1];
+  }
+
+  const descriptionMatch = xmlData.match(/<description>([\s\S]*?)<\/description>/);
+  if (descriptionMatch) {
+    animal.description = descriptionMatch[1];
+  }
+
+  const statusIdMatch = xmlData.match(/<status_id>([\s\S]*?)<\/status_id>/);
+  if (statusIdMatch) {
+    animal.status_id = new ObjectId(statusIdMatch[1].$oid);
+  }
+
+  const dietIdMatch = xmlData.match(/<diet_id>([\s\S]*?)<\/diet_id>/);
+  if (dietIdMatch) {
+    animal.diet_id = new ObjectId(dietIdMatch[1].$oid);
+  }
+
+  const climaIdMatch = xmlData.match(/<clima_id>([\s\S]*?)<\/clima_id>/);
+  if (climaIdMatch) {
+    animal.clima_id = new ObjectId(climaIdMatch[1].$oid);
+  }
+
+  const reproductionIdMatch = xmlData.match(/<reproduction_id>([\s\S]*?)<\/reproduction_id>/);
+  if (reproductionIdMatch) {
+    animal.reproduction_id = new ObjectId(reproductionIdMatch[1].$oid);
+  }
+
+  const typeIdMatch = xmlData.match(/<type_id>([\s\S]*?)<\/type_id>/);
+  if (typeIdMatch) {
+    animal.type_id = new ObjectId(typeIdMatch[1].$oid);
+  }
+
+  const lifespanMatch = xmlData.match(/<lifespan>([\s\S]*?)<\/lifespan>/);
+  if (lifespanMatch) {
+    animal.lifespan = lifespanMatch[1];
+  }
+
+  const lifestyleMatch = xmlData.match(/<lifestyle>([\s\S]*?)<\/lifestyle>/);
+  if (lifestyleMatch) {
+    animal.lifestyle = lifestyleMatch[1];
+  }
+
+  const coveringIdMatch = xmlData.match(/<covering_id>([\s\S]*?)<\/covering_id>/);
+  if (coveringIdMatch) {
+    animal.covering_id = new ObjectId(coveringIdMatch[1].$oid);
+  }
+
+  const dangerousnessIdMatch = xmlData.match(/<dangerousness_id>([\s\S]*?)<\/dangerousness_id>/);
+  if (dangerousnessIdMatch) {
+    animal.dangerousness_id = new ObjectId(dangerousnessIdMatch[1].$oid);
+  }
+
+  const relatedSpeciesMatch = xmlData.match(/<related_species>([\s\S]*?)<\/related_species>/);
+  if (relatedSpeciesMatch) {
+    animal.related_species = relatedSpeciesMatch[1];
+  }
+
+  const naturalEnemiesMatch = xmlData.match(/<natural_enemies>([\s\S]*?)<\/natural_enemies>/);
+  if (naturalEnemiesMatch) {
+    animal.natural_enemies = naturalEnemiesMatch[1];
+  }
+
+  const galleryImagesMatch = xmlData.match(/<gallery_images>([\s\S]*?)<\/gallery_images>/);
+  if (galleryImagesMatch) {
+    animal.gallery_images = galleryImagesMatch[1].split(',').map(image => image.trim());
+  }
+
+  const likesMatch = xmlData.match(/<likes>([\s\S]*?)<\/likes>/);
+  if (likesMatch) {
+    animal.likes = parseInt(likesMatch[1]);
+  }
+
+  return animal
+}
+
 module.exports = {
   getDietByIdFromDatabase,
   getStatusByIdFromDatabase,
@@ -581,6 +554,7 @@ module.exports = {
   deleteAnimalFromDatabase,
   deleteReservationFromDatabase,
   insertAnimal,
-  getPasswordByEmailFromDatabase
+  getPasswordByEmailFromDatabase,
+  insertAnimalWithXML
   //deleteButtonListeners
 };
