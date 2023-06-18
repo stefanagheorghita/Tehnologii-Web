@@ -7,11 +7,17 @@ const statusMessage = document.querySelector('#status-message');
 contactForm.addEventListener('submit', (e) => {
 
   e.preventDefault();
-
+  
   const nameInput = document.querySelector('input[name="name"]');
   const emailInput = document.querySelector('input[name="email"]');
   const subjectInput = document.querySelector('input[name="subject"]');
   const messageInput = document.querySelector('textarea[name="text-area"]');
+  const token=localStorage.getItem('token');
+  if(!token || token==='undefined' || token==='null' || token==='')
+  {
+    showStatusMessage('error', 'Please login to send message');
+    return;
+  }
 
   // Create an object to hold the form data
 //   const formData = {
