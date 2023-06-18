@@ -9,4 +9,4 @@ Proiect Tehnologii Web:
 
 
 
- Link video: https://we.tl/t-TF6bCQ3Qf6
+ Link video: https://we.tl/t-jwJXu54kzN
