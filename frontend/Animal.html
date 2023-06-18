@@ -94,7 +94,7 @@
   </div>
   <div>
     <label for="language">Select the language for the description:</label>
-    <select id="language">
+    <select id="language" onchange="changeLanguage()">
       <option value="en">English</option>
       <option value="de">Deutch</option>
       <option value="es">Spanish</option>
@@ -380,6 +380,38 @@
     console.log('mode:', mode);
   </script>
   <script src="darkmode.js"></script>
+
+  <!----------------------------------- descr multilingva ----------------------------------------->
+  <script>
+    function changeLanguage() {
+  const selectElement = document.getElementById("language");
+  const selectedLanguage = selectElement.value;
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "/language", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        updateDescription(response.description);
+      } else {
+        console.error("Error: " + xhr.status);
+      }
+    }
+  };
+
+  xhr.send(JSON.stringify({ language: selectedLanguage }));
+}
+
+function updateDescription(description) {
+  const descriptionElement = document.getElementById("description");
+  descriptionElement.textContent = description;
+}
+  </script>
+  <!------------------------------------------------------------------------------------------------>
+
 </body>
 
 </html>
