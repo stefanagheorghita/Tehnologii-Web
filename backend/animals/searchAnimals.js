@@ -122,7 +122,8 @@ async function searchAnimals(searchTerm, flag) {
                             {name: searchTermRegex},
                             {type_id: {$in: typeIdsArray}},
                             {diet_id: {$in: dietIdsArray}},
-                            {status_id: {$in: statusIdsArray}}
+                            {status_id: {$in: statusIdsArray}},
+                            {flag: searchTermRegex}
                         ];
                     }
                 }
