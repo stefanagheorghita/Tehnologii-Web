@@ -50,7 +50,7 @@ async function handleProgramRequest(req, res) {
           from: 'zoowebmanager@gmail.com',
           to: email,
           subject: 'Reservation Confirmation',
-          text: `Hi ${name}!\n\nYour reservation has been made successfully. We are waiting for you on ${date}!\n\nHave a nice day,\nZooWebManager team`
+          text: `Hi, ${name}!\n\nYour reservation has been made successfully. We are waiting for you on ${date}!\n\nHave a nice day,\nZooWebManager team`
         };
 
         transporter.sendMail(mailOptions, function (error, info) {

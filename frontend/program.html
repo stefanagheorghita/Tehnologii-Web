@@ -144,7 +144,7 @@
 
         </div>
     </div>
-    
+
     <div class="footer_section">
         <div class="section_1">
             <h4>Quick Links</h4>
@@ -218,6 +218,16 @@
                 dateInput.focus();
                 return;
             }
+
+            const currentDate = new Date(); // Get the current date
+            const chosenDate = new Date(date); 
+
+            if (chosenDate < currentDate) {
+                alert('The chosen date is earlier than the current date.');
+                dateInput.focus();
+                return;
+            }
+
 
             if (numberOfTickets === 'Select number') {
                 alert('Please select the number of tickets.');
