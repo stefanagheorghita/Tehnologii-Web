@@ -23,11 +23,12 @@ const { generateAnimalsTable } = require('./util/infoDatabaseUtil');
 const { generateReservationsTable } = require('./util/infoDatabaseUtil');
 //const { deleteButtonListeners } = require('./util/infoDatabaseUtil');
 const { searchAnimals } = require('./animals/searchAnimals');
-
+const {fetchTypeData} = require('./animals/criteria');
 ////
 const {getClient} = require('./util/db');
 const jwt = require('jsonwebtoken');
 const { updateAnimalLikes } = require('./util/likes');
+const { get } = require('http');
 const dbName = 'web_db';
 const client = getClient();
 
@@ -238,6 +239,8 @@ function handleAllAnimalPage(req, res, criteria, searchTerm) {
         }
     });
 }
+
+
 
 
 //for the one animal page
@@ -1053,7 +1056,13 @@ function handleContactUs(req, res) {
     });
 }
 
-
+async function handleSendTypes(req, res) {
+    const client=getClient();
+    const types = await fetchTypeData(client);
+   
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(types));
+}
 
 
 function getContentType(extension) {
@@ -1102,6 +1111,7 @@ module.exports = {
     handlePasswordUpdate,
     handleAddLike,
     handleRemoveLike,
+    handleSendTypes,
     handleStaticFile,
     handleContactUs
 };

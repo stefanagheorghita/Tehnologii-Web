@@ -91,28 +91,28 @@
         dolore magna aliqua. Egestas erat imperdiet sed euismod. Auctor elit sed vulputate mi. Adipiscing commodo
         elit at imperdiet dui.
         Ultricies mi quis hendrerit dolor magna. Neque vitae tempus quam pellentesque nec nam aliquam sem et.</h2>
-        <a href="/all-animals?type=64899a91df77d90a8234a80f"><span class="button button1">Amphibians</span></a>
+        <a href="/all-animals"><span class="button button1">Amphibians</span></a>
 </section>
 <section class="green-section"><img src="images/bird.png" alt="Tigri">
     <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
         dolore magna aliqua. Egestas erat imperdiet sed euismod. Auctor elit sed vulputate mi. Adipiscing commodo
         elit at imperdiet dui.
         Neque vitae tempus quam pellentesque nec nam aliquam sem et.</h2>
-        <a href="/all-animals?type=64899a55df77d90a8234a811"><span class="button button2">Birds</span></a>
+        <a href="/all-animals"><span class="button button2">Birds</span></a>
 </section>
 <section class="darker-section"><img src="images/koal.png" alt="Koala">
     <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
         dolore magna aliqua. Egestas erat imperdiet sed euismod. Auctor elit sed vulputate mi. Adipiscing commodo
         elit at imperdiet dui.
         Ultricies mi quis hendrerit dolor magna. </h2>
-        <a href="/all-animals?type=64899a55df77d90a8234a80e"><span class="button button1">Mammals</span></a>
+        <a href="/all-animals"><span class="button button1">Mammals</span></a>
 </section>
 <section class="green-section"><img src="images/cam.png" alt="Cameleon">
     <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
         dolore magna aliqua. Egestas erat imperdiet sed euismod. Auctor elit sed vulputate mi. Adipiscing commodo
         elit at imperdiet dui.
         Mi quis hendrerit dolor magna. Neque vitae tempus quam pellentesque nec nam aliquam sem et.</h2>
-        <a href="/all-animals?type_id=64899ab3df77d90a8234a810"><span class="button button2">Reptiles</span></a>
+        <a href="/all-animals"><span class="button button2">Reptiles</span></a>
 </section>
 
 <div class="footer_section">
@@ -149,7 +149,61 @@
         <button type="button">+1234567899</button>
     </div>
 </div>
+<script>
+const xhr = new XMLHttpRequest();
+const url = '/get-types'; 
+xhr.open('GET', url, true);
+xhr.responseType = 'json';
 
+xhr.onload = function () {
+  if (xhr.status === 200) {
+    const types = xhr.response;
+    const sections = document.querySelectorAll('section');
+    let i=0;
+    sections.forEach((section, index) => {
+      const link = section.querySelector('.button');
+      //const typeName = types[index].name;
+      let correctType=[];
+      for(let i=0; i<types.length; i++){
+        if(types[i].name === 'Amphibian'){
+          correctType[0] = types[i];
+          break;
+        }
+      }
+      for(let i=0; i<types.length; i++){
+        if(types[i].name === 'Bird'){
+          correctType[1] = types[i];
+          break;
+        }
+      }
+      for(let i=0; i<types.length; i++){
+        if(types[i].name === 'Mammal'){
+          correctType[2] = types[i];
+          break;
+        }
+      }
+        for(let i=0; i<types.length; i++){
+            if(types[i].name == 'Reptile'){
+            correctType[3] = types[i];
+            break;
+            }
+        }
+        const url = '/all-animals?type=' + correctType[index]._id;
+      console.log(url);
+      link.parentElement.setAttribute('href', url);
+    });
+  }  else {
+    console.error('Request failed. Status:', xhr.status);
+  }
+};
+
+xhr.onerror = function () {
+  console.error('Request error.');
+};
+
+xhr.send();
+
+</script>
 </body>
 
 </html>

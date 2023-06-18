@@ -21,7 +21,7 @@ const {
     handleAddLike,
     handleRemoveLike,
     handleContactUs,
-    handleSearchExport
+    handleSendTypes
     
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
@@ -191,6 +191,9 @@ function router(req, res) {
     else if(url.startsWith('/get-likes-count'))
     {
         getLikesCount(req,res);
+    } else if(url.startsWith('/get-types'))
+    {
+        handleSendTypes(req, res);
     }
      else {
         handleStaticFile(req, res);
