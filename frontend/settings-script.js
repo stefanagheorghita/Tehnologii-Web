@@ -7,10 +7,11 @@ document.addEventListener('DOMContentLoaded', async function () {
             const response = await fetch('/settings', {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
-
+          
             if (response.ok) {
                 const data = await response.text();
                 let mode;
@@ -24,7 +25,14 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
 
             } else {
-                console.error('Failed to fetch mode setting');
+                if(response.status === 402){
+        
+                  // // alert(localStorage.getItem('token'));
+                    window.location.href = '/landingpage';
+
+                   }
+                 else
+                  console.error('Failed to fetch mode setting');
             }
         } catch (error) {
             console.error('Error fetching mode setting:', error);

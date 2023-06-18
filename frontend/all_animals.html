@@ -239,7 +239,7 @@
     csvButton.addEventListener('click', requestCSV);
 
     function requestJSON() {
-        const token = localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        const token = localStorage.getItem('token');
         if (token == null) {
             showPopUpReminder();
             return;
@@ -274,7 +274,7 @@
 
 
     function requestXML() {
-        const token = localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        const token = localStorage.getItem('token') ;
         if (token == null) {
             showPopUpReminder();
             return;
@@ -309,7 +309,7 @@
     }
 
     function requestCSV() {
-        const token = localStorage.getItem('token') || sessionStorage.getItem('token') || getCookie('token');
+        const token = localStorage.getItem('token') ;
         if (token == null) {
             showPopUpReminder();
             return;

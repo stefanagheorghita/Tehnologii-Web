@@ -15,14 +15,14 @@ const {
     handleSettingsPage,
     handleAdminPage,
     handleSettingsPageInfo,
-    handleEmailUpdate, 
+    handleEmailUpdate,
     handleNameUpdate,
     handlePasswordUpdate,
     handleAddLike,
     handleRemoveLike,
     handleContactUs,
     handleSendTypes
-    
+
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
 const {handleRegisterRequest} = require('./controllers/register'); // for register
@@ -31,8 +31,9 @@ const {handleProgramRequest} = require('./controllers/program');
 const {handleSettingsRequest} = require('./controllers/settings');
 const {handleCriteriaRequest} = require('./animals/criteria');
 const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
-const {verifyIfUserLiked,getLikesCount}=require('./util/likes');
+const {verifyIfUserLiked, getLikesCount} = require('./util/likes');
 const {handleContactUsRequest} = require('./controllers/contactUs');
+const {authenticateUser} = require('./util/token');
 
 function router(req, res) {
     const url = req.url;
@@ -88,18 +89,26 @@ function router(req, res) {
         handleZooPlanPage(req, res);
     } else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
         handleAboutUsPage(req, res);
-    } else if (url === '/settings.html' || url === '/settings' || url === '/settings.html') {
-        if (req.method === 'POST') {
-           
-          handleSettingsRequest(req, res);
-              
-        } /*else if (req.method === 'GET'){
+    } else if (url === '/settings.html' || url === '/settings') {
+        if (authenticateUser(req, res) === 0) {
+            console.log("not authenticated");
+            res.statusCode = 402;
+            res.setHeader('Location', '/landingpage');
+            res.end();
+
+        } else {
+            if (req.method === 'POST') {
+
+                handleSettingsRequest(req, res);
+
+            } /*else if (req.method === 'GET'){
           handleSettingsGetRequest(req, res)
         }*/ else if (req.method) {
-          handleSettingsPage(req, res);
-          //handleSettingsRequest(req, res);
+                handleSettingsPage(req, res);
+                //handleSettingsRequest(req, res);
+            }
+            // }
         }
-
     } else if (url === '/help.html' || url === '/help' || url === '/help-page/help.html') {
         handleHelpPage(req, res);
     }
@@ -160,42 +169,29 @@ function router(req, res) {
             }
         }
         moreAnimalsExport(criteria, req, res);
-    
-    } else if (url === '/admin'){
+
+    } else if (url === '/admin') {
         handleAdminPage(req, res);
-    }
-    else if (url === '/profile' && req.method==='GET'){
-      handleSettingsPageInfo(req,res);
-    }
-    else if(url === '/update-name' && req.method==='PUT'){
-      handleNameUpdate(req, res);
-    }
-    else if(url === '/update-email' && req.method==='PUT'){
-      handleEmailUpdate(req, res);
-     
-    }
-    else
-    if (url === '/update-password' && req.method==='PUT'){
+    } else if (url === '/profile' && req.method === 'GET') {
+        handleSettingsPageInfo(req, res);
+    } else if (url === '/update-name' && req.method === 'PUT') {
+        handleNameUpdate(req, res);
+    } else if (url === '/update-email' && req.method === 'PUT') {
+        handleEmailUpdate(req, res);
+
+    } else if (url === '/update-password' && req.method === 'PUT') {
         handlePasswordUpdate(req, res);
-    }
-    else if (url.startsWith('/add-like')){
+    } else if (url.startsWith('/add-like')) {
         handleAddLike(req, res);
-    }
-    else if (url.startsWith('/remove-like')){
-       handleRemoveLike(req, res);
-    }
-    else if(url.startsWith('/get-like-state'))
-    {
+    } else if (url.startsWith('/remove-like')) {
+        handleRemoveLike(req, res);
+    } else if (url.startsWith('/get-like-state')) {
         verifyIfUserLiked(req, res);
-    }
-    else if(url.startsWith('/get-likes-count'))
-    {
-        getLikesCount(req,res);
-    } else if(url.startsWith('/get-types'))
-    {
+    } else if (url.startsWith('/get-likes-count')) {
+        getLikesCount(req, res);
+    } else if (url.startsWith('/get-types')) {
         handleSendTypes(req, res);
-    }
-     else {
+    } else {
         handleStaticFile(req, res);
     }
 }

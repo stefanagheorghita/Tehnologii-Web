@@ -2,6 +2,30 @@
 const jwt = require('jsonwebtoken');
 
 
+function authenticateUser(req, res, next) {
+    const authHeader = req.headers.authorization;
+    if(authHeader === undefined)
+        return -1;
+    if (!authHeader) {
+      return 0;
+    }
+    const token = authHeader.split(' ')[2];
+    if (!token) {
+     return 0;
+    }
+    try {
+      const decodedToken = verifyToken(token);
+      req.user = decodedToken;
+      return 1;
+    } catch (error) {
+      return 0;
+    }
+
+
+}
+
+
+
 function verifyToken(token) {
     const secretKey = 'your_secret_key_here';
     if(isTokenExpired(token))
@@ -39,4 +63,4 @@ function verifyToken(token) {
       return expirationTime < currentTime;
     }
 
-    module.exports = {verifyToken};
+    module.exports = {verifyToken,authenticateUser};

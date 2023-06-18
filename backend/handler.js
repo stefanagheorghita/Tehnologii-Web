@@ -13,22 +13,22 @@ const {getTypeByIdFromDatabase} = require('./util/infoDatabaseUtil');
 const {getCoveringByIdFromDatabase} = require('./util/infoDatabaseUtil');
 const {getDangerByIdFromDatabase} = require('./util/infoDatabaseUtil');
 const {getUserFromDatabase} = require('./util/infoDatabaseUtil');
-const {verifyToken} = require('./util/token');
+const {verifyToken, authenticateUser} = require('./util/token');
 const {updateName, updateEmail, updatePassword} = require('./util/changeCredentials');
-const { getAllUsersFromDatabase } = require('./util/infoDatabaseUtil');
-const { getAllAnimalsFromDatabase } = require('./util/infoDatabaseUtil');
-const { getAllReservationsFromDatabase } = require('./util/infoDatabaseUtil');
-const { generateUsersTable } = require('./util/infoDatabaseUtil');
-const { generateAnimalsTable } = require('./util/infoDatabaseUtil');
-const { generateReservationsTable } = require('./util/infoDatabaseUtil');
+const {getAllUsersFromDatabase} = require('./util/infoDatabaseUtil');
+const {getAllAnimalsFromDatabase} = require('./util/infoDatabaseUtil');
+const {getAllReservationsFromDatabase} = require('./util/infoDatabaseUtil');
+const {generateUsersTable} = require('./util/infoDatabaseUtil');
+const {generateAnimalsTable} = require('./util/infoDatabaseUtil');
+const {generateReservationsTable} = require('./util/infoDatabaseUtil');
 //const { deleteButtonListeners } = require('./util/infoDatabaseUtil');
-const { searchAnimals } = require('./animals/searchAnimals');
+const {searchAnimals} = require('./animals/searchAnimals');
 const {fetchTypeData} = require('./animals/criteria');
 ////
 const {getClient} = require('./util/db');
 const jwt = require('jsonwebtoken');
-const { updateAnimalLikes } = require('./util/likes');
-const { get } = require('http');
+const {updateAnimalLikes} = require('./util/likes');
+const {get} = require('http');
 const dbName = 'web_db';
 const client = getClient();
 
@@ -204,7 +204,7 @@ function handleAllAnimalPage(req, res, criteria, searchTerm) {
             try {
                 let animals;
                 if (searchTerm !== null) {
-                    animals = await searchAnimals(searchTerm,0);
+                    animals = await searchAnimals(searchTerm, 0);
                 } else {
                     animals = await getAnimals(criteria);
                 }
@@ -239,8 +239,6 @@ function handleAllAnimalPage(req, res, criteria, searchTerm) {
         }
     });
 }
-
-
 
 
 //for the one animal page
@@ -738,114 +736,111 @@ async function handleSettingsPageInfo(req, res) {
     });
   }*/
 
-  async function handleAdminPage(req, res) {
+async function handleAdminPage(req, res) {
     const filePath = '../frontend/admin2.html';
-  
+
     fs.readFile(filePath, 'utf8', async (err, content) => {
-      if (err) {
-        res.writeHead(500);
-        res.end('Internal server error');
-      } else {
-        try {
-          const users = await getAllUsersFromDatabase();
-          const animals = await getAllAnimalsFromDatabase();
-          const reservations = await getAllReservationsFromDatabase();
-  
-          const usersTable = generateUsersTable(users);
-          const animalsTable = await generateAnimalsTable(animals);
-          const reservationsTable = generateReservationsTable(reservations);
-  
-          const numUsers = users.length;
-          const numAnimals = animals.length;
-          const numReservations = reservations.length;
-  
-          let modifiedContent = content.replace('<div id="users-table"></div>', usersTable);
-          modifiedContent = modifiedContent.replace('<div id="animals-table"></div>', animalsTable);
-          modifiedContent = modifiedContent.replace('<div id="reservations-table"></div>', reservationsTable);
-          modifiedContent = modifiedContent.replace('numUsers', numUsers);
-          modifiedContent = modifiedContent.replace('numAnimals', numAnimals);
-          modifiedContent = modifiedContent.replace('numReservations', numReservations);
-  
-          modifiedContent = includeAssets(modifiedContent, filePath);
-          replaceImageUrls(modifiedContent, (imgErr, modContent) => {
-            if (imgErr) {
-              res.writeHead(500);
-              res.end('Internal server error');
-            } else {
-              res.writeHead(200, { 'Content-Type': 'text/html' });
-              res.end(modContent, 'utf-8');
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
+            try {
+                const users = await getAllUsersFromDatabase();
+                const animals = await getAllAnimalsFromDatabase();
+                const reservations = await getAllReservationsFromDatabase();
+
+                const usersTable = generateUsersTable(users);
+                const animalsTable = await generateAnimalsTable(animals);
+                const reservationsTable = generateReservationsTable(reservations);
+
+                const numUsers = users.length;
+                const numAnimals = animals.length;
+                const numReservations = reservations.length;
+
+                let modifiedContent = content.replace('<div id="users-table"></div>', usersTable);
+                modifiedContent = modifiedContent.replace('<div id="animals-table"></div>', animalsTable);
+                modifiedContent = modifiedContent.replace('<div id="reservations-table"></div>', reservationsTable);
+                modifiedContent = modifiedContent.replace('numUsers', numUsers);
+                modifiedContent = modifiedContent.replace('numAnimals', numAnimals);
+                modifiedContent = modifiedContent.replace('numReservations', numReservations);
+
+                modifiedContent = includeAssets(modifiedContent, filePath);
+                replaceImageUrls(modifiedContent, (imgErr, modContent) => {
+                    if (imgErr) {
+                        res.writeHead(500);
+                        res.end('Internal server error');
+                    } else {
+                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.end(modContent, 'utf-8');
+                    }
+                });
+
+                //deleteButtonListeners();
+            } catch (error) {
+                console.log(error);
+                res.writeHead(500);
+                res.end('Internal server error');
             }
-          });
-
-          //deleteButtonListeners();
-        } catch (error) {
-          console.log(error);
-          res.writeHead(500);
-          res.end('Internal server error');
         }
-      }
     });
-  }
-  
-  
-  async function handleDataRequest(req, res) {
-    try {
-      const users = await getAllUsersFromDatabase();
-      const animals = await getAllAnimalsFromDatabase();
-      const reservations = await getAllReservationsFromDatabase();
-  
-      const usersTable = generateUsersTable(users);
-      const animalsTable = generateAnimalsTable(animals);
-      const reservationsTable = generateReservationsTable(reservations);
-  
-      const responseData = {
-        usersTable,
-        animalsTable,
-        reservationsTable
-      };
-  
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify(responseData));
-    } catch (error) {
-      console.error('Error handling data request:', error);
-      res.statusCode = 500;
-      res.end('Internal Server Error');
-    }
-  }
+}
 
-  function extractUserIdFromUrl(url) {
+
+async function handleDataRequest(req, res) {
+    try {
+        const users = await getAllUsersFromDatabase();
+        const animals = await getAllAnimalsFromDatabase();
+        const reservations = await getAllReservationsFromDatabase();
+
+        const usersTable = generateUsersTable(users);
+        const animalsTable = generateAnimalsTable(animals);
+        const reservationsTable = generateReservationsTable(reservations);
+
+        const responseData = {
+            usersTable,
+            animalsTable,
+            reservationsTable
+        };
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(responseData));
+    } catch (error) {
+        console.error('Error handling data request:', error);
+        res.statusCode = 500;
+        res.end('Internal Server Error');
+    }
+}
+
+function extractUserIdFromUrl(url) {
     const userIdRegex = /\/delete-user\/(\w+)/;
     const match = url.match(userIdRegex);
     if (match && match[1]) {
-      return match[1];
+        return match[1];
     }
     return null;
-  }
+}
 
-  function extractAnimalIdFromUrl(url) {
+function extractAnimalIdFromUrl(url) {
     const userIdRegex = /\/delete-animal\/(\w+)/;
     const match = url.match(userIdRegex);
     if (match && match[1]) {
-      return match[1];
+        return match[1];
     }
     return null;
-  }
+}
 
-  function extractReservationIdFromUrl(url) {
+function extractReservationIdFromUrl(url) {
     const userIdRegex = /\/delete-reservation\/(\w+)/;
     const match = url.match(userIdRegex);
     if (match && match[1]) {
-      return match[1];
+        return match[1];
     }
     return null;
-  }
-  
-  
-  
-  
-  
-  async function handleAddLike(req, res) {
+}
+
+
+async function handleAddLike(req, res) {
     const authorizationHeader = req.headers.authorization;
     if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
         const token = authorizationHeader.slice(14);
@@ -853,38 +848,35 @@ async function handleSettingsPageInfo(req, res) {
             res.statusCode = 401;
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({error: 'Unauthorized'}));
-        }
-        else
-        {
+        } else {
             const dec = verifyToken(token);
             const userId = dec.id;
             const user = await getUserFromDatabase(userId);
             const animalId = req.url.split('/')[2];
-        
-                if (user) {
-                        const updatedAnimal = await updateAnimalLikes(userId,animalId, 1);
-                        if (updatedAnimal) {
-                            res.statusCode = 200;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.end(JSON.stringify({message: 'Animal updated successfully'}));
-                        } else {
-                            res.statusCode = 500;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.end(JSON.stringify({error: 'Internal server error'}));
-                        }
-                    }
-                 else {
-                    res.statusCode = 404;
+
+            if (user) {
+                const updatedAnimal = await updateAnimalLikes(userId, animalId, 1);
+                if (updatedAnimal) {
+                    res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
-                    res.end(JSON.stringify({error: 'User not found'}));
+                    res.end(JSON.stringify({message: 'Animal updated successfully'}));
+                } else {
+                    res.statusCode = 500;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({error: 'Internal server error'}));
                 }
-            
+            } else {
+                res.statusCode = 404;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({error: 'User not found'}));
+            }
+
         }
     }
 
-  }
+}
 
-  async function handleRemoveLike(req, res) {
+async function handleRemoveLike(req, res) {
     const authorizationHeader = req.headers.authorization;
     if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
         const token = authorizationHeader.slice(14);
@@ -892,36 +884,33 @@ async function handleSettingsPageInfo(req, res) {
             res.statusCode = 401;
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({error: 'Unauthorized'}));
-        }
-        else
-        {
+        } else {
             const dec = verifyToken(token);
             const userId = dec.id;
             const user = await getUserFromDatabase(userId);
             const animalId = req.url.split('/')[2];
-        
-                if (user) {
-                        const updatedAnimal = await updateAnimalLikes(userId,animalId, 0);
-                        if (updatedAnimal) {
-                            res.statusCode = 200;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.end(JSON.stringify({message: 'Animal updated successfully'}));
-                        } else {
-                            res.statusCode = 500;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.end(JSON.stringify({error: 'Internal server error'}));
-                        }
-                    }
-                 else {
-                    res.statusCode = 404;
+
+            if (user) {
+                const updatedAnimal = await updateAnimalLikes(userId, animalId, 0);
+                if (updatedAnimal) {
+                    res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
-                    res.end(JSON.stringify({error: 'User not found'}));
+                    res.end(JSON.stringify({message: 'Animal updated successfully'}));
+                } else {
+                    res.statusCode = 500;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({error: 'Internal server error'}));
                 }
-            
+            } else {
+                res.statusCode = 404;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({error: 'User not found'}));
+            }
+
         }
     }
 
-  }
+}
 
 
 async function handleNameUpdate(req, res) {
@@ -1031,7 +1020,6 @@ async function handleEmailUpdate(req, res) {
 }
 
 
-
 //for the contact us page
 function handleContactUs(req, res) {
     const filePath = '../frontend/contact-us.html';
@@ -1057,9 +1045,9 @@ function handleContactUs(req, res) {
 }
 
 async function handleSendTypes(req, res) {
-    const client=getClient();
+    const client = getClient();
     const types = await fetchTypeData(client);
-   
+
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.end(JSON.stringify(types));
 }

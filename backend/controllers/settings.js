@@ -1,18 +1,17 @@
-const { ObjectId } = require('mongodb');
+const {ObjectId} = require('mongodb');
 const {getClient} = require('../util/db');
 const jwt = require('jsonwebtoken');
-const { get } = require('mongoose');
+const {get} = require('mongoose');
 const dbName = 'web_db';
 const {getUserFromDatabase} = require('../util/infoDatabaseUtil');
+
 async function handleSettingsRequest(req, res) {
     console.log('in handleSettingsRequest');
-   // const client = getClient();
+    // const client = getClient();
 
     try {
         await client.connect();
-        console.log('in handleSettingsRequest try');
-      
-       // const cookieHeader = req.headers.cookie;
+        // const cookieHeader = req.headers.cookie;
         //const token = parseCookie(cookieHeader, 'token');
         const authorizationHeader = req.headers.authorization;
         const token = authorizationHeader.split(' ')[2];
@@ -64,10 +63,11 @@ async function handleSettingsRequest(req, res) {
                     const {darkModeToggle} = JSON.parse(body);
                     user.mode = darkModeToggle;
                     const result = await collection.updateOne({email: userEmail}, {$set: {mode: darkModeToggle}});
-                    if(result.modifiedCount !== 1) {
+                    if (result.modifiedCount !== 1) {
                         console.log('Error updating user');
+                    } else {
+                        console.log('User updated');
                     }
-                    else{console.log('User updated');}
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.write(JSON.stringify({mode: darkModeToggle}));
                     res.end();
