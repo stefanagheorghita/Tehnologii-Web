@@ -94,10 +94,12 @@
   </div>
   <div>
     <label for="language">Select the language for the description:</label>
-    <select id="language" onchange="changeLanguage()">
+    <select id="language">
       <option value="en">English</option>
-      <option value="de">Deutch</option>
+      <option value="de">Deutsch</option>
       <option value="es">Spanish</option>
+      <option value="fr">French</option>
+      <option value="ch">Chinese</option>
     </select>
     <button onclick="changeLanguage()">Change Language</button>
   </div>
@@ -383,32 +385,38 @@
 
   <!----------------------------------- descr multilingva ----------------------------------------->
   <script>
-    function changeLanguage() {
-  const selectElement = document.getElementById("language");
-  const selectedLanguage = selectElement.value;
+    let selectedLanguage = 'en';
+  const descriptionElement = document.getElementById('description');
+  document.addEventListener('DOMContentLoaded', () => {
+  changeLanguage();
+});
+  function changeLanguage() {
+    const selectElement = document.getElementById("language");
+  const language = selectElement.value;
 
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", "/language", true);
-  xhr.setRequestHeader("Content-Type", "application/json");
+  const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
+const xhr = new XMLHttpRequest();
+xhr.open('POST', '/language');
+xhr.setRequestHeader('Content-Type', 'application/json');
 
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        updateDescription(response.description);
-      } else {
-        console.error("Error: " + xhr.status);
-      }
+const data = JSON.stringify({ language, id }); 
+
+xhr.onreadystatechange = function () {
+  if (xhr.readyState === XMLHttpRequest.DONE) {
+    if (xhr.status === 200) {
+      //console.log('Response:', xhr.responseText);
+      descriptionElement.textContent=xhr.responseText.replace(/description/g, '').replace(/^{(.*)}$/, '$1').replace(/^""\s*:\s*"(.*)"$/, '$1').trim();
+    } else {
+      console.log('Error:', xhr.responseText);
     }
-  };
+  }
+};
 
-  xhr.send(JSON.stringify({ language: selectedLanguage }));
+xhr.send(data); 
 }
 
-function updateDescription(description) {
-  const descriptionElement = document.getElementById("description");
-  descriptionElement.textContent = description;
-}
+
   </script>
   <!------------------------------------------------------------------------------------------------>
 

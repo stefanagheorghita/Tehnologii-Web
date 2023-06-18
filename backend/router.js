@@ -25,7 +25,8 @@ const {
     
     handleContactUs,
     handleSendTypes,
-    handleFindFavorites
+    handleFindFavorites,
+    handleLanguageRequest
 
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
@@ -41,7 +42,7 @@ const {deleteUserFromDatabase, deleteAnimalFromDatabase, deleteReservationFromDa
 
 const {handleContactUsRequest} = require('./controllers/contactUs');
 const {authenticateUser} = require('./util/token');
-
+const {changeLanguage}=require('./util/language');
 function router(req, res) {
     const url = req.url;
     if (url === '/' || url === '/landingpage.html' || url === '/landingpage') {
@@ -252,31 +253,8 @@ function router(req, res) {
                 res.statusCode = 400;
                 res.end('Invalid request. Reservation ID not provided.');
             }
-        } else if (url === '/import-animals' && req.method === 'POST') {
-            let body = '';
-            req.on('data', chunk => {
-              body += chunk;
-            });
-
-            req.on('end', async () => {
-              const animals = JSON.parse(body);
-
-              try {
-                await insertAnimals(animals);
-                res.statusCode = 200;
-                res.end(JSON.stringify({ message: 'Animals imported successfully' }));
-              } catch (err) {
-                console.error('Error inserting animals:', err);
-                res.statusCode = 500;
-                res.end(JSON.stringify({ error: 'Failed to import animals' }));
-              }
-            });
-          }
-         else {
-            res.statusCode = 405;
-            res.end('Method Not Allowed');
-        }
-    }
+        } 
+ } 
     else if(url === '/import-animals' && req.method==='POST'){
         let formData = '';
         req.on('data', (chunk) => {
@@ -304,6 +282,9 @@ function router(req, res) {
     {
         handleFindFavorites(req, res);
     } 
+     else if (req.method === 'POST' && req.url === '/language') {
+        handleLanguageRequest(req,res);
+       }
     else {
         handleStaticFile(req, res);
     }
