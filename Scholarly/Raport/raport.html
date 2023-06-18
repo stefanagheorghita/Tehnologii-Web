@@ -88,7 +88,61 @@
       de JavaScript pentru a oferi o experiență mai dinamică utilizatorilor.
     </p>
   </section>
+ <section id="general-description" role="contentinfo">
+  <h3 property="description">General description</h3>
+  <section id="main-functionalities" role="contentinfo">
+    <h4 property="description">Main functionalities</h4>
+    <section id="user-functionalities" role="contentinfo">
+      <h5 property="description">User functionalities</h5>
+    <p>-Login/logout<span style="color:blue;">*</span></p>
+    <p>-Înregistrare</p>
+    <p>-Recuperare parolă<span style="color:blue;">*</span></p>
+    <p>-Schimbare parolă/nume/adresă de email<span style="color:blue;">*</span></p>
+    <p>-Schimbare tema<span style="color:blue;">*</span></p>
+    <p>-Vizualizare animale</p>
+    <p>-Căutare animale</p>
+    <p>-Filtrare animale</p>
+    <p>-Vizualizare detalii animale</p>
+    <p>-Export date despre animale în formate precum: XML, JSON, CSV<span style="color:blue;">*</span></p>
+    <p>-Adăugare animale la favorite<span style="color:blue;">*</span></p>
+    <p>-Vizualizare animale favorite<span style="color:blue;">*</span></p>
+    <p>-Rezervare</p>
+    <p>-Trimitere mesaj<span style="color:blue;">*</span></p>
+    <p>-Vizualizare harta grădina zoologică</p>
+    <p><span style="color:blue;">* funcționalități disponibile doar pentru utilizatorii conectați</span></p>
+  </section>
+  <section id="admin-funcionalities" role="contentinfo">
+    <h5 property="description">Admin functionalities</h5>
+    <p>-Vizualizare statistici referitoarela utilizatori, animale și rezervări</p>
+    <p>-Navigare prin aplicație</p>
+    <p>Vizulizare date utilizatori</p>
+    <p>-Ștergere utilizatori</p>
+    <p>-Vizualizare animale</p>
+    <P>-Ștergere animale</P>
+    <p>-Adăugare animal prin import din formatele: XML, JSON</p>
+    <p>-Vizualizare rezervări</p>
+    <p>-Ștergere rezervări</p>
+  </section>
+ </section>
+ <section id="environment" role="contentinfo">
+  <h4  property="description">Operating Environment</h4>
+  <p>Aplicația este disponibilă pentru toate browserele larg utilizate și nu prezintă incompatibilități cu sistemele de operare des utilizate.</p>
+</section>
+<section id="implementation" role="contentinfo">
+<h4 property="description">Implementation aspects</h4>
+<p>Aplicația a fost realizată folosind HTML, CSS, Javascript pentru partea de frontend, iar pentru a oferi funcționalitățile
+  necesare a fost utillizat un server realizat în NodeJS, fără a utiliza biblioteci sau framework-uri. Pentru gestionarea informațiilor
+  este folosită o bază de date MongoDB. Aplicația  respectă cerințele impuse, asigurând o arhitectură bazată pe servicii web și respectând principiile designului web responsiv. Pentru comunicarea asincronă cu serviciile/API-urile web, se utilizează tehnologii Ajax, asigurând interacțiunea fluidă și eficientă între client și server.
 
+  Partea de client a aplicației este construită conform standardelor HTML5, cu un cod valid conform specificațiilor Consorțiului Web. Pentru stilizarea paginilor, se folosesc foi de stiluri CSS valide. Acest aspect asigură o experiență vizuală coerentă și plăcută pentru utilizatori.
+  Aplicația web respectă cerințele de import/export de date folosind formate deschise, precum CSV, XML și JSON. Aceasta facilitează transferul de informații între aplicație și alte sisteme, asigurând compatibilitate și interoperabilitate.
+
+Existența unui modul propriu de administrare a aplicației web oferă posibilitatea gestionării eficiente a funcționalităților și a conținutului. Prin acest modul, administratorii pot gestiona și actualiza conținutul, asigurând un control complet asupra aplicației.
+
+Aplicația web respectă cerințele precizate, aducând totodată și noi funcționalități.
+</p>  
+</section>
+</section>
   <section id="structure" role="contentinfo">
     <h3 property="description">Structure</h3>
 
@@ -335,6 +389,59 @@
     <p property="text">
       The frontend part of the project is made using HTML, CSS, JavaScript.
     </p>
+    <section id="modules" role="contentinfo">
+      <h3 property="description">Main Modules</h3>
+      <section id="router" role="conteninfo">
+        <h4 property="description">Router</h2>
+        <p>Router gestionează cererile pentru diferite API-uri REST, bazate pe calea URL-ului cererii și metoda HTTP utilizată. API-urile disponibile sunt:</p>
+        <ul>
+          <li><b>API-ul pentru Landing Page:</b> Rutează cererile către pagina de aterizare ("/", "/landingpage.html", "/landingpage"), aceste cereri fiind tratate de handleLandingPage(req, res)</li>
+          
+          <li><b>API-ul pentru autentificare (Login):</b> Rutează cererile către pagina de autentificare ("/login", "/user-account/login.html", "/login.html") în funcție de metoda HTTP utilizată. Dacă metoda este GET, cererea este tratată de handleLoginPage(req, res) pentru a afișa pagina de autentificare. Dacă metoda este POST, cererea este tratată de handleLoginRequest(req, res) pentru a procesa cererea de autentificare. </li>
+          
+            <li><b>API-ul pentru pagina de recuperare a parolei (Forgot password):</b> Rutează cererile către pagina de recuperare a parolei ("/user-account/forgot.html", "/forgot.html", "/forgot") în funcție de metoda HTTP utilizată. Dacă metoda este POST, cererea este tratată de handleForgotPasswordRequest(req, res) pentru a procesa cererea de recuperare a parolei. Altfel, se afișează pagina de recuperare a parolei utilizând handleForgotPasswordPage(req, res).</li>
+            <li><b>API-ul paginii principale:</b> Rutează cererile către pagina principală ("/home", "/index.html", "/index", "../index.html"), aceasta cerere fiind tratată de handleHomePage(req, res).</li>
+            <li><b>API-ul paginii generale despre animale:</b> Rutează cererile către pagina generală despre animale ("/animals.html", "/animals"), unde se gasesc butoane ce vor duce la pagina cu toate animalele, dar cu filtrare pentru tipul animalului(mamifer, reptilă etc.), acestea fiind tratate de handleGeneralAnimalPage(req, res).</li>
+            <li><b>API-ul paginii cu toate animalele:</b> Rutează cererile către pagina cu toate animalele, în funcție de parametrii de căutare specificați în URL. 
+              Pentru calea "/all-animals" sau "all_animals" sau "all-animals.html" vor fi afișate toate animalele.
+              Apoi, prin apăsarea căsuțelor specifice criteriilor de filtrare, la apăsarea butonului "Filter" este realizat un request către server, printr-o metodă GET care va modifica în mod dinamic conținutul paginii, astfel respectându-se cerința referitoare la <i><b>template.</b></i>
+              La apăsarea butonului de filtrare se face un request către un endpoint de forma: "/all-animals?criteria=filter%filter%filter...filter&criteria=filter", unde fiecare criteriu de filtrare este de forma "nume_criteriu=valoare_criteriu", valoarea fiind reprezentată de id-ul corespunzător din baza de date. Astfel se va face un SAU logic între criterii și un ȘI logic între filtrele din cadrul aceluiași criteriu.
+              <p>Exemplu: <span style="color:purple;">"/all-animals?type=23dvfsdfew4%3e45t43234&diet=3245676543</span></p>
+              O funcție asincronă va verifica scrierea în bara de search și va face un request către server, printr-o metodă GET care va modifica în mod dinamic conținutul paginii,căutarea se poate face după: <span style="color:blue;">nume</span>(exemplu: panda),
+              <span style="color:blue;">tip</span>( exemplu:mammal/mammals/reptile),<span style="color:blue;">statut</span>( exemplu:endangered/protected),<span style="color:blue;">dietă</span>( exemplu:carnivores/animal that eats meat/animals that eat plants),<span style="color:blue;">continentul în care trăiesc</span>
+              (exemplu:animals from asia),<span style="color:blue;">cu ce sunt acoperite</span>( exemplu:animals with fur/animals with fur or scales),
+              <span style="color:blue;">un tip de animal dintr-un anumit continent</span>( exemplu: mammal from america), <span style="color:blue">un animal cu un anumit statut dintr-un continent</span>
+               (exemplu: endangered  from asia). Totodată, la scrierea cuvântului "animal"/"animals" se va afișa pagina cu toate animalele. Toate acestea au fost realizate prin expresii regulate.
+             Astfel, parametrii sunt preluați din URL și transmiși la funcțiile necesate.</li>
+           
+            <li><b>API-ul paginii care conține harta grădinii zoologice:</b> Rutează cererile către pagina de planificare a grădinii zoologice ("/zooplan", "/zoo-plan.html", "/zoo-plan", "/zoo-plan/zoo-plan.html") către funcția handleZooPlanPage(req, res).</li>
+            <li><b>API-ul paginii Despre noi:</b> Rutează cererile către pagina Despre noi ("/aboutUs.html", "/aboutUs", "/aboutus"), acestea fiind tratate de handleAboutUsPage(req, res).</li>
+            <li><b>API-ul paginii de setări:</b> Rutează cererile către pagina de setări ("/settings.html", "/settings") în funcție de autentificarea utilizatorului și metoda HTTP utilizată. Dacă utilizatorul nu este autentificat, se returnează o eroare de autentificare. Dacă metoda este POST, cererea este tratată de handleSettingsRequest(req, res). Altfel, se afișează pagina de setări utilizând handleSettingsPage(req, res).</li>
+            <li><b>API-ul paginii de help:</b> Rutează cererile către pagina de help ("/help.html", "/help", "/help-page/help.html"), acestea fiind tratate de handleHelpPage(req, res).</li>
+            <li><b>API-ul paginii care conține programul grădinii zoologice și prin intermediul căreia utilizatorul își poate face o rezervare la grădina zoologică:</b> Rutează cererile către pagina de program ("/program.html", "/program") în funcție de
+          
+           metoda HTTP utilizată. Dacă metoda este POST, cererea pentru trimiterea rezervării utilizatorului este tratată de handleProgramRequest(req, res). Dacă metoda este GET, cererea este tratată de handleProgramPage(req, res) pentru a afișa pagina de program.</li>
+            <li><b>API-ul paginii de contact:</b> Rutează cererile către pagina de contact ("/contact", "/contact-us.html") în funcție de metoda HTTP utilizată. Dacă metoda este GET, cererea este tratată de handleContactUs(req, res) pentru a afișa pagina de contact. Dacă metoda este POST, cererea este tratată de handleContactUsRequest(req, res) pentru a procesa cererea prin care utilizatorul poate contacta echipa de suport pentru a cere sau a transmite anumite informații.</li>
+            <li><b>API-ul paginii unui animal specific:</b> Rutează cererile către pagina unui animal specific ("/Animal") în funcție de ID-ul animalului specificat în URL. ID-ul animalului este extras din parametrii URL-ului și este transmis la funcția handleOneAnimalPage(req, res, animalId).</li>
+            <li><b>API-ul de export al unui animal:</b> Rutează cererile către exportul unui animal în diferite formate ("/animal/") în funcție de ID-ul animalului și formatul specificat în URL ("/json", "/xml", "/csv"). ID-ul animalului și formatul sunt extrase din URL și cererea este gestionată în consecință.</li>
+            <li><b>API-ul exportului mai multor animale:</b> Rutează cererile către exportul mai multor animale în diferite formate ("/json", "/xml", "/csv") în funcție de criteriile specificate în parametrii URL-ului. Criteriile sunt extrase din URL și cererea este gestionată în consecință.</li>
+            <li><b>API-ul paginii de administrator:</b> Rutează cererile către pagina de administrator ("/admin"), acestea fiind tratate de funcția handleAdminPage(req, res).</li>
+            <li><b>API-ul paginii de profil:</b> Rutează cererile către secțiunea de profil ("/profile") în funcție de metoda HTTP utilizată. Dacă metoda este GET, cererea este tratată de handleSettingsPageInfo(req, res) pentru a afișa informațiile profilului utilizatorului. Dacă metoda este PUT, cererea rutează către funcțiile corespunzătoare pentru a actualiza numele (handleNameUpdate(req, res)), adresa de email (handleEmailUpdate(req, res)) sau parola utilizatorului (handlePasswordUpdate(req, res)).</li>
+            <li><b>API-ul de adăugare a unui like pentru un animal:</b> Rutează cererile către adăugarea unui like ("/add-like"), acestea fiind tratate de funcția handleAddLike(req, res).</li>
+            <li><b>API-ul de retragere a unui like:</b> Rutează cererile către retragerea unui like ("/remove-like"), acestea fiind tratate de funcția handleRemoveLike(req, res).</li>
+            <li><b>API-ul pentru a verifica dacă utilizatorul a dat like unui anumit animal:</b> Rutează cererile către verificarea stării like-ului ("/get-like-state"), acestea fiind tratate de verifyIfUserLiked(req, res).</li>
+            <li><b>API-ul pentru obținerea numărului de like-uri a unui animal:</b> Rutează cererile către obținerea numărului de like-uri a unui animal ("/get-likes-count") către funcția getLikesCount(req, res).</li>
+            <li><b>API-ul pentru ștergerea unui utilizator de către administrator:</b> Rutează cererile către ștergerea unui utilizator ("/delete-user") în funcție de metoda HTTP utilizată. Dacă metoda este DELETE, se extrage ID-ul utilizatorului din URL și se încearcă ștergerea utilizatorului din baza de date. Se tratează diferitele cazuri de succes sau eroare.</li>
+            <li><b>API-ul pentru ștergerea unui animal de către administrator:</b> Rutează cererile către ștergerea unui animal ("/delete-animal") în funcție de metoda HTTP utilizată. Dacă metoda este DELETE, se extrage ID-ul animalului din URL și se încearcă ștergerea animalului din baza de date. Se tratează diferitele cazuri de succes sau eroare.</li>
+            <li><b>API-ul pentru ștergerea unei rezervări de către administrator:</b> Rutează cererile către ștergerea unei rezervări ("/delete-reservation") în funcție de metoda HTTP utilizată. Dacă metoda este DELETE, se extrage ID-ul rezervării din URL și se încearcă ștergerea rezervării din baza de date. Se tratează diferitele cazuri de succes sau eroare.</li>
+            <li><b>API-ul pentru importul unui animal dintr-un fișier în format JSON:</b> Rutează cererile de import al unui animal ("/import-animals") dintr-un fișier în format JSON, utilizând metoda HTTP POST. Se colectează datele trimise în cerere și se încearcă adăugarea animalului apelând funcția insertAnimal(formData);</li>
+            <li><b>API-ul pentru importul unui animal dintr-un fișier în format XML:</b> Rutează cererile de import al unui animal ("/import-animals-xml") dintr-un fișier în format XML, utilizând metoda HTTP POST. Se colectează datele trimise în cerere și se încearcă adăugarea animalului în baza de date apelând funcția insertAnimalWithXML();</li>
+            <li><b>API-ul pentru pagina de recuperare a parolei:</b> Rutează cererile către pagina de recuperare a parolei ("/user-account/forgot.html", "/forgot.html", "/forgot") în funcție de metoda HTTP utilizată. Dacă metoda este POST, cererea este tratată de handleForgotPasswordRequest(req, res) pentru a procesa cererea utilizatorului de recuperare a parolei. Altfel, se afișează pagina de recuperare a parolei utilizând handleForgotPasswordPage(req, res).</li>
+            <li><b>API-ul pentru pagina de resetare a parolei:</b> Rutează cererile către pagina de resetare a parolei ("/user-account/reset.html", "/reset.html", "/reset") în funcție de metoda HTTP utilizată. Dacă metoda este POST, cererea este tratată de handleResetPasswordRequest(req, res) pentru a procesa cererea utilizatorului de resetare a parolei. Altfel, se afișează pagina de resetare a parolei utilizând handleResetPasswordPage(req, res).</li>
+        
+          </ul>
+      </section>
+    </section>
     <section id="diagrams" role="contentinfo">
       <!-- review? -->
       <h3 property="description">Diagrams</h3>
