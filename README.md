@@ -6,3 +6,7 @@ Proiect Tehnologii Web:
 
 
 -> in pagina de admin se va ajunge prin conectarea ca administrator(de aceea, in faza actuala, nu se ajunge din nicio pagina in ea)
+
+
+
+ Link video: https://we.tl/t-TF6bCQ3Qf6
