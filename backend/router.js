@@ -19,17 +19,21 @@ const {
     handleNameUpdate,
     handlePasswordUpdate,
     handleAddLike,
-    handleRemoveLike
+    handleRemoveLike,
+    handleForgotPasswordPage,
+    handleForgotPasswordRequest
     
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
 const {handleRegisterRequest} = require('./controllers/register'); // for register
-const {handleForgotPasswordRequest} = require('./controllers/forgot');
 const {handleProgramRequest} = require('./controllers/program');
 const {handleSettingsRequest} = require('./controllers/settings');
 const {handleCriteriaRequest} = require('./animals/criteria');
 const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
 const {verifyIfUserLiked,getLikesCount}=require('./util/likes')
+const {insertAnimal} = require('./util/infoDatabaseUtil');
+const {extractAnimalIdFromUrl, extractUserIdFromUrl, extractReservationIdFromUrl} = require('./handler');
+const {deleteUserFromDatabase, deleteAnimalFromDatabase, deleteReservationFromDatabase} = require('./util/infoDatabaseUtil');
 function router(req, res) {
     const url = req.url;
     if (url === '/' || url === '/landingpage.html' || url === '/landingpage') {
@@ -99,13 +103,6 @@ function router(req, res) {
     } else if (url === '/help.html' || url === '/help' || url === '/help-page/help.html') {
         handleHelpPage(req, res);
     }
-    /*else if (url === '/user-account/forgot.html' || url === '/forgot.html' || url === '/forgot') {
-      if (req.method === 'POST') {
-        handleForgotPasswordRequest(req, res);
-      } else {
-        handleForgotPasswordPage(req, res);
-      }
-    }*/
     else if (url === '/program.html' || url === '/program') {
         if (req.method === 'POST') {
             handleProgramRequest(req, res);
@@ -180,7 +177,112 @@ function router(req, res) {
     else if(url.startsWith('/get-likes-count'))
     {
         getLikesCount(req,res);
+    }else if (url.startsWith('/delete-user')) {
+        if (req.method === 'DELETE') {
+            const userId = extractUserIdFromUrl(url);
+            if (userId) {
+                try {
+                    deleteUserFromDatabase(userId);
+                    res.statusCode = 200;
+                    res.end('User deleted successfully');
+                } catch (error) {
+                    console.error('Error deleting user:', error);
+                    res.statusCode = 500;
+                    res.end('Error deleting user. Please try again.');
+                }
+            } else {
+                res.statusCode = 400;
+                res.end('Invalid request. User ID not provided.');
+            }
+        } else {
+            res.statusCode = 405;
+            res.end('Method Not Allowed');
+        }
     }
+    else if (url.startsWith('/delete-animal')) {
+        if (req.method === 'DELETE') {
+            const animalId = extractAnimalIdFromUrl(url);
+            if (animalId) {
+                try {
+                    deleteAnimalFromDatabase(animalId);
+                    res.statusCode = 200;
+                    res.end('Animal deleted successfully');
+                } catch (error) {
+                    console.error('Error deleting animal:', error);
+                    res.statusCode = 500;
+                    res.end('Error deleting animal. Please try again.');
+                }
+            } else {
+                res.statusCode = 400;
+                res.end('Invalid request. Animal ID not provided.');
+            }
+        } else {
+            res.statusCode = 405;
+            res.end('Method Not Allowed');
+        }
+    }
+    else if(url.startsWith('/delete-reservation')){
+        if (req.method === 'DELETE') {
+            const reservationId = extractReservationIdFromUrl(url);
+            if (reservationId) {
+                try {
+                    deleteReservationFromDatabase(reservationId);
+                    res.statusCode = 200;
+                    res.end('Reservation deleted successfully');
+                } catch (error) {
+                    console.error('Error deleting reservation:', error);
+                    res.statusCode = 500;
+                    res.end('Error deleting reservation. Please try again.');
+                }
+            } else {
+                res.statusCode = 400;
+                res.end('Invalid request. Reservation ID not provided.');
+            }
+        } else if (url === '/import-animals' && req.method === 'POST') {
+            let body = '';
+            req.on('data', chunk => {
+              body += chunk;
+            });
+
+            req.on('end', async () => {
+              const animals = JSON.parse(body);
+
+              try {
+                await insertAnimals(animals);
+                res.statusCode = 200;
+                res.end(JSON.stringify({ message: 'Animals imported successfully' }));
+              } catch (err) {
+                console.error('Error inserting animals:', err);
+                res.statusCode = 500;
+                res.end(JSON.stringify({ error: 'Failed to import animals' }));
+              }
+            });
+          }
+         else {
+            res.statusCode = 405;
+            res.end('Method Not Allowed');
+        }
+    }
+    else if(url === '/import-animals' && req.method==='POST'){
+        let formData = '';
+        req.on('data', (chunk) => {
+            formData += chunk;
+        });
+
+        req.on('end', () => {
+            // No need for JSON parsing, as we are working with form data
+            insertAnimal(formData);
+            res.statusCode = 200;
+            res.end('Animals inserted successfully');
+        });
+    }
+    else if (url === '/user-account/forgot.html' || url === '/forgot.html' || url === '/forgot') {
+        if (req.method === 'POST') {
+          handleForgotPasswordRequest(req, res);
+        } else {
+          handleForgotPasswordPage(req, res);
+        }
+      }
      else {
         handleStaticFile(req, res);
     }

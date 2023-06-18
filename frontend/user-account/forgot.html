@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,12 +11,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Roboto:wght@100;300&display=swap"
+        rel="stylesheet">
     <title>Login</title>
 </head>
+
 <body>
-    <div class = "forgot-page-container">
-        <div class = "forgot-page">
+    <div class="forgot-page-container">
+        <div class="forgot-page">
             <div class="forgot-header">
                 <div class="title">
                     <h1>Forgot Password</h1>
@@ -27,7 +30,7 @@
             <form class="forgot-page-form">
                 <div class="enter-email">
                     <div class="email">EMAIL</div>
-                    <input type="text" placeholder="Enter email" required autofocus>
+                    <input id="emailInput" type="text" placeholder="Enter email" required autofocus>
                 </div>
                 <button class="send-button" type="submit">Send</button>
             </form>
@@ -36,5 +39,39 @@
             <button onclick="window.location.href='../index.html'" class="home-button">Home Page</button>
         </div>
     </div>
+    <script>
+        const form = document.querySelector('.forgot-page-form');
+        const emailInput = document.getElementById('emailInput');
+
+        form.addEventListener('submit', async (event) => {
+            console.log("am intrat in parola");
+            event.preventDefault();
+            const email = emailInput.value;
+            console.log(email);
+            try {
+                const response = await fetch('/forgot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+
+                if (response.ok) {
+                    alert('Password reset link sent to your email!');
+                    // Redirect the user to a success page or homepage
+                    window.location.href = '../index.html';
+                } else {
+                    const data = await response.json();
+                    const errorMessage = data.error;
+                    alert(errorMessage);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
 </body>
+
 </html>

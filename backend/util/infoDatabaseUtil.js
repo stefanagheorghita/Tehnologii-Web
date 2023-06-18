@@ -1,6 +1,8 @@
 const { getClient } = require('./db');
 const { ObjectId } = require('mongodb');
 
+const mongoose = require('mongoose');
+
 const dbName = 'web_db';
 
 async function getDietByIdFromDatabase(id) {
@@ -401,19 +403,64 @@ async function deleteReservationFromDatabase(reservationId) {
   }
 }
 
-async function insertAnimals(animals) {
+async function insertAnimal(animalData) {
+  const animal = parseFormData(animalData);
   const client = getClient();
   try {
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection('animals');
-    await collection.insertMany(animals);
+    await collection.insertOne(animal);
   } catch (error) {
     console.error('Error inserting animals:', error);
     throw error;
   } finally {
     client.close();
   }
+}
+
+function parseFormData(formData) {
+  const boundary = formData.substring(0, formData.indexOf('\r\n'));
+  const parts = formData.split(boundary).filter(part => part.trim().length > 0);
+
+  const animal = {};
+
+  for (const part of parts) {
+    if (part.includes('Content-Disposition: form-data;')) {
+      const nameMatch = /name="([^"]+)"/.exec(part);
+      const valueMatch = /\r\n\r\n([\s\S]*)\r\n/.exec(part);
+
+      if (nameMatch && valueMatch) {
+        const name = nameMatch[1];
+        const value = valueMatch[1];
+
+        if (name === 'file') {
+          const fileData = JSON.parse(value);
+          const transformedData = transformObjectIDs(fileData);
+          Object.assign(animal, transformedData);
+        }
+      }
+    }
+  }
+
+  return animal;
+}
+
+function transformObjectIDs(data) {
+  const transformedData = {};
+
+  Object.keys(data).forEach((key) => {
+    const value = data[key];
+  
+    if (typeof value === 'object' && value.hasOwnProperty('$oid')) {
+      const objectId = new mongoose.Types.ObjectId(value.$oid);
+      transformedData[key] = objectId;
+    } else {
+      transformedData[key] = value;
+    }
+  });
+
+  return transformedData;
 }
 
 
@@ -435,6 +482,6 @@ module.exports = {
   deleteUserFromDatabase,
   deleteAnimalFromDatabase,
   deleteReservationFromDatabase,
-  insertAnimals
+  insertAnimal
   //deleteButtonListeners
 };

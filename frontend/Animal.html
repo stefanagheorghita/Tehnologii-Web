@@ -2,377 +2,384 @@
 <html lang="zxx">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animal description</title>
-    <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="styles/style_animal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="script.js"></script>
-    <link rel="stylesheet" href="styles/style-modal.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animal description</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/style_animal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="script.js"></script>
+  <link rel="stylesheet" href="styles/style-modal.css">
 </head>
 
 <body style="display: none;">
-<header class="header">
+  <header class="header">
     <div class="logo">
-        <img src="images/zoo.png" alt="Logo">
+      <img src="images/zoo.png" alt="Logo">
     </div>
     <div class="navigation_bar">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="animals.html">Our Animals</a></li>
-            <li><a href="aboutUs.html">About us</a></li>
-            <li><a href="contact-us.html">Contact us</a></li>
-            <li><a href="help-page/help.html">Help</a></li>
-        </ul>
-        <div class="profile_icon_container">
-            <span class="vertical_line"></span>
-            <i id="userIcon" class="fa fa-user" aria-hidden="true"></i>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="animals.html">Our Animals</a></li>
+        <li><a href="aboutUs.html">About us</a></li>
+        <li><a href="contact-us.html">Contact us</a></li>
+        <li><a href="help-page/help.html">Help</a></li>
+      </ul>
+      <div class="profile_icon_container">
+        <span class="vertical_line"></span>
+        <i id="userIcon" class="fa fa-user" aria-hidden="true"></i>
 
-        </div>
+      </div>
     </div>
     <div class="icons">
-        <div id="menu-btn" class="fas fa-bars"></div>
-        <div class="profile_icon_container-2">
-            <i class="fa fa-user" aria-hidden="true"></i>
+      <div id="menu-btn" class="fas fa-bars"></div>
+      <div class="profile_icon_container-2">
+        <i class="fa fa-user" aria-hidden="true"></i>
 
-        </div>
+      </div>
     </div>
     <div class="sub-menu-wrap" id="subMenu">
-        <div class="sub-menu">
+      <div class="sub-menu">
 
-            <a href="settings.html" class="sub-menu-link" id="settingsLink">
-                <img src="images/setting.png" alt="setting">
-                <p>Settings</p>
-                <span> > </span>
-            </a>
+        <a href="settings.html" class="sub-menu-link" id="settingsLink">
+          <img src="images/setting.png" alt="setting">
+          <p>Settings</p>
+          <span> > </span>
+        </a>
 
-            <a href="landingpage.html" class="sub-menu-link" id="logoutLink">
-                <img src="images/logout.png" alt="logout">
-                <p>Logout</p>
-                <span> > </span>
-            </a>
+        <a href="landingpage.html" class="sub-menu-link" id="logoutLink">
+          <img src="images/logout.png" alt="logout">
+          <p>Logout</p>
+          <span> > </span>
+        </a>
 
-        </div>
+      </div>
     </div>
-</header>
-<div class="custom-form">
+  </header>
+  <div class="custom-form">
     <img src="images/animals_background/default_background.jpg" alt="animal background">
-</div>
-<div class="tb">
+  </div>
+  <div class="tb">
     <div class="lion-container">
-        <h1>Title Animal</h1>
-        <div id="heart-icon"><i class="fas fa-heart"></i></div>
-        <div id="likesCount" class="likes-message"></div>
+      <h1>Title Animal</h1>
+      <div id="heart-icon"><i class="fas fa-heart"></i></div>
+      <div id="likesCount" class="likes-message"></div>
     </div>
     <div id="popupModal" class="modal hidden">
-        <div class="modal-content">
-          <span id="popupCloseBtn" class="close">&times;</span>
-          <p>You need to be connected to access this functionality.</p>
-          <p>Please log in to proceed.</p>
-          <a href="login.html" class="login-button" id="loginButton">Login</a>
-        </div>
+      <div class="modal-content">
+        <span id="popupCloseBtn" class="close">&times;</span>
+        <p>You need to be connected to access this functionality.</p>
+        <p>Please log in to proceed.</p>
+        <a href="login.html" class="login-button" id="loginButton">Login</a>
+      </div>
     </div>
     <div class="ta">
-        <button class="button button3" id="jsonButton">JSON</button>
-        <button class="button button2" id="xmlButton">XML</button>
+      <button class="button button3" id="jsonButton">JSON</button>
+      <button class="button button2" id="xmlButton">XML</button>
     </div>
 
-</div>
-<div class="first-sec">
+  </div>
+  <div class="first-sec">
 
 
     <div class="round-rect-box">
-        <p><strong>Scientific name:</strong> exampleName</p>
-        <p><strong>Animal group:</strong> exampleGroup</p>
-        <p><strong>Clima:</strong> exampleClima</p>
-        <p><strong>Diet:</strong> exampleDiet</p>
-        <p><strong>Lifespan:</strong> exampleLifespan</p>
+      <p><strong>Scientific name:</strong> exampleName</p>
+      <p><strong>Animal group:</strong> exampleGroup</p>
+      <p><strong>Clima:</strong> exampleClima</p>
+      <p><strong>Diet:</strong> exampleDiet</p>
+      <p><strong>Lifespan:</strong> exampleLifespan</p>
     </div>
     <img class="round-animal-image" src="images/leut.png" alt="animal image">
-</div>
-<div class="animal-info">
+  </div>
+  <div>
+    <label for="language">Select the language for the description:</label>
+    <select id="language">
+      <option value="en">English</option>
+      <option value="de">Deutch</option>
+      <option value="es">Spanish</option>
+    </select>
+    <button onclick="changeLanguage()">Change Language</button>
+  </div>
+  <div class="animal-info">
     <div class="info-box">
-        <h2 class="info-box-title">General information</h2>
-        <hr class="info-box-divider">
-        <p class="info-box-text">Information</p>
+      <h2 class="info-box-title">General information</h2>
+      <hr class="info-box-divider">
+      <p class="info-box-text" id="description"></p>
     </div>
     <div class="info-box">
-        <h2 class="info-box-title">Interesting facts</h2>
-        <hr class="info-box-divider">
-        <p class="info-box-text">
-            InterestingFactsExample
-        </p>
+      <h2 class="info-box-title">Interesting facts</h2>
+      <hr class="info-box-divider">
+      <p class="info-box-text">
+        InterestingFactsExample
+      </p>
     </div>
     <div class="info-box">
-        <h2 class="info-box-title">More characteristics</h2>
-        <hr class="info-box-divider">
-        <div class="info-box-text">
-            <p><strong>Status:</strong> exampleStatus</p>
-            <p><strong>Reproduction:</strong> exampleReproduction</p>
-            <p><strong>Lifestyle:</strong> exampleLifestyle</p>
-            <p><strong>Dangerousness:</strong> exampleDangerousness</p>
-            <p><strong>Covering:</strong> exampleCovering</p>
-            <p><strong>Related species:</strong> exampleRelatedSpecies</p>
-            <p><strong>Natural enemies:</strong> exampleNaturalEnemies</p>
-        </div>
+      <h2 class="info-box-title">More characteristics</h2>
+      <hr class="info-box-divider">
+      <div class="info-box-text">
+        <p><strong>Status:</strong> exampleStatus</p>
+        <p><strong>Reproduction:</strong> exampleReproduction</p>
+        <p><strong>Lifestyle:</strong> exampleLifestyle</p>
+        <p><strong>Dangerousness:</strong> exampleDangerousness</p>
+        <p><strong>Covering:</strong> exampleCovering</p>
+        <p><strong>Related species:</strong> exampleRelatedSpecies</p>
+        <p><strong>Natural enemies:</strong> exampleNaturalEnemies</p>
+      </div>
     </div>
-</div>
+  </div>
 
-<div class="photos-section">
+  <div class="photos-section">
     <h1>Photo Gallery</h1>
     <div class="gallery-photos-section">
-        <img src="images/images_all_animals/no.jpg" alt="imagine animal" class="gallery-image">
+      <img src="images/images_all_animals/no.jpg" alt="imagine animal" class="gallery-image">
     </div>
-</div>
+  </div>
 
 
-<div class="footer_section">
+  <div class="footer_section">
     <div class="section_1">
-        <h4>Quick Links</h4>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="animals.html">Our Animals</a></li>
-            <li><a href="aboutUs.html">About us</a></li>
-            <li><a href="contact-us.html">Contact us</a></li>
-            <li><a href="help-page/help.html">Help</a></li>
-        </ul>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="animals.html">Our Animals</a></li>
+        <li><a href="aboutUs.html">About us</a></li>
+        <li><a href="contact-us.html">Contact us</a></li>
+        <li><a href="help-page/help.html">Help</a></li>
+      </ul>
     </div>
     <div class="section_2">
-        <h4>Other Pages</h4>
-        <ul>
-            <li><a href="#privacy">Privacy & Policy</a></li>
-            <li><a href="#terms">Terms of Use</a></li>
-            <li><a href="#disclaimer">Disclaimer</a></li>
-            <li><a href="#faq">FAQ</a></li>
-        </ul>
+      <h4>Other Pages</h4>
+      <ul>
+        <li><a href="#privacy">Privacy & Policy</a></li>
+        <li><a href="#terms">Terms of Use</a></li>
+        <li><a href="#disclaimer">Disclaimer</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
     </div>
     <div class="section_3">
-        <h4>Contact Info</h4>
-        <ul>
-            <li>Lorem ipsum dolor sit amet</li>
-            <li>+1234567899</li>
-            <li>contact@domain.com</li>
-        </ul>
+      <h4>Contact Info</h4>
+      <ul>
+        <li>Lorem ipsum dolor sit amet</li>
+        <li>+1234567899</li>
+        <li>contact@domain.com</li>
+      </ul>
     </div>
     <div class="section_4">
-        <h4>Make a Reservation</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <button type="button">+1234567899</button>
+      <h4>Make a Reservation</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <button type="button">+1234567899</button>
     </div>
-</div>
-<script>
+  </div>
+  <script>
     jsonButton.addEventListener('click', requestJSON);
     xmlButton.addEventListener('click', requestXML);
     const loginButton = document.getElementById('loginButton');
-    loginButton.addEventListener('click', function() {
+    loginButton.addEventListener('click', function () {
       window.location.href = 'login.html';
     });
-  
+
     async function fetchLikesCount(animalId) {
-    try {
-      const response = await fetch(`/get-likes-count/${animalId}`);
-      if (response.ok) {
-        const data = await response.json();
-        return data.likesCount;
-      } else {
-        throw new Error('Failed to fetch likes count');
+      try {
+        const response = await fetch(`/get-likes-count/${animalId}`);
+        if (response.ok) {
+          const data = await response.json();
+          return data.likesCount;
+        } else {
+          throw new Error('Failed to fetch likes count');
+        }
+      } catch (error) {
+        console.error('Error:', error);
       }
-    } catch (error) {
-      console.error('Error:', error);
     }
-  }
-  async function updateLikesCount(animalId) {
-    const likesCountElement = document.getElementById('likesCount');
-    const likesCount = await fetchLikesCount(animalId);
-    likesCountElement.textContent = `Likes: ${likesCount}`;
-  }
+    async function updateLikesCount(animalId) {
+      const likesCountElement = document.getElementById('likesCount');
+      const likesCount = await fetchLikesCount(animalId);
+      likesCountElement.textContent = `Likes: ${likesCount}`;
+    }
 
 
 
     function requestJSON() {
-        var token = localStorage.getItem('token') || getCookie('token');
+      var token = localStorage.getItem('token') || getCookie('token');
 
-        if(token == null || token==='' || isTokenExpired(token)){
-            showPopUpReminder();
-            return;
-        }
-        const animalId = getAnimalIdFromURL();
-        const url = `/animal/json?id=${animalId}`;
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
+      if (token == null || token === '' || isTokenExpired(token)) {
+        showPopUpReminder();
+        return;
+      }
+      const animalId = getAnimalIdFromURL();
+      const url = `/animal/json?id=${animalId}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
 
-                const jsonBlob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+          const jsonBlob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
 
-                const downloadLink = document.createElement('a');
-                downloadLink.href = URL.createObjectURL(jsonBlob);
-                downloadLink.download = `animal_${animalId}.json`;
+          const downloadLink = document.createElement('a');
+          downloadLink.href = URL.createObjectURL(jsonBlob);
+          downloadLink.download = `animal_${animalId}.json`;
 
-                downloadLink.click();
-            })
-            .catch(error => {
-                console.error('Error requesting JSON:', error);
-            });
+          downloadLink.click();
+        })
+        .catch(error => {
+          console.error('Error requesting JSON:', error);
+        });
     }
 
 
     function requestXML() {
-        var token = localStorage.getItem('token') || getCookie('token');
-        if(token == null || token==='' || isTokenExpired(token)){
-            showPopUpReminder();
-            return;
-        }
-        
-        const url = `/animal/xml?id=${animalId}`;
+      var token = localStorage.getItem('token') || getCookie('token');
+      if (token == null || token === '' || isTokenExpired(token)) {
+        showPopUpReminder();
+        return;
+      }
 
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
+      const url = `/animal/xml?id=${animalId}`;
 
-                const xmlBlob = new Blob([data], {type: 'application/xml'});
+      fetch(url)
+        .then(response => response.text())
+        .then(data => {
 
-                const downloadLink = document.createElement('a');
-                downloadLink.href = URL.createObjectURL(xmlBlob);
-                downloadLink.download = `animal_${animalId}.xml`;
+          const xmlBlob = new Blob([data], { type: 'application/xml' });
 
-                downloadLink.click();
-            })
-            .catch(error => {
-                console.error('Error requesting XML:', error);
-            });
+          const downloadLink = document.createElement('a');
+          downloadLink.href = URL.createObjectURL(xmlBlob);
+          downloadLink.download = `animal_${animalId}.xml`;
+
+          downloadLink.click();
+        })
+        .catch(error => {
+          console.error('Error requesting XML:', error);
+        });
     }
 
     function getAnimalIdFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const animalId = urlParams.get('id');
+      const urlParams = new URLSearchParams(window.location.search);
+      const animalId = urlParams.get('id');
 
-        return animalId;
+      return animalId;
     }
 
     function showPopUpReminder() {
-        const modal = document.getElementById('popupModal');
-        modal.style.display = 'block';
+      const modal = document.getElementById('popupModal');
+      modal.style.display = 'block';
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const animalId=getAnimalIdFromURL();
-        updateLikesCount(animalId)
-        const modal = document.getElementById('popupModal');
-        const closeBtn = document.getElementById('popupCloseBtn');
-        const loginButton = document.getElementById('loginButton');
+    document.addEventListener('DOMContentLoaded', function () {
+      const animalId = getAnimalIdFromURL();
+      updateLikesCount(animalId)
+      const modal = document.getElementById('popupModal');
+      const closeBtn = document.getElementById('popupCloseBtn');
+      const loginButton = document.getElementById('loginButton');
 
-        closeBtn.onclick = function() {
-            modal.style.display = 'none';
-        };
+      closeBtn.onclick = function () {
+        modal.style.display = 'none';
+      };
 
-        loginButton.onclick = function() {
-            window.location.href = 'login.html';
-        };
-});
+      loginButton.onclick = function () {
+        window.location.href = 'login.html';
+      };
+    });
 
-const heartIcon = document.getElementById('heart-icon');
-let isClicked = false;
-token = localStorage.getItem('token') || getCookie('token');
-const animalId = getAnimalIdFromURL();
-if(token!=null && token!=='' || isTokenExpired(token)){
-fetch(`/get-like-state/${animalId}`, {
-  method: 'GET',
-  headers: {
-    'Authorization': `Bearer ${token}`
-  }
-})
-  .then(response => {
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      throw new Error('Failed to retrieve like state');
-    }
-  })
-  .then(data => {
-    isClicked = data.isClicked; 
-
-    if (isClicked) {
-      heartIcon.classList.add('clicked');
-    } else {
-      heartIcon.classList.remove('clicked');
-    }
-  })
-  .catch(error => {
-    console.log('Error:', error);
-  });
-}
-heartIcon.addEventListener('click', () => {
-  const token = localStorage.getItem('token') || getCookie('token');
-  if (token == null || token === '' || isTokenExpired(token)) {
-    showPopUpReminder();
-    return;
-  }
-
-  if (token) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const animalId = urlParams.get('id');
-    console.log(animalId);
-
-    if (isClicked) {
-
-      heartIcon.classList.remove('clicked');
-      isClicked = false;
-      fetch(`/remove-like/${animalId}`, {
-        method: 'POST',
+    const heartIcon = document.getElementById('heart-icon');
+    let isClicked = false;
+    token = localStorage.getItem('token') || getCookie('token');
+    const animalId = getAnimalIdFromURL();
+    if (token != null && token !== '' || isTokenExpired(token)) {
+      fetch(`/get-like-state/${animalId}`, {
+        method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
         .then(response => {
           if (response.status === 200) {
-            console.log('Like removed successfully');
-            updateLikesCount(animalId);
+            return response.json();
           } else {
-            console.log('Failed to remove like');
+            throw new Error('Failed to retrieve like state');
           }
         })
-        .catch(error => {
-          console.log('Error:', error);
-        });
-    } else {
-      heartIcon.classList.add('clicked');
-      isClicked = true;
+        .then(data => {
+          isClicked = data.isClicked;
 
-      fetch(`/add-like/${animalId}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-        .then(response => {
-          if (response.status === 200) {
-            console.log('Like added successfully');
-            updateLikesCount(animalId);
+          if (isClicked) {
+            heartIcon.classList.add('clicked');
           } else {
-            console.log('Failed to add like');
+            heartIcon.classList.remove('clicked');
           }
         })
         .catch(error => {
           console.log('Error:', error);
         });
     }
-  } else {
-    console.log('User is not connected');
-    // window.location.href = '/login';
-  }
-});
+    heartIcon.addEventListener('click', () => {
+      const token = localStorage.getItem('token') || getCookie('token');
+      if (token == null || token === '' || isTokenExpired(token)) {
+        showPopUpReminder();
+        return;
+      }
 
+      if (token) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const animalId = urlParams.get('id');
+        console.log(animalId);
 
+        if (isClicked) {
 
-</script>
-<script>
+          heartIcon.classList.remove('clicked');
+          isClicked = false;
+          fetch(`/remove-like/${animalId}`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+            .then(response => {
+              if (response.status === 200) {
+                console.log('Like removed successfully');
+                updateLikesCount(animalId);
+              } else {
+                console.log('Failed to remove like');
+              }
+            })
+            .catch(error => {
+              console.log('Error:', error);
+            });
+        } else {
+          heartIcon.classList.add('clicked');
+          isClicked = true;
+
+          fetch(`/add-like/${animalId}`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+            .then(response => {
+              if (response.status === 200) {
+                console.log('Like added successfully');
+                updateLikesCount(animalId);
+              } else {
+                console.log('Failed to add like');
+              }
+            })
+            .catch(error => {
+              console.log('Error:', error);
+            });
+        }
+      } else {
+        console.log('User is not connected');
+        // window.location.href = '/login';
+      }
+    });
+
+  </script>
+  <script>
     // Access the mode value from localStorage
     const mode = localStorage.getItem('mode');
     console.log('mode:', mode);
-</script>
-<script src="darkmode.js"></script>
+  </script>
+  <script src="darkmode.js"></script>
 </body>
 
 </html>

@@ -11,7 +11,7 @@
   --round-box: rgba(219, 194, 147, 0.834);
   --first-sec: #fff5e0;
   --scris: black;
-  --likes:#098637d5;
+  --likes:#ffad33;
 
 
 }
@@ -305,11 +305,30 @@ h1 {
   margin-bottom:10px;
   border: 2px solid rgba(219, 194, 147, 0.834);
   padding: 30px;
-  width: 350px;
-  height: 560px;
+  width: 420px;
+  height: 600px;
   box-shadow: 5px 5px 10px #888888;
   transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
 }
+
+.info-box-text::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 30px;
+}
+
+.info-box-text::-webkit-scrollbar-track {
+  background-color: #fadca8;
+  border-radius: 30px;
+}
+
+.info-box-text::-webkit-scrollbar-thumb {
+  background-color: #ffa31a;
+  border-radius: 30px;
+}
+
+
 
 
 .info-box:hover {
@@ -331,6 +350,8 @@ h1 {
 }
 
 .info-box-text {
+  flex: 1;
+  overflow: auto;
   font-size: 20px;
   line-height: 1.5;
   color: var(--scris);
@@ -393,7 +414,7 @@ h1 {
   font-weight: bold;
   color: var(--likes);
   padding: 10px;
-  border: 2px solid #ccc;
+  border: 2px solid #ffad33;
   border-radius: 5px;
   text-align: center;
   margin-left:10px;
