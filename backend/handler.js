@@ -1,5 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const http = require('http');
+const querystring = require('querystring');
+const nodemailer = require('nodemailer');
 const {replaceImageUrls} = require('./util/imageUtils');
 const {includeAssets} = require('./util/cssUtils')
 const {getBackgroundImageFromDatabase} = require('./util/fileFromDatabaseUtil');
@@ -21,6 +24,7 @@ const {getAllReservationsFromDatabase} = require('./util/infoDatabaseUtil');
 const {generateUsersTable} = require('./util/infoDatabaseUtil');
 const {generateAnimalsTable} = require('./util/infoDatabaseUtil');
 const {generateReservationsTable} = require('./util/infoDatabaseUtil');
+const {getPasswordByEmailFromDatabase} = require('./util/infoDatabaseUtil');
 //const { deleteButtonListeners } = require('./util/infoDatabaseUtil');
 const {searchAnimals} = require('./animals/searchAnimals');
 const {fetchTypeData} = require('./animals/criteria');
@@ -509,7 +513,8 @@ function handleAboutUsPage(req, res) {
 }
 
 //for the forgot password page
-function handleForgotPasswordRequest(req, res) {
+/*async function handleForgotPasswordRequest(req, res) {
+    const password = await getPasswordByEmailFromDatabase('roxanadobrica16@gmail.com');
 
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -522,8 +527,8 @@ function handleForgotPasswordRequest(req, res) {
     var mailOptions = {
         from: 'zoowebmanager@gmail.com',
         to: 'roxanadobrica16@gmail.com',
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
+        subject: 'Forgot password',
+        text: `Your password is: ${password}`
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -533,7 +538,55 @@ function handleForgotPasswordRequest(req, res) {
             console.log('Email sent: ' + info.response);
         }
     });
-}
+}*/
+
+async function handleForgotPasswordRequest(req, res) {
+    let body = '';
+
+    req.on('data', (chunk) => {
+      body += chunk.toString();
+    });
+  
+    req.on('end', async () => {
+      const formData = JSON.parse(body);
+      const email = formData.email;
+  
+        try {
+          const password = await getPasswordByEmailFromDatabase(email);
+  
+          var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'zoowebmanager@gmail.com',
+              pass: 'jxjlmujxakkfgsmn'
+            }
+          });
+  
+          var mailOptions = {
+            from: 'zoowebmanager@gmail.com',
+            to: email,
+            subject: 'Forgot password',
+            text: `Hey! Your new password is: ${password}.\nNow you can log in using it, then you can change it from the settings page if you want.\n\nZooWebManager team :)`
+          };
+  
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+              res.statusCode = 500;
+              res.end('Error sending email');
+            } else {
+              console.log('Email sent: ' + info.response);
+              res.statusCode = 200;
+              res.end('Email sent successfully');
+            }
+          });
+        } catch (error) {
+          console.error('Error retrieving password by email:', error);
+          res.statusCode = 500;
+          res.end('Error retrieving password');
+        }
+      });
+    }
 
 
 

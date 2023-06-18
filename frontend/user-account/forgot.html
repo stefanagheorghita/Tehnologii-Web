@@ -44,12 +44,11 @@
         const emailInput = document.getElementById('emailInput');
 
         form.addEventListener('submit', async (event) => {
-            console.log("am intrat in parola");
             event.preventDefault();
             const email = emailInput.value;
             console.log(email);
             try {
-                const response = await fetch('/forgot', {
+                const response = await fetch('/forgot.html', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
