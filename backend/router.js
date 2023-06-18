@@ -35,7 +35,7 @@ const {handleSettingsRequest} = require('./controllers/settings');
 const {handleCriteriaRequest} = require('./animals/criteria');
 const {exportJson, exportXml, moreAnimalsExport} = require('./operations/export');
 const {verifyIfUserLiked,getLikesCount}=require('./util/likes')
-const {insertAnimal} = require('./util/infoDatabaseUtil');
+const {insertAnimal, insertAnimalWithXML} = require('./util/infoDatabaseUtil');
 const {extractAnimalIdFromUrl, extractUserIdFromUrl, extractReservationIdFromUrl} = require('./handler');
 const {deleteUserFromDatabase, deleteAnimalFromDatabase, deleteReservationFromDatabase} = require('./util/infoDatabaseUtil');
 
@@ -252,31 +252,7 @@ function router(req, res) {
                 res.statusCode = 400;
                 res.end('Invalid request. Reservation ID not provided.');
             }
-        } else if (url === '/import-animals' && req.method === 'POST') {
-            let body = '';
-            req.on('data', chunk => {
-              body += chunk;
-            });
-
-            req.on('end', async () => {
-              const animals = JSON.parse(body);
-
-              try {
-                await insertAnimals(animals);
-                res.statusCode = 200;
-                res.end(JSON.stringify({ message: 'Animals imported successfully' }));
-              } catch (err) {
-                console.error('Error inserting animals:', err);
-                res.statusCode = 500;
-                res.end(JSON.stringify({ error: 'Failed to import animals' }));
-              }
-            });
-          }
-         else {
-            res.statusCode = 405;
-            res.end('Method Not Allowed');
-        }
-    }
+        } } 
     else if(url === '/import-animals' && req.method==='POST'){
         let formData = '';
         req.on('data', (chunk) => {
@@ -284,7 +260,6 @@ function router(req, res) {
         });
 
         req.on('end', () => {
-            // No need for JSON parsing, as we are working with form data
             insertAnimal(formData);
             res.statusCode = 200;
             res.end('Animals inserted successfully');
@@ -304,6 +279,18 @@ function router(req, res) {
     {
         handleFindFavorites(req, res);
     } 
+    else if(url === '/import-animals-xml' && req.method==='POST'){
+        let formData = '';
+        req.on('data', (chunk) => {
+            formData += chunk;
+        });
+
+        req.on('end', () => {
+            insertAnimalWithXML(formData);
+            res.statusCode = 200;
+            res.end('Animals inserted successfully');
+        });
+    }
     else {
         handleStaticFile(req, res);
     }
