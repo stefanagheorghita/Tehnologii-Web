@@ -25,7 +25,9 @@ const {
     
     handleContactUs,
     handleSendTypes,
-    handleFindFavorites
+    handleFindFavorites,
+    handleAquariumPage,
+    handleLanguageRequest
 
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
@@ -41,7 +43,7 @@ const {deleteUserFromDatabase, deleteAnimalFromDatabase, deleteReservationFromDa
 
 const {handleContactUsRequest} = require('./controllers/contactUs');
 const {authenticateUser} = require('./util/token');
-
+const {changeLanguage}=require('./util/language');
 function router(req, res) {
     const url = req.url;
     if (url === '/' || url === '/landingpage.html' || url === '/landingpage') {
@@ -131,6 +133,10 @@ function router(req, res) {
         } else if (req.method === 'POST') {
             handleContactUsRequest(req, res);
         }
+    } else if (url === '/aquarium' || url === '/aquarium/aquarium.html' || url === '/aquarium.html') {
+        
+        handleAquariumPage(req, res);
+
     } else if (url.startsWith('/Animal')) {
         const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');
         handleOneAnimalPage(req, res, animalId);
@@ -252,7 +258,8 @@ function router(req, res) {
                 res.statusCode = 400;
                 res.end('Invalid request. Reservation ID not provided.');
             }
-        } } 
+        } 
+ } 
     else if(url === '/import-animals' && req.method==='POST'){
         let formData = '';
         req.on('data', (chunk) => {
@@ -291,6 +298,9 @@ function router(req, res) {
             res.end('Animals inserted successfully');
         });
     }
+     else if (req.method === 'POST' && req.url === '/language') {
+        handleLanguageRequest(req,res);
+       }
     else {
         handleStaticFile(req, res);
     }

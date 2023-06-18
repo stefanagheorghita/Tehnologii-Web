@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const url = require("url");
 const http = require('http');
 const querystring = require('querystring');
 const nodemailer = require('nodemailer');
@@ -29,6 +30,7 @@ const {getPasswordByEmailFromDatabase} = require('./util/infoDatabaseUtil');
 const {searchAnimals} = require('./animals/searchAnimals');
 const {fetchTypeData} = require('./animals/criteria');
 const {fetchFavorites} = require('./util/likes');
+const {changeLanguage}=require('./util/language')
 ////
 const { getClient } = require('./util/db');
 const jwt = require('jsonwebtoken');
@@ -400,7 +402,7 @@ async function handleOneAnimalPage(req, res, id) {
                     .replace('exampleClima', clima)
                     .replace('exampleDiet', diet)
                     .replace('exampleLifespan', animal.lifespan)
-                    .replace('Information', animal.description)
+                    .replace('Information', animal.description_en)
                     .replace('exampleStatus', status)
                     .replace('exampleReproduction', reproduction)
                     .replace('exampleCovering', covering)
@@ -439,6 +441,10 @@ async function handleOneAnimalPage(req, res, id) {
         }
     });
 }
+
+
+//--------------------------------------------------------------------------------------------
+
 
 
 //for the zoo plan page
@@ -1122,6 +1128,82 @@ async function handleFindFavorites(req, res) {
 
 }
 
+async function handleLanguageRequest(req, res) {
+    let data = '';
+  
+    req.on('data', chunk => {
+      data += chunk;
+    });
+  
+    req.on('end', async () => {
+      try {
+        const { language, id } = JSON.parse(data);
+        const result = await changeLanguage(language, id);
+  
+        if (result) {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify(result));
+        } else {
+          res.statusCode = 404;
+          res.end('Not found');
+        }
+      } catch (error) {
+        res.statusCode = 500;
+        res.end('Error: ' + error.message);
+      }
+    });
+  }
+
+
+//for aquarium
+function handleAquariumPage(req, res) {
+    // const cookieHeader = req.headers.cookie;
+
+    // if (cookieHeader) {
+    //   const cookies = cookieHeader.split(';');
+
+    //   for (const cookie of cookies) {
+
+    //     if (cookie.trim().startsWith('token=')) {
+
+    //       console.log('Token cookie found:');
+    //     }}}
+    const filePath = '../frontend/aquarium/aquarium.html';
+
+    fs.readFile(filePath, 'utf8', (err, content) => {
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
+            const modifiedContent = includeAssets(content, filePath);
+            replaceImageUrls(modifiedContent, async (imgErr, modContent) => {
+                if (imgErr) {
+                    res.writeHead(500);
+                    res.end('Internal server error');
+                } else {
+                    try {
+                        const imageId = '648f19bf4733c7c185e26536';
+                        const backgroundImage = await getBackgroundImageFromDatabase(imageId);
+                        const updatedContent = modContent.replace("background-image: url('../images/bubbles.png')", `background-image: url('${backgroundImage}')`);
+                        // const imgId = '648f1d194733c7c185e26537';
+                        // const imgAq = await getBackgroundImageFromDatabase(imgId);
+                        // const updatedContent = modContent.replace("background-image: url('../images/bubbles.png')", `background-image: url('${backgroundImage}')`, )
+                        //                                  .replace("<img src=\"aquarium/images/fish.svg\" alt=\"Logo\">", `<img src="${imgAq}" alt=\"Logo\">`);
+
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
+                        res.end(updatedContent, 'utf-8');
+                    } catch (error) {
+                        res.writeHead(500);
+                        res.end('Internal server error');
+                    }
+                }
+            });
+        }
+    });
+}
+
+
 
 function getContentType(extension) {
     switch (extension) {
@@ -1174,4 +1256,6 @@ module.exports = {
     handleFindFavorites,
     handleForgotPasswordRequest,
     handleSendTypes,
+    handleAquariumPage,
+    handleLanguageRequest
 };

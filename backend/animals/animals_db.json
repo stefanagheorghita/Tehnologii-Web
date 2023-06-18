@@ -1,0 +1,182 @@
+[{
+    "_id": {
+        "$oid": "6489d0aa6009b85bbe27cd45"
+    },
+    "name": "Bengal tiger",
+    "image" : "images/images_all_animals/bengal-tiger.jpg",
+    "scientific_name":"Panthera tigris tigris",
+    "description": "The Bengal tiger is the largest of all the big cat species. With its stripy orange coat and long, striped tail, tigers are very recognisable. An adult Bengal Tiger can be up to 3 metres long, tail included, and weigh more than 250 kilograms. Adult tigers have white spots of fur on the back of each ear, sotheir young can easily follow them in low light. No two tigers have the same stripes. They inhabit the forests and mangrove swamps of India, Burma, Bangladesh, Bhutan, and Nepal. Excellent swimmers, tigers are probably the most water-loving of felines.",
+    "status_id": 
+    {
+        "$oid": "00000001df77d90a8234a81e"
+    },
+    "diet_id":
+    {
+        "$oid":"6489cafbdf77d90a8234a828"
+    },
+    "clima_id":
+    {
+        "$oid":"6489c8386009b85bbe27cd19"
+    },
+    "reproduction_id":
+    {
+        "$oid":"6489c66a6009b85bbe27cd4e"
+    },
+    "type_id":
+    {
+        "$oid":"64899a55df77d90a8234a80e"
+    },
+    "lifespan":"14-16 years",
+    "lifestyle":"Solitary",
+    "covering_id":
+    {
+        "$oid":"6489cea46009b85bbe27cd43"
+    },
+    "dangerousness_id":
+    {
+        "$oid":"6489cab56009b85bbe27cd27"
+    },
+    "related_species":"Siberian tiger, Indochinese tiger, Malayan tiger, South China tiger",
+    "natural_enemies":"Humans (poaching)"
+},
+
+{
+    "_id": {
+      "$oid": "6489d0aa6009b85bbe27cd46"
+    },
+    "name": "Koala",
+    "image": "images/images_all_animals/koala.jpg",
+    "scientific_name": "Phascolarctos cinereus",
+    "description": "Koalas are small, herbivorous marsupials native to Australia. With their fluffy grey fur, round faces, and large, fluffy ears, they are easily recognizable. Koalas spend most of their time in eucalyptus trees, where they feed on the leaves. They have specialized adaptations, such as sharp claws and a strong grip, to climb and cling to the tree branches. Koalas are known for their calm and sleepy nature, spending up to 20 hours a day resting or sleeping in tree forks. They have a low metabolic rate and derive most of their water intake from eucalyptus leaves.",
+    "status_id": {
+      "$oid": "00000002df77d90a8234a81f"
+    },
+    "diet_id": {
+      "$oid": "6489cafbdf77d90a8234a829"
+    },
+    "clima_id": {
+      "$oid": "6489c8386009b85bbe27cd39"
+    },
+    "reproduction_id": {
+      "$oid": "6489c66a6009b85bbe27cd4e"
+    },
+    "type_id": {
+      "$oid": "64899a55df77d90a8234a80e"
+    },
+    "lifespan": "13-18 years",
+    "lifestyle": "Nocturnal",
+    "covering_id": {
+      "$oid": "6489cea46009b85bbe27cd43"
+    },
+    "dangerousness_id": {
+      "$oid": "6489cab56009b85bbe27cd30"
+    },
+    "related_species": "Kangaroo, Bandicoot and Possum",
+    "natural_enemies": "Humans, Dingoes, Wild dogs"
+  },
+
+  {
+    "_id": {
+      "$oid": "6489d0aa6009b85bbe27cd47"
+    },
+    "name": "Zebra",
+    "image": "images/images_all_animals/zebra.jpg",
+    "scientific_name": "Equus quagga",
+    "description": "Zebras are herbivorous mammals known for their distinctive black and white striped coats. They are native to various parts of Africa and are well-adapted to live in grassland habitats. Zebras have a strong social structure and live in groups called herds. Their stripes serve as a form of camouflage and help confuse predators. Zebras have excellent hearing and eyesight, which allows them to detect predators such as lions and hyenas. They have a unique way of communicating through vocalizations, body movements, and facial expressions. Zebras are known for their agility and can run at high speeds to evade predators.",
+    "status_id": {
+      "$oid": "00000005df77d90a8234a822"
+    },
+    "diet_id": {
+      "$oid": "6489cafbdf77d90a8234a829"
+    },
+    "clima_id": {
+      "$oid": "6489c8386009b85bbe27cd39"
+    },
+    "reproduction_id": {
+      "$oid": "6489c66a6009b85bbe27cd4e"
+    },
+    "type_id": {
+      "$oid": "64899a55df77d90a8234a80e"
+    },
+    "lifespan": "20-25 years",
+    "lifestyle": "Diurnal",
+    "covering_id": {
+      "$oid": "6489cea46009b85bbe27cd43"
+    },
+    "dangerousness_id": {
+      "$oid": "6489cab56009b85bbe27cd30"
+    },
+    "related_species": "Horse, Donkey",
+    "natural_enemies": "Lions, Hyenas, Cheetahs"
+  },
+
+  {
+    "_id": {
+    "$oid": "6489d0aa6009b85bbe27cd48"
+    },
+    "name": "Kangaroo",
+    "image": "images/images_all_animals/kangaroo.jpg",
+    "scientific_name": "Macropus",
+    "description": "Kangaroos are marsupials native to Australia. They are known for their powerful hind legs, long tail, and distinctive hopping gait. Kangaroos have adapted to life in the arid and grassy landscapes of Australia. They have a muscular build and are capable of hopping at high speeds and covering long distances. Kangaroos are herbivores and primarily feed on grasses and shrubs. Female kangaroos have a unique pouch in which they carry and nurse their young called joeys. Kangaroos are social animals and often form groups called mobs. They play a significant role in the Australian ecosystem.",
+    "status_id": {
+    "$oid": "00000005df77d90a8234a822"
+    },
+    "diet_id": {
+    "$oid": "6489cafbdf77d90a8234a829"
+    },
+    "clima_id": {
+    "$oid": "6489c8386009b85bbe27cd39"
+    },
+    "reproduction_id": {
+    "$oid": "6489c66a6009b85bbe27cd4e"
+    },
+    "type_id": {
+    "$oid": "64899a55df77d90a8234a80f"
+    },
+    "lifespan": "5-11 years",
+    "lifestyle": "Sociable",
+    "covering_id": {
+    "$oid": "6489cea46009b85bbe27cd43"
+    },
+    "dangerousness_id": {
+    "$oid": "6489cab56009b85bbe27cd28"
+    },
+    "related_species": "Wallaby, Quokka, Tree kangaroo",
+    "natural_enemies": "Predatory marsupials, Dingoes, Humans, Wedge-tailed Eagles"
+    },
+
+    {
+        "_id": {
+            "$oid": "6489d0aa6009b85bbe27cd49"
+        },
+        "name": "Camel",
+        "image": "images/images_all_animals/camel.jpg",
+        "scientific_name": "Camelus dromedarius",
+        "description": "Camels are large, sturdy mammals known for their ability to adapt to harsh desert environments. They have long legs, a hump on their back, and a characteristic long neck. Camels are well-known for their ability to store fat in their humps, which provides them with a source of energy and water in arid conditions. They are well-adapted to desert life, with long eyelashes and ears to protect them from sand and intense heat. Camels are herbivores and primarily feed on desert vegetation.",
+        "status_id": {
+            "$oid": "00000005df77d90a8234a822"
+        },
+        "diet_id": {
+            "$oid": "6489cafbdf77d90a8234a829"
+        },
+        "clima_id": {
+            "$oid": "6489c8386009b85bbe27cd59"
+        },
+        "reproduction_id": {
+            "$oid": "6489c66a6009b85bbe27cd4e"
+        },
+        "type_id": {
+            "$oid": "64899a55df77d90a8234a80e"
+        },
+        "lifespan": "35-50 years",
+        "lifestyle": "Herd",
+        "covering_id": {
+            "$oid": "6489cafbdf77d90a8234a829"
+        },
+        "dangerousness_id": {
+            "$oid": "6489cab56009b85bbe27cd30"
+        },
+        "related_species": "Bactrian camel, Wild Bactrian camel",
+        "natural_enemies": "Lions, Hyenas, Grey wolves"
+    }
+]

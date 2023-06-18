@@ -352,41 +352,88 @@ body {
     border-radius: 15px;
 }
 
-.card-image {
-    /*background-color: aqua;*/
+/* .card-image {
+    background-color: aqua;
     height: 150px;
     margin-bottom: 15px;
     background-size: cover;
     border-radius: 15px 15px 0 0;
+} */
+.card-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  margin-bottom: 15px;
+  border-radius: 15px 15px 0 0;
 }
 
-.img-1 {
+.img-1 img {
+
+  width: 100px; 
+  height: 100px;
+
+}
+
+.img-2 img {
+
+  width: 100px; 
+  height: 100px;
+  
+}
+
+.img-3 img {
+
+  width: 100px; 
+  height: 100px;
+  
+}
+
+.img-4 img {
+
+  width: 100px; 
+  height: 100px;
+  
+}
+
+
+/* .img-1 {
     background-image: url('../images/person.png');
     background-size: 100px 100px;
     background-repeat: no-repeat;
     background-position: center;
-}
+} */
+/* .img-1 img {
+   display: block;
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  justify-content: center;
+  object-fit: cover;
+} */
 
-.img-2 {
+
+
+/* .img-2 {
     background-image: url('../images/settings.png');
     background-size: 100px 100px;
     background-repeat: no-repeat;
     background-position: center;
-}
+} */
 
-.img-3 {
+/* .img-3 {
     background-image: url('../images/contact.png');
     background-size: 100px 100px;
     background-repeat: no-repeat;
     background-position: center;
-}
+} */
 
-.img-4 {
+/* .img-4 {
     background-image: url('../images/lock.png');
     background-size: 100px 100px;
     background-repeat: no-repeat;
     background-position: center;
-}
+} */
 
 .help-card p {
     padding: 10px;
