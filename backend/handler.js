@@ -1156,6 +1156,55 @@ async function handleLanguageRequest(req, res) {
   }
 
 
+//for aquarium
+function handleAquariumPage(req, res) {
+    // const cookieHeader = req.headers.cookie;
+
+    // if (cookieHeader) {
+    //   const cookies = cookieHeader.split(';');
+
+    //   for (const cookie of cookies) {
+
+    //     if (cookie.trim().startsWith('token=')) {
+
+    //       console.log('Token cookie found:');
+    //     }}}
+    const filePath = '../frontend/aquarium/aquarium.html';
+
+    fs.readFile(filePath, 'utf8', (err, content) => {
+        if (err) {
+            res.writeHead(500);
+            res.end('Internal server error');
+        } else {
+            const modifiedContent = includeAssets(content, filePath);
+            replaceImageUrls(modifiedContent, async (imgErr, modContent) => {
+                if (imgErr) {
+                    res.writeHead(500);
+                    res.end('Internal server error');
+                } else {
+                    try {
+                        const imageId = '648f19bf4733c7c185e26536';
+                        const backgroundImage = await getBackgroundImageFromDatabase(imageId);
+                        const updatedContent = modContent.replace("background-image: url('../images/bubbles.png')", `background-image: url('${backgroundImage}')`);
+                        // const imgId = '648f1d194733c7c185e26537';
+                        // const imgAq = await getBackgroundImageFromDatabase(imgId);
+                        // const updatedContent = modContent.replace("background-image: url('../images/bubbles.png')", `background-image: url('${backgroundImage}')`, )
+                        //                                  .replace("<img src=\"aquarium/images/fish.svg\" alt=\"Logo\">", `<img src="${imgAq}" alt=\"Logo\">`);
+
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
+                        res.end(updatedContent, 'utf-8');
+                    } catch (error) {
+                        res.writeHead(500);
+                        res.end('Internal server error');
+                    }
+                }
+            });
+        }
+    });
+}
+
+
+
 function getContentType(extension) {
     switch (extension) {
         case 'html':
@@ -1207,5 +1256,6 @@ module.exports = {
     handleFindFavorites,
     handleForgotPasswordRequest,
     handleSendTypes,
-    handleLanguageRequest,
+    handleAquariumPage,
+    handleLanguageRequest
 };
