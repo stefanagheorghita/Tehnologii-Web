@@ -397,7 +397,9 @@ Aplicația web respectă cerințele precizate, aducând totodată și noi funcț
         <ul>
           <li><b>API-ul pentru Landing Page:</b> Rutează cererile către pagina de aterizare ("/", "/landingpage.html", "/landingpage"), aceste cereri fiind tratate de handleLandingPage(req, res)</li>
           
-          <li><b>API-ul pentru autentificare (Login):</b> Rutează cererile către pagina de autentificare ("/login", "/user-account/login.html", "/login.html") în funcție de metoda HTTP utilizată. Dacă metoda este GET, cererea este tratată de handleLoginPage(req, res) pentru a afișa pagina de autentificare. Dacă metoda este POST, cererea este tratată de handleLoginRequest(req, res) pentru a procesa cererea de autentificare. </li>
+          <li><b>API-ul pentru autentificare (Login):</b> Rutează cererile către pagina de autentificare ("/login", "/user-account/login.html", "/login.html") în funcție de metoda HTTP utilizată. Dacă metoda este GET, cererea este tratată de handleLoginPage(req, res) pentru a afișa pagina de autentificare. Dacă metoda este POST, cererea este tratată de handleLoginRequest(req, res) pentru a procesa cererea de autentificare. 
+          Odată cu răspunsul primit va fi transmis un token ce va fi stocat in localStorage împreuna cu un timp de expirare. Acesta va fi transmis în header în cadrul unor rute ce necesită autentificare,
+        dar va beneficia și de verificare în cadrului codului de la client</li>
           
             <li><b>API-ul pentru pagina de recuperare a parolei (Forgot password):</b> Rutează cererile către pagina de recuperare a parolei ("/user-account/forgot.html", "/forgot.html", "/forgot") în funcție de metoda HTTP utilizată. Dacă metoda este POST, cererea este tratată de handleForgotPasswordRequest(req, res) pentru a procesa cererea de recuperare a parolei. Altfel, se afișează pagina de recuperare a parolei utilizând handleForgotPasswordPage(req, res).</li>
             <li><b>API-ul paginii principale:</b> Rutează cererile către pagina principală ("/home", "/index.html", "/index", "../index.html"), aceasta cerere fiind tratată de handleHomePage(req, res).</li>
@@ -446,6 +448,18 @@ Aplicația web respectă cerințele precizate, aducând totodată și noi funcț
             <li><b>API-ul pentru pagina de resetare a parolei:</b> Rutează cererile către pagina de resetare a parolei ("/user-account/reset.html", "/reset.html", "/reset") în funcție de metoda HTTP utilizată. Dacă metoda este POST, cererea este tratată de handleResetPasswordRequest(req, res) pentru a procesa cererea utilizatorului de resetare a parolei. Altfel, se afișează pagina de resetare a parolei utilizând handleResetPasswordPage(req, res).</li>
         
           </ul>
+      </section>
+      <section id="token" role="contentinfo">
+        <h4 property="description">Token</h4>
+        <p>Prezintă funcționalitățile esențiale referitoare la tokenul JWT: extragerea din header, verificarea existenței și a corectitudinii prin decodare.</p>
+      </section>
+      <section id="handler" role="contentinfo">
+        <h4 property="description">Handler</h4>
+        <p>Include majoritatea funcțiilor de bază, care sunt apelate din router și care vor apela funcționalități din alte module</p>
+      </section>
+      <section id="db" role="contentinfo">
+        <h4 property="description">Modulul pentru baza de date</h4>
+        <p>Crearea unei conexiuni ce va fi refolosită. Totodată, există funcții specifice pentru extragerea diferitelor informații.</p>
       </section>
     </section>
     <section id="diagrams" role="contentinfo">
