@@ -30,6 +30,7 @@ const {getPasswordByEmailFromDatabase} = require('./util/infoDatabaseUtil');
 const {searchAnimals} = require('./animals/searchAnimals');
 const {fetchTypeData} = require('./animals/criteria');
 const {fetchFavorites} = require('./util/likes');
+const {changeLanguage}=require('./util/language')
 ////
 const { getClient } = require('./util/db');
 const jwt = require('jsonwebtoken');
@@ -375,82 +376,7 @@ function handleAllAnimalPage(req, res, criteria, searchTerm) {
 //--------------------------------------------------------------------------------------------
 
 //-----------------------------------------------------FUNCTIA BUNA:---------------------------
-// async function handleOneAnimalPage(req, res, id) {
-    // const filePath = '../frontend/Animal.html';
-    // fs.readFile(filePath, 'utf8', async (err, content) => {
-    //     if (err) {
-    //         res.writeHead(500);
-    //         res.end('Internal server error');
-    //     } else {
-    //         const modifiedContent = includeAssets(content, filePath);
-
-    //         try {
-    //             const animal = await getAnimalByIdFromDatabase(id);
-    //             const diet = await getDietByIdFromDatabase(animal.diet_id);
-    //             const status = await getStatusByIdFromDatabase(animal.status_id);
-    //             const clima = await getClimaByIdFromDatabase(animal.clima_id);
-    //             const reproduction = await getReproductionByIdFromDatabase(animal.reproduction_id);
-    //             const type = await getTypeByIdFromDatabase(animal.type_id);
-    //             const covering = await getCoveringByIdFromDatabase(animal.covering_id);
-    //             const danger = await getDangerByIdFromDatabase(animal.dangerousness_id);
-
-    //             const updatedContent = modifiedContent
-    //                 .replace('Title Animal', animal.name)
-    //                 .replace('exampleName', animal.name)
-    //                 .replace('exampleGroup', type)
-    //                 .replace('exampleClima', clima)
-    //                 .replace('exampleDiet', diet)
-    //                 .replace('exampleLifespan', animal.lifespan)
-    //                 .replace('Information', animal.description)
-    //                 .replace('exampleStatus', status)
-    //                 .replace('exampleReproduction', reproduction)
-    //                 .replace('exampleCovering', covering)
-    //                 .replace('exampleLifestyle', animal.lifestyle)
-    //                 .replace('exampleDangerousness', danger)
-    //                 .replace('exampleRelatedSpecies', animal.related_species)
-    //                 .replace('exampleNaturalEnemies', animal.natural_enemies)
-    //                 .replace('images/animals_background/default_background.jpg', animal.background_image)
-    //                 .replace('images/leut.png', animal.round_image);
-
-    //             const galleryImages = animal.gallery_images.split(',').map((image) => image.trim());
-
-    //             const galleryImagesHTML = galleryImages
-    //                 .map((image) => `<img src="${image}" alt="animal image" class="gallery-image">`)
-    //                 .join('\n');
-
-    //             const updatedContentWithGallery = updatedContent.replace(
-    //                 '<img src="images/images_all_animals/no.jpg" alt="imagine animal" class="gallery-image">',
-    //                 galleryImagesHTML
-    //             );
-
-    //             replaceImageUrls(updatedContentWithGallery, async (imgErr, finalContent) => {
-    //                 if (imgErr) {
-    //                     res.writeHead(500);
-    //                     res.end('Internal server error');
-    //                 } else {
-    //                     res.writeHead(200, { 'Content-Type': 'text/html' });
-    //                     res.end(finalContent, 'utf-8');
-    //                 }
-    //             });
-    //         } catch (error) {
-    //             console.log(error);
-    //             res.writeHead(500);
-    //             res.end('Internal server error');
-    //         }
-    //     }
-    // });
-// }
-
-
-
-//------------------------------INCERCAND SA NU STRIC FUNCTIA BUNA:---------------------------
-
-
-async function handleOneAnimalPage(req, res,id) {
-    const { pathname } = url.parse(req.url);
-
-  if (req.method === "GET" && pathname === "/Animal") {
-    // Handle the initial GET request for the animal page
+async function handleOneAnimalPage(req, res, id) {
     const filePath = '../frontend/Animal.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
         if (err) {
@@ -476,7 +402,7 @@ async function handleOneAnimalPage(req, res,id) {
                     .replace('exampleClima', clima)
                     .replace('exampleDiet', diet)
                     .replace('exampleLifespan', animal.lifespan)
-                    .replace('Information', animal.description)
+                    .replace('Information', animal.description_en)
                     .replace('exampleStatus', status)
                     .replace('exampleReproduction', reproduction)
                     .replace('exampleCovering', covering)
@@ -514,74 +440,7 @@ async function handleOneAnimalPage(req, res,id) {
             }
         }
     });
-  } else if (req.method === "POST" && pathname === "/language") {
-    // Handle the language change request
-    let requestBody = "";
-    req.on("data", (chunk) => {
-      requestBody += chunk;
-    });
-
-    req.on("end", async () => {
-      try {
-        const { language } = JSON.parse(requestBody);
-        const animalId = parseAnimalIdFromRequest(req);
-
-        // Retrieve the appropriate description based on the language and animalId from the database
-        const description = await getDescriptionByLanguageAndIdFromDatabase(
-          language,
-          animalId
-        );
-
-        // Send the updated description back to the client
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ description }));
-      } catch (error) {
-        console.log(error);
-        res.writeHead(500);
-        res.end("Internal server error");
-      }
-    });
-  } else {
-    res.writeHead(404);
-    res.end("Not found");
-  }
-  }
-  
-  
-  
-  
-  // Implement your database retrieval function
-async function getDescriptionByLanguageAndIdFromDatabase(language, animalId) {
-    try {
-      //await client.connect();
-      //const db = mongoClient.db("web_db");
-      //const collection = db.collection("animals");
-  
-      const projection = { _id: 0, [`description_${language}`]: 1 };
-      const query = { animalId };
-  
-      const result = await collection.findOne(query, { projection });
-  
-      if (result) {
-        return result[`description_${language}`];
-      } else {
-        return "Description not found";
-      }
-    } catch (error) {
-      throw error;
-    } finally {
-      
-    }
-  }
-
-
-  // Helper function to extract the animal ID from the request URL
-function parseAnimalIdFromRequest(req) {
-    const { pathname } = url.parse(req.url);
-    const pathSegments = pathname.split("/");
-    const animalId = pathSegments[pathSegments.length - 1];
-    return animalId;
-  }
+}
 
 
 //--------------------------------------------------------------------------------------------
@@ -1269,6 +1128,33 @@ async function handleFindFavorites(req, res) {
 
 }
 
+async function handleLanguageRequest(req, res) {
+    let data = '';
+  
+    req.on('data', chunk => {
+      data += chunk;
+    });
+  
+    req.on('end', async () => {
+      try {
+        const { language, id } = JSON.parse(data);
+        const result = await changeLanguage(language, id);
+  
+        if (result) {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify(result));
+        } else {
+          res.statusCode = 404;
+          res.end('Not found');
+        }
+      } catch (error) {
+        res.statusCode = 500;
+        res.end('Error: ' + error.message);
+      }
+    });
+  }
+
 
 //for aquarium
 function handleAquariumPage(req, res) {
@@ -1370,5 +1256,6 @@ module.exports = {
     handleFindFavorites,
     handleForgotPasswordRequest,
     handleSendTypes,
-    handleAquariumPage
+    handleAquariumPage,
+    handleLanguageRequest
 };

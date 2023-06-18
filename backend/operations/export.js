@@ -139,7 +139,7 @@ function createCSVData(animalData) {
   const csvData = [
     ['_id', 'name', 'image', 'scientific_name', 'description', 'lifespan', 'lifestyle', 'natural_enemies',
       'related_species', 'origin_names', 'status_name', 'diet_name', 'reproduction_name', 'type_name',
-      'covering_name', 'dangerousness_name','gallery_images']
+      'covering_name', 'dangerousness_name','clima_name','gallery_images']
   ];
   
 
@@ -161,6 +161,7 @@ function createCSVData(animalData) {
       type_name,
       covering_name,
       dangerousness_name,
+      clima_name,
         gallery_images
     } = animal;
   
@@ -183,7 +184,8 @@ function createCSVData(animalData) {
       type_name,
       covering_name,
       dangerousness_name,
-        gallery_images
+      clima_name,
+    gallery_images
     ];
   
     csvData.push(row);
