@@ -25,7 +25,8 @@ const {
     
     handleContactUs,
     handleSendTypes,
-    handleFindFavorites
+    handleFindFavorites,
+    handleAquariumPage
 
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
@@ -131,6 +132,10 @@ function router(req, res) {
         } else if (req.method === 'POST') {
             handleContactUsRequest(req, res);
         }
+    } else if (url === '/aquarium' || url === '/aquarium/aquarium.html' || url === '/aquarium.html') {
+        
+        handleAquariumPage(req, res);
+
     } else if (url.startsWith('/Animal')) {
         const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');
         handleOneAnimalPage(req, res, animalId);

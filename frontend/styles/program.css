@@ -94,13 +94,34 @@ body{
     height: 100%;
 
 }
-input,textarea,select{
+
+/* input,textarea,select{
+    width: 100%;
+    background-color: aquamarine;
+    border: none;
+    outline: none;
+    padding: 10px;
+} */
+
+input, select {
     width: 100%;
     background-color: aquamarine;
     border: none;
     outline: none;
     padding: 10px;
 }
+
+.column-2 textarea {
+    resize: vertical; 
+    width: 100%;
+    max-width: 100%; 
+    background-color: aquamarine;
+    border: none;
+    outline: none;
+    padding: 10px;
+    box-sizing: border-box; 
+}
+
 .column{
     width: 48%;
 
