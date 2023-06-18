@@ -41,7 +41,6 @@ async function handleLoginRequest(req, res) {
                           });
                         // res.write('<h1>Login successful!</h1>');
                         // res.end();
-                        console.log('cu asta m-am logat'+user.mode);
                         res.write(JSON.stringify({ mode: user.mode })); 
 
                         res.end(); ///

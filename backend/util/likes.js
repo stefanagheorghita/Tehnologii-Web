@@ -117,6 +117,37 @@ async function getLikesCount(req, res) {
       res.end();
     }
   }
+
+  async function fetchFavorites(client, userId) {
+    try {
+      const db = client.db('web_db');
+      const uId = new ObjectId(userId);
+      const collection = db.collection('user_likes');
+      const cursor = collection.find({ user_id: uId });
+      const results = await cursor.toArray();
+      const animalIds = results.map(result => result.animal_id);
+      const animals = await db.collection('animals').find({ _id: { $in: animalIds } }).toArray();
+  
+      const animalTypeIds = animals.map(animal => animal.type_id);
+      const animalTypes = await db.collection('type').find({ _id: { $in: animalTypeIds } }).toArray();
+  
+      const typeMap = {};
+      animalTypes.forEach(type => {
+        typeMap[type._id.toString()] = type.name;
+      });
+  
+      animals.forEach(animal => {
+        const typeId = animal.type_id.toString();
+        animal.type = typeMap[typeId] || 'Unknown';
+      });
+  
+      return animals;
+    } catch (error) {
+      console.error('Error fetching favorites:', error);
+      return [];
+    }
+  }
   
   
-module.exports = { updateAnimalLikes,verifyIfUserLiked,getLikesCount };
+  
+module.exports = { updateAnimalLikes,verifyIfUserLiked,getLikesCount,fetchFavorites };

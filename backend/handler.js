@@ -24,6 +24,7 @@ const {generateReservationsTable} = require('./util/infoDatabaseUtil');
 //const { deleteButtonListeners } = require('./util/infoDatabaseUtil');
 const {searchAnimals} = require('./animals/searchAnimals');
 const {fetchTypeData} = require('./animals/criteria');
+const {fetchFavorites} = require('./util/likes');
 ////
 const {getClient} = require('./util/db');
 const jwt = require('jsonwebtoken');
@@ -1053,6 +1054,28 @@ async function handleSendTypes(req, res) {
 }
 
 
+async function handleFindFavorites(req, res) {
+    const authorizationHeader = req.headers.authorization;
+    const token = authorizationHeader.slice(14);
+    if (!verifyToken(token)) {
+        res.statusCode = 401;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({error: 'Unauthorized'}));
+        return;
+    } else {
+        const tok = verifyToken(token);
+        const id = tok.id;
+        const client = getClient();
+        const favorites = await fetchFavorites(client, id);
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(favorites));
+    }
+
+
+}
+
+
 function getContentType(extension) {
     switch (extension) {
         case 'html':
@@ -1101,5 +1124,6 @@ module.exports = {
     handleRemoveLike,
     handleSendTypes,
     handleStaticFile,
-    handleContactUs
+    handleContactUs,
+    handleFindFavorites,
 };
