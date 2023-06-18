@@ -241,3 +241,68 @@ th {
 table {
   width: 100%;
 }
+
+
+@media screen and (max-width: 768px) {
+  .page-admin {
+    flex-direction: column;
+  }
+  
+  .left-menu {
+    width: 100%;
+    padding: 0;
+    margin-top: 0;
+    border-top: none;
+    border-bottom: 2px solid rgb(236, 235, 235);
+  }
+  
+  .right-side {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .title {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 24px;
+  }
+  
+  .left-menu h3 {
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .menu-item {
+    padding: 5px;
+  }
+  
+  .menu-see-users img,
+  .menu-see-animals img,
+  .menu-see-reservations img,
+  .logo-admin-home,
+  .logo-admin-logout,
+  .logo-user {
+    width: 20px;
+    height: 20px;
+    padding-left: 10px;
+  }
+  
+  .information-boxes {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .box {
+    width: 90%;
+    margin: 10px;
+  }
+  
+  table {
+    font-size: 14px;
+  }
+  
+  .table-container {
+    width: 95%;
+    margin: 0 auto;
+  }
+}
