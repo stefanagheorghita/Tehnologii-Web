@@ -13,7 +13,7 @@
   --fundal:  #333;
   --title: white;
   --text-fundal: #f6f6f6;
-  --title-color: #ef3921;
+  --title-color: white;
   --line: white;
 }
 
@@ -139,7 +139,7 @@ body {
   /* right:50%; */
   transform: translateX(-50%);
   font-size: 1.5vw;
-  color: #003629;
+  color: #ff8315;
   text-align: center;
   /* padding-left: 4.5vw; */
 }
@@ -266,13 +266,13 @@ body {
 
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
   .green-section {
-    height: 30vh;
+    height: 50vh;
   }
 
   .darker-section {
-    height: 30vh;
+    height: 50vh;
   }
 
   .darker-section img {
@@ -332,6 +332,7 @@ body {
 /* animals from all-animals page */
 .about {
   width: auto;
+  max-width:80%;
   margin: auto;
   text-align: center;
   margin: 0;
@@ -342,8 +343,7 @@ body {
 .about-col {
 
   border-radius: 5px;
-
-  margin-left: 30px;
+  margin-left: 20px;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -351,7 +351,7 @@ body {
   flex-wrap:wrap;
    /* flex-basis: calc(100% / 4 - 80px);  */
   border-radius: 20px;
-  width: 320px;
+  width: 350px;
   height: 290px;
   margin-bottom: 30px;
   margin-top:30px;
@@ -409,6 +409,8 @@ body {
 
 .row {
   margin-top: 5%;
+  /* margin-left:1%; */
+  margin-right: 20px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -462,7 +464,7 @@ body {
   justify-content: center;
   margin-top: 20px;
   margin-bottom: 10px;
-  color: var(--title)
+  color: var(--title);
 
 }
 
@@ -544,6 +546,7 @@ body {
   font-size: 14px;
   cursor: pointer;
   align-self: flex-end;
+  margin-top:10px;
 }
 
 .filter-toggle {
@@ -564,7 +567,7 @@ body {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .filter-menu {
     display: none;
     width: 100%;
@@ -573,6 +576,7 @@ body {
   .filter-toggle {
     display: block;
     position: sticky;
+    margin-right:2px;
     top: 0;
     left: 0;
     background-color: transparent;
@@ -582,6 +586,13 @@ body {
     height: 25px;
 
 
+  }
+  .about{
+    width: auto;
+  }
+  .row{
+    margin-left: 10px;
+    width: 100%;
   }
 
   /* .filter-toggle .icon {
@@ -712,15 +723,23 @@ body {
   text-align: center;
   text-decoration: none;
   display: block;
-  font-size: 16px;
+  font-size: 30px;
   margin: 4px 2px;
   transition-duration: 0.4s;
   cursor: pointer;
   box-shadow: 5px 5px 10px #888888;
   float: right;
   margin-right: 20px;
-  margin-top: 35px;
+  margin-top: 3px;
 }
+@media screen and (max-width: 500px) {
+  .button {
+  
+    font-size: 20px;
+  }
+}
+  
+
 
 
 .button5 {
@@ -765,4 +784,31 @@ body {
     flex-direction: column;
   }
 }
-  
+
+@media screen and (max-width: 600px) {
+  .button {
+  margin-top:2x;
+    margin-bottom: 1px;
+  }
+  .buttons{
+    flex-direction: column;
+  }
+}
+   
+.filter-menu .toggle-button {
+  background-color: #d88f23;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-size: 5px;
+  cursor: pointer;
+  margin-top:-25px;
+}
+.toggle-button .toggle-icon {
+  font-size: 7px;
+}
+

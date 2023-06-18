@@ -15,14 +15,17 @@ const {
     handleSettingsPage,
     handleAdminPage,
     handleSettingsPageInfo,
-    handleEmailUpdate, 
+    handleEmailUpdate,
     handleNameUpdate,
     handlePasswordUpdate,
     handleAddLike,
     handleRemoveLike,
     handleForgotPasswordPage,
-    handleForgotPasswordRequest
+    handleForgotPasswordRequest,
     
+    handleContactUs,
+    handleSendTypes
+
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
 const {handleRegisterRequest} = require('./controllers/register'); // for register
@@ -34,6 +37,10 @@ const {verifyIfUserLiked,getLikesCount}=require('./util/likes')
 const {insertAnimal} = require('./util/infoDatabaseUtil');
 const {extractAnimalIdFromUrl, extractUserIdFromUrl, extractReservationIdFromUrl} = require('./handler');
 const {deleteUserFromDatabase, deleteAnimalFromDatabase, deleteReservationFromDatabase} = require('./util/infoDatabaseUtil');
+
+const {handleContactUsRequest} = require('./controllers/contactUs');
+const {authenticateUser} = require('./util/token');
+
 function router(req, res) {
     const url = req.url;
     if (url === '/' || url === '/landingpage.html' || url === '/landingpage') {
@@ -88,18 +95,26 @@ function router(req, res) {
         handleZooPlanPage(req, res);
     } else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
         handleAboutUsPage(req, res);
-    } else if (url === '/settings.html' || url === '/settings' || url === '/settings.html') {
-        if (req.method === 'POST') {
-           
-          handleSettingsRequest(req, res);
-              
-        } /*else if (req.method === 'GET'){
+    } else if (url === '/settings.html' || url === '/settings') {
+        if (authenticateUser(req, res) === 0) {
+            console.log("not authenticated");
+            res.statusCode = 402;
+            res.setHeader('Location', '/landingpage');
+            res.end();
+
+        } else {
+            if (req.method === 'POST') {
+
+                handleSettingsRequest(req, res);
+
+            } /*else if (req.method === 'GET'){
           handleSettingsGetRequest(req, res)
         }*/ else if (req.method) {
-          handleSettingsPage(req, res);
-          //handleSettingsRequest(req, res);
+                handleSettingsPage(req, res);
+                //handleSettingsRequest(req, res);
+            }
+            // }
         }
-
     } else if (url === '/help.html' || url === '/help' || url === '/help-page/help.html') {
         handleHelpPage(req, res);
     }
@@ -108,6 +123,12 @@ function router(req, res) {
             handleProgramRequest(req, res);
         } else {
             handleProgramPage(req, res);
+        }
+    } else if (url === '/contact' || url === '/contact-us.html') {
+        if (req.method === 'GET') {
+            handleContactUs(req, res);
+        } else if (req.method === 'POST') {
+            handleContactUsRequest(req, res);
         }
     } else if (url.startsWith('/Animal')) {
         const animalId = new URLSearchParams(url.slice(url.indexOf('?'))).get('id');
@@ -147,31 +168,23 @@ function router(req, res) {
             }
         }
         moreAnimalsExport(criteria, req, res);
-    } else if (url === '/admin'){
+
+    } else if (url === '/admin') {
         handleAdminPage(req, res);
-    }
-    else if (url === '/profile' && req.method==='GET'){
-      handleSettingsPageInfo(req,res);
-    }
-    else if(url === '/update-name' && req.method==='PUT'){
-      handleNameUpdate(req, res);
-    }
-    else if(url === '/update-email' && req.method==='PUT'){
-      handleEmailUpdate(req, res);
-     
-    }
-    else
-    if (url === '/update-password' && req.method==='PUT'){
+    } else if (url === '/profile' && req.method === 'GET') {
+        handleSettingsPageInfo(req, res);
+    } else if (url === '/update-name' && req.method === 'PUT') {
+        handleNameUpdate(req, res);
+    } else if (url === '/update-email' && req.method === 'PUT') {
+        handleEmailUpdate(req, res);
+
+    } else if (url === '/update-password' && req.method === 'PUT') {
         handlePasswordUpdate(req, res);
-    }
-    else if (url.startsWith('/add-like')){
+    } else if (url.startsWith('/add-like')) {
         handleAddLike(req, res);
-    }
-    else if (url.startsWith('/remove-like')){
-       handleRemoveLike(req, res);
-    }
-    else if(url.startsWith('/get-like-state'))
-    {
+    } else if (url.startsWith('/remove-like')) {
+        handleRemoveLike(req, res);
+    } else if (url.startsWith('/get-like-state')) {
         verifyIfUserLiked(req, res);
     }
     else if(url.startsWith('/get-likes-count'))
@@ -283,7 +296,9 @@ function router(req, res) {
           handleForgotPasswordPage(req, res);
         }
       }
-     else {
+      else if (url.startsWith('/get-types')) {
+        handleSendTypes(req, res);
+    } else {
         handleStaticFile(req, res);
     }
 }

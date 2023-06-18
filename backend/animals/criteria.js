@@ -84,4 +84,4 @@ async function fetchStatusData(client) {
     return await statusCollection.find().toArray();
 }
 
-module.exports = { handleCriteriaRequest };
+module.exports = { handleCriteriaRequest,fetchTypeData };

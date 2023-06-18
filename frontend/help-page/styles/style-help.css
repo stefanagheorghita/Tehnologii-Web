@@ -20,6 +20,7 @@
   --descr: black;
   --help-card-hov: ghostwhite;
   --set-title: black;
+  --border: coral;
 
 
 }
@@ -40,7 +41,7 @@
   --header: #003629;
   --footer: #003629;
   --footer-h: rgb(27, 174, 27);
-  --hover: rgb(59, 207, 193);;
+  --hover: rgb(59, 207, 193);
   --descr: white;
   --btn-txt: rgb(15, 15, 15);
   --btn-hov: #29e4dbd5;
@@ -48,6 +49,7 @@
   --help-card: #555;
   --help-card-hov: grey;
   --set-title: white;
+  --border: rgb(27, 174, 27);
 
   
     
@@ -201,11 +203,16 @@ body {
       color: var(--text-color);
       
     }
+
+    
     
     #check:checked ~ ul{
-      background: coral;
+
+      /* background: coral; */
+      background-color: var(--header);
       left: 0;
       z-index: 9999;
+
     }
     
     body.disable-scroll{
@@ -391,7 +398,7 @@ body {
     background-color: var(--help-card-hov);
     color: black;
     cursor: pointer;
-    border: 1.65px solid coral;
+    border: 1.65px solid var(--border); /**/
     transform: scale(1.03);
     transition: 0.5s;
 }

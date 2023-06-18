@@ -152,9 +152,12 @@ body {
     }
     
     #check:checked ~ ul{
-      background: coral;
+
+      /* background: coral; */
+      background-color: var(--header);
       left: 0;
       z-index: 9999;
+
     }
     
     body.disable-scroll{
