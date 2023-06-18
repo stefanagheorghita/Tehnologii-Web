@@ -22,7 +22,13 @@
       
   }
   
-
+ .success{
+    color: var(--box-text);
+}
+.error
+{
+    color:red;
+}
 
 
 

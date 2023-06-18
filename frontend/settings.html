@@ -111,6 +111,17 @@
             <button class="btn" id="passButton">Change</button>
         </p>
     </div>
+    <button id="viewFavoritesBtn">See favorite animals</button>
+
+    <div id="favoritesModal" class="modal" style="display:none">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2 class="modal-title">Here is your list of liked animals</h2>
+          <ul id="favoritesList"></ul>
+        </div>
+      </div>
+      
+      
 
 </div>
 
@@ -362,6 +373,92 @@
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
+
+    document.addEventListener('DOMContentLoaded', async function () {
+  const favoritesList = document.getElementById('favoritesList');
+  const viewFavoritesBtn = document.getElementById('viewFavoritesBtn');
+  const favoritesModal = document.getElementById('favoritesModal');
+  const closeModalBtn = document.getElementsByClassName('close')[0];
+ 
+  async function fetchFavorites() {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/get-favorites', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        displayFavorites(data);
+      } else {
+        console.error('Failed to fetch favorite animals');
+      }
+    } catch (error) {
+      console.error('Error fetching favorite animals:', error);
+    }
+  }
+  function displayFavorites(favorites) {
+  favoritesList.innerHTML = '';
+  favorites.forEach(animal => {
+    const listItem = document.createElement('li');
+    
+    const animalLink = document.createElement('a');
+    animalLink.textContent = animal.name;
+
+    animalLink.href = `Animal?id=${animal._id}`;
+    
+    animalLink.classList.add('animal-link');
+    
+    listItem.appendChild(animalLink);
+
+    listItem.style.border = '1px solid';
+    listItem.style.borderImage = 'linear-gradient(to right, #ff6a00, #ee0979)';
+    listItem.style.borderImageSlice = '1';
+    listItem.style.padding = '5px';
+    listItem.style.display = 'flex';
+    listItem.style.alignItems = 'center';
+    
+    const animalIcon = document.createElement('i');
+    animalIcon.classList.add('animal-icon');
+
+    const iconClass = getAnimalIconClass(animal.type);
+    animalIcon.className = iconClass;
+    
+    listItem.appendChild(animalIcon);
+    
+    favoritesList.appendChild(listItem);
+  });
+}
+function getAnimalIconClass(animalType) {
+  const iconClassMap = {
+    Mammal: 'fas fa-paw',
+    Bird: 'fas fa-dove',
+    Reptile: 'fas fa-dragon',
+    Amphibian: 'fas fa-frog'
+  };
+  return iconClassMap[animalType] || 'fas fa-question';
+}
+
+
+  viewFavoritesBtn.addEventListener('click', function () {
+    favoritesModal.style.display = 'block';
+    fetchFavorites();
+  });
+
+  closeModalBtn.addEventListener('click', function () {
+    favoritesModal.style.display = 'none';
+  });
+  window.addEventListener('click', function (event) {
+    if (event.target === favoritesModal) {
+      favoritesModal.style.display = 'none';
+    }
+  });
+});
+
 </script>
 <script>
         

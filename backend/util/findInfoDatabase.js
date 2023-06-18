@@ -37,7 +37,9 @@ async function getClimaName(id) {
     try {
         await client.connect();
         const db = client.db(dbName);
-        const originCollection = db.collection('clima');
+        const climaCollection = db.collection('clima');
+        const clima = await climaCollection.findOne({_id: new ObjectId(id)});
+        return clima.name;
     } catch (error) {
         console.error('Error retrieving origin name:', error);
         throw error;

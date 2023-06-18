@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const url = require("url");
+const http = require('http');
+const querystring = require('querystring');
+const nodemailer = require('nodemailer');
 const {replaceImageUrls} = require('./util/imageUtils');
 const {includeAssets} = require('./util/cssUtils')
 const {getBackgroundImageFromDatabase} = require('./util/fileFromDatabaseUtil');
@@ -22,9 +25,11 @@ const {getAllReservationsFromDatabase} = require('./util/infoDatabaseUtil');
 const {generateUsersTable} = require('./util/infoDatabaseUtil');
 const {generateAnimalsTable} = require('./util/infoDatabaseUtil');
 const {generateReservationsTable} = require('./util/infoDatabaseUtil');
+const {getPasswordByEmailFromDatabase} = require('./util/infoDatabaseUtil');
 //const { deleteButtonListeners } = require('./util/infoDatabaseUtil');
 const {searchAnimals} = require('./animals/searchAnimals');
 const {fetchTypeData} = require('./animals/criteria');
+const {fetchFavorites} = require('./util/likes');
 ////
 const { getClient } = require('./util/db');
 const jwt = require('jsonwebtoken');
@@ -655,32 +660,54 @@ function handleAboutUsPage(req, res) {
     });
 }
 
-//for the forgot password page
-function handleForgotPasswordRequest(req, res) {
 
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'zoowebmanager@gmail.com',
-            pass: 'jxjlmujxakkfgsmn'
-        }
+async function handleForgotPasswordRequest(req, res) {
+    let body = '';
+
+    req.on('data', (chunk) => {
+      body += chunk.toString();
     });
-
-    var mailOptions = {
-        from: 'zoowebmanager@gmail.com',
-        to: 'roxanadobrica16@gmail.com',
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
+  
+    req.on('end', async () => {
+      const formData = JSON.parse(body);
+      const email = formData.email;
+  
+        try {
+          const password = await getPasswordByEmailFromDatabase(email);
+  
+          var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'zoowebmanager@gmail.com',
+              pass: 'jxjlmujxakkfgsmn'
+            }
+          });
+  
+          var mailOptions = {
+            from: 'zoowebmanager@gmail.com',
+            to: email,
+            subject: 'Forgot password',
+            text: `Hey! Your new password is: ${password}.\nNow you can log in using it, then you can change it from the settings page if you want.\n\nZooWebManager team :)`
+          };
+  
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error);
+              res.statusCode = 500;
+              res.end('Error sending email');
+            } else {
+              console.log('Email sent: ' + info.response);
+              res.statusCode = 200;
+              res.end('Email sent successfully');
+            }
+          });
+        } catch (error) {
+          console.error('Error retrieving password by email:', error);
+          res.statusCode = 500;
+          res.end('Error retrieving password');
         }
-    });
-}
+      });
+    }
 
 
 
@@ -1221,6 +1248,28 @@ async function handleSendTypes(req, res) {
 }
 
 
+async function handleFindFavorites(req, res) {
+    const authorizationHeader = req.headers.authorization;
+    const token = authorizationHeader.slice(14);
+    if (!verifyToken(token)) {
+        res.statusCode = 401;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({error: 'Unauthorized'}));
+        return;
+    } else {
+        const tok = verifyToken(token);
+        const id = tok.id;
+        const client = getClient();
+        const favorites = await fetchFavorites(client, id);
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(favorites));
+    }
+
+
+}
+
+
 function getContentType(extension) {
     switch (extension) {
         case 'html':
@@ -1268,7 +1317,8 @@ module.exports = {
     handleAddLike,
     handleRemoveLike,
     handleStaticFile,
+    handleContactUs,
+    handleFindFavorites,
     handleForgotPasswordRequest,
     handleSendTypes,
-    handleContactUs
 };

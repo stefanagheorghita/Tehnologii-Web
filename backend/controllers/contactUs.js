@@ -2,6 +2,7 @@ const {getClient} = require('../util/db');
 const url = require('url');
 const dbName = 'web_db';
 const client = getClient();
+const nodemailer=require('nodemailer');
 const messageSchema = {
     name: String,
     email: String,
@@ -72,7 +73,6 @@ function parseFormData(body) {
 
 
 function saveFormDataToDatabase(formData) {
-   client.connect();
 
     //console.log('Connected successfully to the database');
     
@@ -88,6 +88,29 @@ function saveFormDataToDatabase(formData) {
   
         
     });
+
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+          user: 'zoowebmanager@gmail.com',
+          pass: 'jxjlmujxakkfgsmn'
+      }
+  });
+  console.log(formData.email);
+  var mailOptions = {
+      from: 'zoowebmanager@gmail.com',
+      to: `${formData.email}`,
+      subject: 'Contact us response',
+      text: 'Thank you for contacting us. We will get back to you as soon as possible.'
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+          console.log(error);
+      } else {
+          console.log('Email sent: ' + info.response);
+      }
+  });
 }
 
 

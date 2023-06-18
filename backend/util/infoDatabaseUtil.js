@@ -1,5 +1,6 @@
 const { getClient } = require('./db');
 const { ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt');
 
 const mongoose = require('mongoose');
 
@@ -130,6 +131,103 @@ async function getAllUsersFromDatabase() {
     throw error;
   }
 }
+
+/*async function getPasswordByEmailFromDatabase(email) {
+  const client = getClient();
+  try {
+    await client.connect();
+
+    const db = client.db(dbName);
+    const usersCollection = db.collection('users');
+    const users = await usersCollection.findOne({ email });
+    if (users) {
+      return users.password;
+    } else {
+      throw new Error('Email not found in the database');
+    }
+  } catch (error) {
+    console.error('Error retrieving password by email:', error);
+    throw error;
+  }
+}*/
+
+/*async function getPasswordByEmailFromDatabase(email) {
+  const client = getClient();
+  try {
+    await client.connect();
+
+    const db = client.db(dbName);
+    const usersCollection = db.collection('users');
+    const user = await usersCollection.findOne({ email });
+    if (user) {
+      const encryptedPassword = user.password;
+
+      // Generate a new random password
+      const newPlainTextPassword = 'MyNewPassword';
+
+      // Encrypt the new password
+      const newEncryptedPassword = await bcrypt.hash(newPlainTextPassword, 10);
+
+      // Update the encrypted password in the database
+      await usersCollection.updateOne({ email }, { $set: { password: newEncryptedPassword } });
+
+      // Return the new plain text password
+      return newPlainTextPassword;
+    } else {
+      throw new Error('Email not found in the database');
+    }
+  } catch (error) {
+    console.error('Error retrieving password by email:', error);
+    throw error;
+  }
+}*/
+
+async function getPasswordByEmailFromDatabase(email) {
+  const client = getClient();
+  try {
+    await client.connect();
+
+    const db = client.db(dbName);
+    const usersCollection = db.collection('users');
+    const user = await usersCollection.findOne({ email });
+    if (user) {
+      const encryptedPassword = user.password;
+
+      // Generate a new password based on the user ID
+      const userId = user._id.toString();
+      const newPassword = generatePasswordFromUserId(userId);
+
+      // Encrypt the new password
+      const newEncryptedPassword = await bcrypt.hash(newPassword, 10);
+
+      // Update the encrypted password in the database
+      await usersCollection.updateOne({ email }, { $set: { password: newEncryptedPassword } });
+
+      // Return the new plain text password
+      return newPassword;
+    } else {
+      throw new Error('Email not found in the database');
+    }
+  } catch (error) {
+    console.error('Error retrieving password by email:', error);
+    throw error;
+  }
+}
+
+function generatePasswordFromUserId(userId) {
+  let password = '';
+
+  for (let i = 1; i < userId.length; i += 2) {
+    if (password.length === 5) {
+      break;
+    }
+    password += userId.charAt(i);
+  }
+
+  return password;
+}
+
+
 
 async function getAllAnimalsFromDatabase() {
   const client = getClient();
@@ -482,6 +580,7 @@ module.exports = {
   deleteUserFromDatabase,
   deleteAnimalFromDatabase,
   deleteReservationFromDatabase,
-  insertAnimal
+  insertAnimal,
+  getPasswordByEmailFromDatabase
   //deleteButtonListeners
 };

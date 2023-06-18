@@ -24,7 +24,8 @@ const {
     handleForgotPasswordRequest,
     
     handleContactUs,
-    handleSendTypes
+    handleSendTypes,
+    handleFindFavorites
 
 } = require('./handler');
 const {handleLoginRequest} = require('./controllers/login');
@@ -298,7 +299,12 @@ function router(req, res) {
       }
       else if (url.startsWith('/get-types')) {
         handleSendTypes(req, res);
-    } else {
+    }
+    else if(url.startsWith('/get-favorites'))
+    {
+        handleFindFavorites(req, res);
+    } 
+    else {
         handleStaticFile(req, res);
     }
 }
