@@ -395,12 +395,16 @@ label {
   .header ul li a{
     font-size: 20px;
   }
+
+  /* .heade ul li a:href */
   
   a:hover{
     background: none;
     color: lightskyblue;
     
   }
+
+  
 
   .slideshow-container {
     z-index: 9998;
