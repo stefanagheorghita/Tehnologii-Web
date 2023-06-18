@@ -26,7 +26,7 @@ const {searchAnimals} = require('./animals/searchAnimals');
 const {fetchTypeData} = require('./animals/criteria');
 const {fetchFavorites} = require('./util/likes');
 ////
-const {getClient} = require('./util/db');
+const { getClient } = require('./util/db');
 const jwt = require('jsonwebtoken');
 const {updateAnimalLikes} = require('./util/likes');
 const {get} = require('http');
@@ -55,7 +55,7 @@ function renderPage(req, res, pageContent, mode) {
           </html>
         `;
 
-            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.writeHead(200, { 'Content-Type': 'text/html' });
             res.write(html);
             res.end();
         }
@@ -81,7 +81,7 @@ function handleLandingPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -120,7 +120,7 @@ function handleHomePage(req, res) {
                         const imageId = '64884885df77d90a8234a7f6';
                         const backgroundImage = await getBackgroundImageFromDatabase(imageId);
                         const updatedContent = modContent.replace("background-image: url('images/tigru2.jpg')", `background-image: url('${backgroundImage}')`);
-                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(updatedContent, 'utf-8');
                     } catch (error) {
                         res.writeHead(500);
@@ -142,7 +142,7 @@ function handleLoginPage(req, res) {
         } else {
 
             const modifiedContent = includeAssets(content, filePath);
-            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end(modifiedContent, 'utf-8');
         }
     });
@@ -171,7 +171,7 @@ function handleGeneralAnimalPage(req, res) {
                         const imageId2 = '64886238df77d90a8234a7f8';
                         const backgroundImage2 = await getBackgroundImageFromDatabase(imageId2);
                         const updatedContent2 = updatedContent.replace("background-image: url(../images/foot1.png)", `background-image: url('${backgroundImage2}')`);
-                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(updatedContent2, 'utf-8');
                     } catch (error) {
                         res.writeHead(500);
@@ -229,7 +229,7 @@ function handleAllAnimalPage(req, res, criteria, searchTerm) {
                         res.writeHead(500);
                         res.end('Internal server error');
                     } else {
-                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(finalContent, 'utf-8');
                     }
                 });
@@ -240,6 +240,7 @@ function handleAllAnimalPage(req, res, criteria, searchTerm) {
         }
     });
 }
+
 
 
 //for the one animal page
@@ -368,6 +369,7 @@ function handleAllAnimalPage(req, res, criteria, searchTerm) {
 
 //--------------------------------------------------------------------------------------------
 
+//-----------------------------------------------------FUNCTIA BUNA:---------------------------
 async function handleOneAnimalPage(req, res, id) {
     const filePath = '../frontend/Animal.html';
     fs.readFile(filePath, 'utf8', async (err, content) => {
@@ -421,7 +423,7 @@ async function handleOneAnimalPage(req, res, id) {
                         res.writeHead(500);
                         res.end('Internal server error');
                     } else {
-                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(finalContent, 'utf-8');
                     }
                 });
@@ -451,7 +453,7 @@ function handleZooPlanPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -475,7 +477,7 @@ function handleHelpPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -499,7 +501,7 @@ function handleAboutUsPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -508,28 +510,32 @@ function handleAboutUsPage(req, res) {
 }
 
 //for the forgot password page
-function handleForgotPasswordPage(req, res) {
-    const filePath = '../frontend/user-account/forgot.html';
+function handleForgotPasswordRequest(req, res) {
 
-    fs.readFile(filePath, 'utf8', (err, content) => {
-        if (err) {
-            res.writeHead(500);
-            res.end('Internal server error');
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'zoowebmanager@gmail.com',
+            pass: 'jxjlmujxakkfgsmn'
+        }
+    });
+
+    var mailOptions = {
+        from: 'zoowebmanager@gmail.com',
+        to: 'roxanadobrica16@gmail.com',
+        subject: 'Sending Email using Node.js',
+        text: 'That was easy!'
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
         } else {
-
-            const modifiedContent = includeAssets(content, filePath);
-            replaceImageUrls(modifiedContent, (imgErr, modContent) => {
-                if (imgErr) {
-                    res.writeHead(500);
-                    res.end('Internal server error');
-                } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
-                    res.end(modContent, 'utf-8');
-                }
-            });
+            console.log('Email sent: ' + info.response);
         }
     });
 }
+
 
 
 //Program page
@@ -548,7 +554,7 @@ function handleProgramPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -573,7 +579,7 @@ function handleStaticFile(req, res) {
                 res.end('Internal server error');
             }
         } else {
-            res.writeHead(200, {'Content-Type': contentType});
+            res.writeHead(200, { 'Content-Type': contentType });
             res.end(content, 'utf-8');
         }
     });
@@ -589,7 +595,7 @@ function handleRegisterPage(req, res) {
         } else {
 
             const modifiedContent = includeAssets(content, filePath);
-            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end(modifiedContent, 'utf-8');
         }
     });
@@ -611,7 +617,7 @@ function handleSettingsPage(req, res) {
                     res.writeHead(500);
                     res.end('Internal server error');
                 } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
                     res.end(modContent, 'utf-8');
                 }
             });
@@ -678,7 +684,7 @@ async function handleSettingsPageInfo(req, res) {
         if (!verifyToken(token)) {
             res.statusCode = 401;
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({error: 'Unauthorized'}));
+            res.end(JSON.stringify({ error: 'Unauthorized' }));
             return;
         } else {
             const dec = verifyToken(token);
@@ -696,7 +702,7 @@ async function handleSettingsPageInfo(req, res) {
             } else {
                 res.statusCode = 404;
                 res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({error: 'User not found'}));
+                res.end(JSON.stringify({ error: 'User not found' }));
             }
         }
     }
@@ -771,7 +777,7 @@ async function handleAdminPage(req, res) {
                         res.writeHead(500);
                         res.end('Internal server error');
                     } else {
-                        res.writeHead(200, {'Content-Type': 'text/html'});
+                        res.writeHead(200, { 'Content-Type': 'text/html' });
                         res.end(modContent, 'utf-8');
                     }
                 });
@@ -921,7 +927,7 @@ async function handleNameUpdate(req, res) {
         if (!verifyToken(token)) {
             res.statusCode = 401;
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({error: 'Unauthorized'}));
+            res.end(JSON.stringify({ error: 'Unauthorized' }));
             return;
         } else {
             const tok = verifyToken(token);
@@ -939,7 +945,7 @@ async function handleNameUpdate(req, res) {
                 updateName(id, newName, req, res);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({message: 'Name updated successfully'}));
+                res.end(JSON.stringify({ message: 'Name updated successfully' }));
             });
         }
     }
@@ -954,7 +960,7 @@ async function handlePasswordUpdate(req, res) {
         if (!verifyToken(token)) {
             res.statusCode = 401;
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({error: 'Unauthorized'}));
+            res.end(JSON.stringify({ error: 'Unauthorized' }));
             return;
         } else {
             const tok = verifyToken(token);
@@ -971,7 +977,7 @@ async function handlePasswordUpdate(req, res) {
                 updatePassword(id, newPassword, req, res);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({message: 'Password updated successfully'}));
+                res.end(JSON.stringify({ message: 'Password updated successfully' }));
             });
         }
 
@@ -985,7 +991,7 @@ async function handleEmailUpdate(req, res) {
     if (!verifyToken(token)) {
         res.statusCode = 401;
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({error: 'Unauthorized'}));
+        res.end(JSON.stringify({ error: 'Unauthorized' }));
         return;
     } else {
         const tok = verifyToken(token);
@@ -1004,20 +1010,35 @@ async function handleEmailUpdate(req, res) {
             if (rez.success) {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({message: 'Email updated successfully'}));
+                res.end(JSON.stringify({ message: 'Email updated successfully' }));
             } else {
 
                 if (rez.message === 'Email already exists') {
                     res.statusCode = 409;
-                    res.end(JSON.stringify({error: 'Email already exists'}));
+                    res.end(JSON.stringify({ error: 'Email already exists' }));
                 } else {
                     console.log('mare eroare');
                     res.statusCode = 500;
-                    res.end(JSON.stringify({error: 'Error at updating'}));
+                    res.end(JSON.stringify({ error: 'Error at updating' }));
                 }
             }
         });
     }
+}
+
+function handleForgotPasswordPage(req, res) {
+    const filePath = '../frontend/user-account/forgot.html';
+    fs.readFile(filePath, 'utf8', (err, content) => {
+        if (err) {
+            res.writeHead(404);
+            res.end('File not found');
+        } else {
+
+            const modifiedContent = includeAssets(content, filePath);
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(modifiedContent, 'utf-8');
+        }
+    });
 }
 
 
@@ -1122,8 +1143,9 @@ module.exports = {
     handlePasswordUpdate,
     handleAddLike,
     handleRemoveLike,
-    handleSendTypes,
     handleStaticFile,
     handleContactUs,
     handleFindFavorites,
+    handleForgotPasswordRequest,
+    handleSendTypes,
 };
