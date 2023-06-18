@@ -513,33 +513,6 @@ function handleAboutUsPage(req, res) {
     });
 }
 
-//for the forgot password page
-/*async function handleForgotPasswordRequest(req, res) {
-    const password = await getPasswordByEmailFromDatabase('roxanadobrica16@gmail.com');
-
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'zoowebmanager@gmail.com',
-            pass: 'jxjlmujxakkfgsmn'
-        }
-    });
-
-    var mailOptions = {
-        from: 'zoowebmanager@gmail.com',
-        to: 'roxanadobrica16@gmail.com',
-        subject: 'Forgot password',
-        text: `Your password is: ${password}`
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
-}*/
 
 async function handleForgotPasswordRequest(req, res) {
     let body = '';

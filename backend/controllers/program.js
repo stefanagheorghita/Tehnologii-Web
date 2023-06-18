@@ -1,5 +1,6 @@
 const querystring = require('querystring');
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
 
 mongoose.connect('mongodb://127.0.0.1:27017/web_db', {
   useNewUrlParser: true,
@@ -15,38 +16,6 @@ const reservationSchema = new mongoose.Schema({
 });
 
 const Reservation = mongoose.model('Reservation', reservationSchema);
-
-/*async function handleProgramRequest(req, res) {
-  console.log('handleProgramRequest');
-  if (req.method === 'POST') {
-    let body = '';
-    req.on('data', (chunk) => {
-      body += chunk.toString();
-    });
-
-    req.on('end', async () => {
-      const formData = querystring.parse(body);
-
-      const name = formData['full-name'];
-      const email = formData['email'];
-      const date = formData['date'];
-      const number_tickets = formData['sel'];
-      const message = formData['Message'];
-
-      try {
-        await saveReservationToDatabase(name, email, date, number_tickets, message);
-        res.statusCode = 200;
-        res.end('Reservation saved successfully!');
-      } catch (error) {
-        res.statusCode = 500;
-        res.end('Error saving reservation');
-      }
-    });
-  } else {
-    res.statusCode = 404;
-    res.end('Not Found');
-  }
-}*/
 
 async function handleProgramRequest(req, res) {
   if (req.method === 'POST') {
@@ -65,8 +34,32 @@ async function handleProgramRequest(req, res) {
       const message = formData['Message'];
 
       try {
-        // Save the form data to the database or perform other actions
+        // Save the form data to the database
         await saveReservationToDatabase(name, email, date, number_tickets, message);
+
+        // Send email to the user
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'zoowebmanager@gmail.com',
+            pass: 'jxjlmujxakkfgsmn'
+          }
+        });
+
+        const mailOptions = {
+          from: 'zoowebmanager@gmail.com',
+          to: email,
+          subject: 'Reservation Confirmation',
+          text: `Hi ${name}!\n\nYour reservation has been made successfully. We are waiting for you on ${date}!\n\nHave a nice day,\nZooWebManager team`
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
 
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html');
