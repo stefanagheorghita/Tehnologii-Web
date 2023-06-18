@@ -113,7 +113,7 @@
     </div>
     <button id="viewFavoritesBtn">See favorite animals</button>
 
-    <div id="favoritesModal" class="modal">
+    <div id="favoritesModal" class="modal" style="display:none">
         <div class="modal-content">
           <span class="close">&times;</span>
           <h2 class="modal-title">Here is your list of liked animals</h2>
@@ -379,7 +379,7 @@
   const viewFavoritesBtn = document.getElementById('viewFavoritesBtn');
   const favoritesModal = document.getElementById('favoritesModal');
   const closeModalBtn = document.getElementsByClassName('close')[0];
-
+ 
   async function fetchFavorites() {
     try {
       const token = localStorage.getItem('token');
