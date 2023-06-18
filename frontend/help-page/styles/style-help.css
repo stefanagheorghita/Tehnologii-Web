@@ -20,6 +20,7 @@
   --descr: black;
   --help-card-hov: ghostwhite;
   --set-title: black;
+  --border: coral;
 
 
 }
@@ -48,6 +49,7 @@
   --help-card: #555;
   --help-card-hov: grey;
   --set-title: white;
+  --border: rgb(27, 174, 27);
 
   
     
@@ -396,7 +398,7 @@ body {
     background-color: var(--help-card-hov);
     color: black;
     cursor: pointer;
-    border: 1.65px solid coral;
+    border: 1.65px solid var(--border); /**/
     transform: scale(1.03);
     transition: 0.5s;
 }

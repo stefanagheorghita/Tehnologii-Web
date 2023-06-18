@@ -1,12 +1,18 @@
 :root{
     --text-fundal: #003629;
     --fundal: linear-gradient(to right, rgb(255, 183, 0) , rgb(255, 106, 0));
+    --hline: black;
+    --text: black;
+
   }
   
   
   .dark-theme{
     --fundal:  linear-gradient(to bottom, #003629, #001c15);
     --text-fundal: #f6f6f6; 
+    --hline: #f6f6f6;
+    --text: wheat;
+
   }
 
 
@@ -157,6 +163,10 @@ input,textarea,select{
     color: #bd271a;
 }
 
+.round-rect-box p {
+    color: var(--text);
+}
+
 
 .zoo{
     margin-top:10px;
@@ -167,7 +177,7 @@ input,textarea,select{
     display: inline-block;
     width: 300px;
     height: 3px;
-    background-color: black;
+    background-color: var(--hline);
     margin: 0 10px;
   }
 
