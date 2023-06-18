@@ -108,3 +108,9 @@ p.issue {
   width: 60vw;
   height:100vh;
 }
+
+#photos-application img{
+  width: 60vw;
+  height: 60vh;
+  margin:10px;
+}
