@@ -11,6 +11,7 @@ const {
 } = require('../util/findInfoDatabase');
 const {getAnimals} = require('../animals/animalsDatabase');
 const {searchAnimals} = require('../animals/searchAnimals');
+const {ObjectId} = require('mongodb');
 async function populate(animalId) {
     try {
         const originNames = await getOriginNames(animalId);
@@ -33,8 +34,8 @@ async function populate(animalId) {
 
         return animalData;
     } catch (error) {
-        console.error('Error retrieving animal by ID:', error);
-        throw error;
+        console.log('Error retrieving animal by ID:');
+        //throw error;
     }
 }
 
@@ -42,8 +43,15 @@ async function populate(animalId) {
 async function exportJson(animalId, req, res) {
     try {
 
-        const animalData = await populate(animalId);
-        const jsonResponse = JSON.stringify(animalData);
+        let animalData = await populate(animalId);
+        if (!Array.isArray(animalData)) {
+            animalData = [animalData]; 
+          }
+          const formattedDocuments = animalData.map(doc => {
+            const formattedDoc = convertFieldsToObjectId(doc);
+            return formattedDoc;
+          });
+        const jsonResponse = JSON.stringify(formattedDocuments);
 
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(jsonResponse);
@@ -62,6 +70,29 @@ async function exportXml(animalId, req, res) {
     res.end(xmlData);
 
 }
+
+
+const convertFieldsToObjectId = obj => {
+    if (typeof obj !== 'object' || obj === null) {
+      return obj;
+    }
+  
+    if (obj instanceof ObjectId) {
+      return { "$oid": obj.toString() };
+    }
+  
+    if (Array.isArray(obj)) {
+      return obj.map(convertFieldsToObjectId);
+    }
+  
+    const newObj = {};
+  
+    for (const key in obj) {
+      newObj[key] = convertFieldsToObjectId(obj[key]);
+    }
+  
+    return newObj;
+  };
 
 
 function createAnimalXML(animalData) {
@@ -138,12 +169,15 @@ async function moreAnimalsExport(criteria, req, res) {
 function createCSVData(animalData) {
   const csvData = [
     ['_id', 'name', 'image', 'scientific_name', 'description', 'lifespan', 'lifestyle', 'natural_enemies',
-      'related_species', 'origin_names', 'status_name', 'diet_name', 'reproduction_name', 'type_name',
+      'related_species', 'origin_names', 'status_name', 'diet_name', 'reproduction_name', 'type_name', 'status_id',
       'covering_name', 'dangerousness_name','clima_name','gallery_images']
   ];
   
 
   for (const animal of animalData) {
+    if(animal===null || animal===undefined){
+        continue;
+    }
     const {
       _id,
       name,
@@ -156,6 +190,7 @@ function createCSVData(animalData) {
       related_species,
       origin_names,
       status_name,
+      status_id,
       diet_name,
       reproduction_name,
       type_name,
@@ -180,6 +215,7 @@ function createCSVData(animalData) {
       originString,
       status_name,
       diet_name,
+      status_id,
       reproduction_name,
       type_name,
       covering_name,

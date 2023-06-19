@@ -28,23 +28,31 @@ async function handleLoginRequest(req, res) {
                 if (user) {
                     const passwordMatch = await bcrypt.compare(password, user.password);
 
-                    if (passwordMatch) {
-                        const secretKey = 'your_secret_key_here';
-                        const token = jwt.sign({ email: user.email, id: user._id}, secretKey);
-                        // const mode = user.mode;
-                        //localStorage.setItem('mode', mode);
-
-                        console.log('Login successful');
-                        res.writeHead(200, {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                          });
-                        // res.write('<h1>Login successful!</h1>');
-                        // res.end();
-                        res.write(JSON.stringify({ mode: user.mode })); 
-
-                        res.end(); ///
-                    } else {
+                   
+                        if (passwordMatch) {
+                            const secretKey = 'your_secret_key_here';
+                            const token = jwt.sign({ email: user.email, id: user._id }, secretKey);
+                        
+                            if (user.email === 'admin@gmail.com') {
+                                console.log('Admin login successful');
+                                res.writeHead(200, {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                });
+                                res.write(JSON.stringify({ isAdmin: true, mode: user.mode }));
+                            } else {
+                                console.log('User login successful');
+                                res.writeHead(200, {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                });
+                                res.write(JSON.stringify({ isAdmin: false, mode: user.mode }));
+                            }
+                        
+                            res.end();
+                        }
+                        
+                     else {
                         console.log('Invalid credentials');
                         res.writeHead(401, {'Content-Type': 'text/html'});
                         res.write('<h1>Invalid credentials</h1>');

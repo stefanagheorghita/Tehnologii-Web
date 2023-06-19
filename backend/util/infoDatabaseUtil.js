@@ -12,6 +12,10 @@ async function getDietByIdFromDatabase(id) {
         const db = client.db(dbName);
         const dietCollection = db.collection('diet');
         const diet = await dietCollection.findOne({ _id: new ObjectId(id) });
+        if(diet==null)
+        {
+          return 'No diet';
+        }
         return diet.name;
     } catch (error) {
         console.error('Error retrieving diet by ID:', error);
@@ -25,6 +29,10 @@ async function getStatusByIdFromDatabase(id) {
         const db = client.db(dbName);
         const statusCollection = db.collection('status');
         const status = await statusCollection.findOne({ _id: new ObjectId(id) });
+        if(status==null)
+        {
+          return 'No status';
+        }
         return status.name;
     } catch (error) {
         console.error('Error retrieving status by ID:', error);
@@ -38,10 +46,15 @@ async function getClimaByIdFromDatabase(id) {
         const db = client.db(dbName);
         const climaCollection = db.collection('clima');
         const clima = await climaCollection.findOne({ _id: new ObjectId(id) });
+        if(clima==null)
+        {
+          return 'No clima';
+        }
         return clima.name;
     } catch (error) {
-        console.error('Error retrieving clima by ID:', error);
-        throw error;
+       // console.error('Error retrieving clima by ID:', error);
+       // throw error;
+       return null;
     }
 }
 
@@ -51,10 +64,15 @@ async function getReproductionByIdFromDatabase(id) {
         const db = client.db(dbName);
         const reproductionCollection = db.collection('reproduction');
         const reproduction = await reproductionCollection.findOne({ _id: new ObjectId(id) });
+        if(reproduction==null)
+      {
+        return 'No reproduction';
+      }
         return reproduction.name;
     } catch (error) {
-        console.error('Error retrieving reproduction by ID:', error);
-        throw error;
+       // console.error('Error retrieving reproduction by ID:', error);
+        //throw error;
+        return null;
     }
 }
 
@@ -64,10 +82,15 @@ async function getTypeByIdFromDatabase(id) {
         const db = client.db(dbName);
         const typeCollection = db.collection('type');
         const type = await typeCollection.findOne({ _id: new ObjectId(id) });
+        if(type==null)
+        {
+          return 'No type';
+        }
         return type.name;
     } catch (error) {
-        console.error('Error retrieving type by ID:', error);
+       console.error('Error retrieving type by ID:', error);
         throw error;
+    
     }
 }
 
@@ -78,6 +101,10 @@ async function getCoveringByIdFromDatabase(id) {
         const db = client.db(dbName);
         const coveringCollection = db.collection('covering');
         const covering = await coveringCollection.findOne({ _id: new ObjectId(id) });
+        if(covering==null)
+        {
+          return 'No covering';
+        }
         return covering.name;
     } catch (error) {
         console.error('Error retrieving covering by ID:', error);
@@ -93,10 +120,15 @@ async function getDangerByIdFromDatabase(id) {
     const db = client.db(dbName);
     const dangerousnessCollection = db.collection('dangerousness');
     const dangerousness = await dangerousnessCollection.findOne({ _id: new ObjectId(id) });
+    if(dangerousness==null)
+    {
+      return 'No dangerousness';
+    }
     return dangerousness.name;
   } catch (error) {
-    console.error('Error retrieving dangerousness by ID:', error);
-    throw error;
+  //  console.error('Error retrieving dangerousness by ID:', error);
+  //  throw error;
+  return null;
   }
 }
 
@@ -315,7 +347,7 @@ async function deleteUserFromDatabase(userId) {
     console.error('Error deleting user from the database:', error);
     throw error;
   } finally {
-    client.close();
+  
   }
 }
 
@@ -339,7 +371,7 @@ async function deleteAnimalFromDatabase(animalId) {
     console.error('Error deleting animal from the database:', error);
     throw error;
   } finally {
-    client.close();
+   
   }
 }
 
@@ -363,7 +395,7 @@ async function deleteReservationFromDatabase(reservationId) {
     console.error('Error deleting reservation from the database:', error);
     throw error;
   } finally {
-    client.close();
+
   }
 }
 
@@ -379,7 +411,7 @@ async function insertAnimal(animalData) {
     console.error('Error inserting animals:', error);
     throw error;
   } finally {
-    client.close();
+
   }
 }
 
@@ -411,22 +443,27 @@ function parseFormData(formData) {
 }
 
 function transformObjectIDs(data) {
-  const transformedData = {};
-
-  Object.keys(data).forEach((key) => {
-    const value = data[key];
-  
+  const transformValue = (value) => {
     if (typeof value === 'object' && value.hasOwnProperty('$oid')) {
-      const objectId = new mongoose.Types.ObjectId(value.$oid);
-      transformedData[key] = objectId;
-    } else {
-      transformedData[key] = value;
+      return new ObjectId(value.$oid);
+    } else if (Array.isArray(value)) {
+      return value.map(transformValue);
     }
-  });
+    return value;
+  };
 
-  return transformedData;
+  const transformObject = (obj) => {
+    const transformedObj = {};
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        transformedObj[key] = transformValue(obj[key]);
+      }
+    }
+    return transformedObj;
+  };
+
+  return transformObject(data['0']);
 }
-
 
 async function insertAnimalWithXML(xmlData) {
   const animal = parseXMLData(xmlData);
@@ -440,7 +477,7 @@ async function insertAnimalWithXML(xmlData) {
     console.error('Error inserting animals:', error);
     throw error;
   } finally {
-    client.close();
+   
   }
 }
 
