@@ -397,7 +397,7 @@ async function handleOneAnimalPage(req, res, id) {
 
                 const updatedContent = modifiedContent
                     .replace('Title Animal', animal.name)
-                    .replace('exampleName', animal.name)
+                    .replace('exampleName', animal.scientific_name)
                     .replace('exampleGroup', type)
                     .replace('exampleClima', clima)
                     .replace('exampleDiet', diet)
