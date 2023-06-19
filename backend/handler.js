@@ -411,7 +411,8 @@ async function handleOneAnimalPage(req, res, id) {
                     .replace('exampleRelatedSpecies', animal.related_species)
                     .replace('exampleNaturalEnemies', animal.natural_enemies)
                     .replace('images/animals_background/default_background.jpg', animal.background_image)
-                    .replace('images/leut.png', animal.round_image);
+                    .replace('images/leut.png', animal.round_image)
+                    .replace('InterestingFactsExample', animal.curiosities);
 
                 const galleryImages = animal.gallery_images.split(',').map((image) => image.trim());
 

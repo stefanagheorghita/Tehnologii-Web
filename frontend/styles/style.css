@@ -18,6 +18,32 @@ img {
   
 }
 
+.button-style {
+  background-color: orange;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.button-style:hover {
+  background-color: darkorange;
+}
+
+#language {
+  width: 200px;
+  height:28px;
+}
+
+.languages-label{
+  font-size: 20px;
+  font-weight: bold;
+  margin-left:90px;
+  margin-right:10px;
+}
+
 @media (max-width: 986px){
   .header .logo img{
     width: 50px;
