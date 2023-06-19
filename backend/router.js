@@ -99,7 +99,7 @@ function router(req, res) {
     } else if (url === '/aboutUs.html' || url === '/aboutUs' || url === '/aboutus') {
         handleAboutUsPage(req, res);
     } else if (url === '/settings.html' || url === '/settings') {
-        if (authenticateUser(req, res) === 0) {
+        if (authenticateUser(req, res,0) === 0) {
             console.log("not authenticated");
             res.statusCode = 402;
             res.setHeader('Location', '/landingpage');
@@ -110,7 +110,9 @@ function router(req, res) {
 
                 handleSettingsRequest(req, res);
 
-            } /*else if (req.method === 'GET'){
+            } 
+               
+            /*else if (req.method === 'GET'){
           handleSettingsGetRequest(req, res)
         }*/ else if (req.method) {
                 handleSettingsPage(req, res);
@@ -177,7 +179,15 @@ function router(req, res) {
         moreAnimalsExport(criteria, req, res);
 
     } else if (url === '/admin') {
-        handleAdminPage(req, res);
+        console.log("admin");
+        if (authenticateUser(req, res,1) === 0) {
+            console.log("not authenticated");
+            res.statusCode = 402;
+            res.setHeader('Location', '/landingpage');
+            res.end();
+
+        } else {
+        handleAdminPage(req, res);}
     } else if (url === '/profile' && req.method === 'GET') {
         handleSettingsPageInfo(req, res);
     } else if (url === '/update-name' && req.method === 'PUT') {
@@ -198,6 +208,14 @@ function router(req, res) {
     {
         getLikesCount(req,res);
     }else if (url.startsWith('/delete-user')) {
+        if(authenticateUser(req, res,1) === 0)
+        {
+            console.log("not authenticated");
+            res.statusCode = 402;
+            res.setHeader('Location', '/landingpage');
+            res.end();
+        }
+        else{
         if (req.method === 'DELETE') {
             const userId = extractUserIdFromUrl(url);
             if (userId) {
@@ -218,8 +236,15 @@ function router(req, res) {
             res.statusCode = 405;
             res.end('Method Not Allowed');
         }
-    }
+    }}
     else if (url.startsWith('/delete-animal')) {
+        if(authenticateUser(req, res,1) === 0)
+        {   console.log("not authenticated");
+
+            res.statusCode = 402;
+            res.setHeader('Location', '/landingpage');
+            res.end();
+    } else {
         if (req.method === 'DELETE') {
             const animalId = extractAnimalIdFromUrl(url);
             if (animalId) {
@@ -240,8 +265,16 @@ function router(req, res) {
             res.statusCode = 405;
             res.end('Method Not Allowed');
         }
-    }
+    }}
     else if(url.startsWith('/delete-reservation')){
+        if(authenticateUser(req, res,1) === 0)
+        {
+            console.log("not authenticated");
+            res.statusCode = 402;
+            res.setHeader('Location', '/landingpage');
+            res.end();
+        }
+        else{
         if (req.method === 'DELETE') {
             const reservationId = extractReservationIdFromUrl(url);
             if (reservationId) {
@@ -258,7 +291,7 @@ function router(req, res) {
                 res.statusCode = 400;
                 res.end('Invalid request. Reservation ID not provided.');
             }
-        } 
+        } }
  } 
     else if(url === '/import-animals' && req.method==='POST'){
         let formData = '';
@@ -300,6 +333,18 @@ function router(req, res) {
     }
      else if (req.method === 'POST' && req.url === '/language') {
         handleLanguageRequest(req,res);
+       }
+       else if(url==='/check-authentication')
+       {
+        if(authenticateUser(req,res,1)===0)
+        {
+            res.statusCode = 402;
+            res.end();
+        }
+        else{
+            res.statusCode = 200;
+            res.end();
+        }
        }
     else {
         handleStaticFile(req, res);

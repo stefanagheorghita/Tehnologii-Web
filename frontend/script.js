@@ -26,7 +26,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function toggleMenu() {
 
-        var token = localStorage.getItem('token');
+       
+        if(localStorage.getItem('isAdmin') === "true" && !isTokenExpired(localStorage.getItem('token'))) {
+            window.location.href = "/admin";
+        }
+        else{
+            var token = localStorage.getItem('token');
         if (token && !isTokenExpired(token)) {
             subMenu.classList.toggle("open-menu");
             document.getElementById('logoutLink').addEventListener('click', logout);
@@ -34,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.removeItem('token');
             localStorage.removeItem('tokenExpires');
             window.location.href = "/login.html";
-        }
+        }}
     }
 
 });

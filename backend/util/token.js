@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 
 
-function authenticateUser(req, res, next) {
+function authenticateUser(req, res, isAdmin) {
     const authHeader = req.headers.authorization;
     if(authHeader === undefined)
         return -1;
@@ -15,7 +15,9 @@ function authenticateUser(req, res, next) {
     }
     try {
       const decodedToken = verifyToken(token);
-      req.user = decodedToken;
+      req.user = decodedToken;   
+      if(isAdmin===1 && decodedToken.email !== 'admin@gmail.com')
+        return 0;
       return 1;
     } catch (error) {
       return 0;
@@ -57,7 +59,7 @@ function verifyToken(token) {
       const decodedPayload = atob(payload);
       const parsedPayload = JSON.parse(decodedPayload);
     
-      const expirationTime = parsedPayload.exp * 1000; // Convert expiration time to milliseconds
+      const expirationTime = parsedPayload.exp * 1000; 
       const currentTime = Date.now();
     
       return expirationTime < currentTime;

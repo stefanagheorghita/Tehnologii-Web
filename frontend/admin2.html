@@ -7,7 +7,26 @@
     <title>Document</title>
     <link rel="stylesheet" href="admin2style.css">
 </head>
+<script>
+     const checkAuthentication = async () => {
+        try {
+            const response = await fetch('/check-authentication', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
 
+            if (!response.ok) {
+                window.location.href = '/landingpage';
+            }
+        } catch (error) {
+            console.error('Error checking authentication:', error);
+            alert('An error occurred. Please try again.');
+        }
+    };
+
+    checkAuthentication();
+</script>
 <body style="display: none;">
     <div class="page-admin">
         <div class="left-menu">
@@ -47,7 +66,7 @@
                 <h3>User</h3>
                 <div class="menu-logout">
                     <img class="logo-admin-logout" src="images/logout-admin.png">
-                    <p class="menu-item">Logout</p>
+                    <p class="menu-item" id="logout-button">Logout</p>
                 </div>
             </div>
         </div>
@@ -96,6 +115,8 @@
 
     <script>
 
+
+
         function togglePanels(panelToShow, panelToHide1, panelToHide2, panelToHide3) {
             const showPanel = document.getElementById(panelToShow);
             const hidePanel1 = document.getElementById(panelToHide1);
@@ -111,7 +132,10 @@
         function deleteUser(userId) {
             if (confirm("Are you sure you want to delete this user?")) {
                 fetch(`/delete-user/${userId}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
                 })
                     .then(response => {
                         if (response.ok) {
@@ -121,6 +145,10 @@
                                 rowElement.remove();
                             }
                         } else {
+                           
+                            if(response.status == 402) {
+                                window.location.href = '/login';
+                            }
                             alert('Error deleting user. Please try again.');
                         }
                     })
@@ -134,7 +162,10 @@
         function deleteAnimal(animalId) {
             if (confirm("Are you sure you want to delete this animal?")) {
                 fetch(`/delete-animal/${animalId}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
                 })
                     .then(response => {
                         if (response.ok) {
@@ -144,6 +175,9 @@
                                 rowElement.remove();
                             }
                         } else {
+                            if(response.status == 402) {
+                                window.location.href = '/login';
+                            }
                             alert('Error deleting animal. Please try again.');
                         }
                     })
@@ -157,7 +191,10 @@
         function deleteReservation(reservationId) {
             if (confirm("Are you sure you want to delete this reservation?")) {
                 fetch(`/delete-reservation/${reservationId}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
                 })
                     .then(response => {
                         if (response.ok) {
@@ -239,11 +276,18 @@
                 alert('Please select a file.');
             }
         });
+        const logoutButton = document.getElementById('logout-button');
+logoutButton.addEventListener('click', () => {
+    localStorage.removeItem('mode');
+    localStorage.removeItem('token');
+    localStorage.removeItem('isAdmin');
+    window.location.href = '/landingpage'; 
+});
 
         togglePanels('statistics-panel', 'users-panel', 'animals-panel', 'reservations-panel');
     </script>
     <script>
-        // Access the mode value from localStorage
+    
         const mode = localStorage.getItem('mode');
         console.log('mode:', mode);
     </script>
