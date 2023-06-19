@@ -10,4 +10,8 @@ Proiect Tehnologii Web:
 
 
  Link video: https://we.tl/t-jwJXu54kzN
+
+
+
+ 
  link video drive better: https://drive.google.com/file/d/1d_g23XQ-72fjnAFhU5zqHOglQ_JAZe-B/view?usp=drive_link
