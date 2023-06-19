@@ -321,6 +321,26 @@ h3{
 }
 
 
+@media (max-width: 1060px) {
+  .page-admin {
+    flex-direction: column; 
+    align-items: center; 
+  }
+
+  .left-menu {
+    height: auto; 
+    width: 100%; 
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .right-side {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
 
 @media screen and (max-width: 768px) {
   .page-admin {
